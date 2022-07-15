@@ -1,0 +1,20 @@
+{
+  "scripts": {
+    "start": "sandbox"
+  },
+  "devDependencies": {
+    "@architect/sandbox": "5.3.0"
+  },
+  "dependencies": {
+    "@architect/functions": "^5.2.1",
+    "@architect/plugin-bundles": "^3.0.0",
+    "@begin/data": "^4.0.0",
+    "@enhance/enhance-style-transform": "^0.0.1-alpha.1",
+    "@enhance/import-transform": "^4.0.0",
+    "@enhance/ssr": "^2.3.3",
+    "@enhance/store": "^1.0.0",
+    "glob": "^8.0.3",
+    "path-to-regexp": "^6.2.1",
+    "pluralize": "^8.0.0"
+  }
+}
