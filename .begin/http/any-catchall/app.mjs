@@ -36,7 +36,7 @@ export default async function app (req) {
   }
   catch (err) {
     const head = Head({ title: '500' })
-    const body = html`${ head }<page-500 error="${err}"></page-500>`
+    const body = html`${ head }<page-500 error="${ err.message }" stack="${ err.stack }"></page-500>`
     return { html: body }
   }
 }
