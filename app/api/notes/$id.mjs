@@ -1,6 +1,6 @@
-import read from '../../../models/notes/read.mjs'
-import update from '../../../models/notes/update.mjs'
-import destroy from '../../../models/notes/destroy.mjs'
+import read from '../../models/notes/read.mjs'
+import update from '../../models/notes/update.mjs'
+import destroy from '../../models/notes/destroy.mjs'
 
 // post /notes/:id - update or destroy a note
 export async function post (req) {

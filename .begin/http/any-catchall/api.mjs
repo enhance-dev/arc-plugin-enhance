@@ -1,4 +1,6 @@
 import getModule from './_get-module.mjs'
+import path from 'path'
+import url from 'url'
 import { pathToRegexp } from 'path-to-regexp'
 
 const __dirname = path.dirname(url.fileURLToPath(import.meta.url))

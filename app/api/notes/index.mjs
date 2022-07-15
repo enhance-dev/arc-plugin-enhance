@@ -1,5 +1,5 @@
-import create from '../../../models/notes/create.mjs'
-import list from '../../../models/notes/list.mjs'
+import create from '../../models/notes/create.mjs'
+import list from '../../models/notes/list.mjs'
 
 // get /notes - list notes
 export async function get () {

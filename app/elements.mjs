@@ -1,4 +1,3 @@
-import Index from './pages/index.mjs'
 import About from './pages/about.mjs'
 import Contact from './pages/contact.mjs'
 import Notes from './pages/notes/index.mjs'
@@ -9,7 +8,6 @@ import Header from './elements/header.mjs'
 import Footer from './elements/footer.mjs'
 
 const elements = {
-  'page-index': Index,
   'page-about': About,
   'page-contact': Contact,
   'page-notes': Notes,

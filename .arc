@@ -1,11 +1,8 @@
 @app
-begin-app
+thrasher
 
 @static
 fingerprint true
-
-@shared
-src models
 
 @views
 src app
