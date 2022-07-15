@@ -16,7 +16,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url))
 export default async function app (req) {
 
   // the name of the page we are looking for
-  const title = getPageName(req.rawPath)
+  const title = getPageName(req.page)
 
   const html = enhance({
     elements,

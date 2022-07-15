@@ -15,25 +15,32 @@ const __dirname = dirname(fileURLToPath(import.meta.url))
 
 export default async function app (req) {
 
+  const html = enhance({
+    elements,
+    scriptTransforms: [
+      importTransform({ map: arc.static })
+    ],
+    styleTranstforms: [
+      styleTransform
+    ],
+    initialState: req.state || {}
+  })
+
   // the name of the page we are looking for
-  let page = getModule('pages', req.rawPath)
+  if (!req.page) {
+    req.page = getModule('pages', req.rawPath)
+  }
 
-  if (page.includes('.html')) {
+  if (!req.page) {
+    const head = Head({ title: '404' })
+    const body = html`${ head }<page-404 error="${req.rawPath} not found"></page-404>`
+    return { html: body }
+  }
 
-    const html = enhance({
-      elements,
-      scriptTransforms: [
-        importTransform({ map: arc.static })
-      ],
-      styleTranstforms: [
-        styleTransform
-      ],
-      initialState: req.state || {}
-    })
-
+  if (req.page.includes('.html')) {
     try {
       let head = Head({ title: '' })
-      let raw = readFileSync(page).toString()
+      let raw = readFileSync(req.page).toString()
       let body = html`${ head }${ raw }`
       return { html: body }
     }

@@ -1,7 +1,6 @@
 import path from 'path'
 import url from 'url'
 import plur from 'pluralize'
-import getModule from './_get-module.mjs'
 
 const __dirname = path.dirname(url.fileURLToPath(import.meta.url))
 //
@@ -14,10 +13,9 @@ const __dirname = path.dirname(url.fileURLToPath(import.meta.url))
 // ... /people/13/things ..... pages/users/$id/things.mjs .......... page-user-things ???
 // ... /people/13/things/4 ... pages/users/$id/things/$thingID.mjs . page-user-thing ???
 //
-export default function getPageName (rawPath) {
+export default function getPageName (template) {
   // if we have a template we can derive the expected element name
-  let found = getModule('pages', rawPath)
-  if (found) return fmt(found)
+  if (template) return fmt(template)
   // otherwise we are 404
   return false
 }
