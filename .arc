@@ -4,16 +4,14 @@ thrasher
 @static
 fingerprint true
 
+@http
+
 @views
 src app
 
-@http
-/*
-  method any
-  src .begin/http/any-catchall
-
 @plugins
 architect/plugin-bundles
+beginner
 
 @bundles
 store 'node_modules/@enhance/store'

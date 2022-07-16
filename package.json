@@ -1,4 +1,6 @@
 {
+  "name": "architect-plugin-beginner",
+  "main": "src/plugins/beginner.js",
   "scripts": {
     "start": "sandbox"
   },
