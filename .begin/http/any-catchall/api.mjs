@@ -16,7 +16,7 @@ export default async function api (req) {
     let method = mod[req.method.toLowerCase()]
     if (method) {
       // check to see if we need to modify the req and add in params
-      req.params = backfill(req)
+      req.params = backfill(apiPath, req)
 
       // grab the state from the app/api route
       let state = await method(req)
@@ -51,12 +51,11 @@ function requestedJSON (headers) {
 }
 
 /** adds url params back in */
-function backfill (req) {
+function backfill (tmpl, req) {
   // get a clean copy of the params
   let { params, ...copy } = { ...req }
 
   // get the regexp for the given path
-  let tmpl = getModule('api', req.rawPath)
   let base = path.join(__dirname, 'node_modules', '@architect', 'views', 'api')
   if (!tmpl) {
     tmpl = getModule('pages', req.rawPath)
