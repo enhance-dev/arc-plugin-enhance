@@ -1,5 +1,5 @@
 {
-  "name": "architect-plugin-beginner",
+  "name": "@enhance-dev/arc-plugin-enhance",
   "main": "src/plugins/beginner.js",
   "scripts": {
     "start": "sandbox"

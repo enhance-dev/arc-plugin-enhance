@@ -1,7 +1,7 @@
-export default function Footer ({ html }) {
+export default function Footer ({ html, state }) {
   return html`
 <footer>
-  <p>Footer</p>
+  <p>Footer ${state.attrs.message || state.store.message || 'default' }</p>
 </footer>
 `
 }
