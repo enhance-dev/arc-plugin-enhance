@@ -1,6 +1,6 @@
 {
   "name": "@enhance/arc-plugin-enhance",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "main": "src/plugins/beginner.js",
   "scripts": {
     "start": "sandbox"
