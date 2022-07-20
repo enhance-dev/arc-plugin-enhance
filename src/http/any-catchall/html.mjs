@@ -3,7 +3,6 @@ import { join, dirname } from 'path'
 import { existsSync, readFileSync } from 'fs'
 
 import arc from '@architect/functions'
-import elements from '@architect/views/elements.mjs'
 import enhance from '@enhance/ssr'
 import importTransform from '@enhance/import-transform'
 import styleTransform from '@enhance/enhance-style-transform'
@@ -15,7 +14,10 @@ import getModule from './_get-module.mjs'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
-export default async function app (req) {
+export default async function app (basePath, req) {
+
+  let e = await import(join(basePath, 'elements.mjs'))
+  let elements = e.default
 
   if (!elements['page-404']) 
     elements['page-404'] = _404
@@ -23,7 +25,7 @@ export default async function app (req) {
   if (!elements['page-500'])
     elements['page-500'] = _500
 
-  let pathToHead = path.join(__dirname, 'node_modules', '@architect', 'views', 'head.mjs')
+  let pathToHead = join(basePath, 'head.mjs')
   let head = fs.existsSync(pathToHead) === false? _head : await import(pathToHead)
 
   const html = enhance({
@@ -39,7 +41,7 @@ export default async function app (req) {
 
   // the name of the page we are looking for
   if (!req.page) {
-    req.page = getModule('pages', req.rawPath)
+    req.page = getModule(basePath, 'pages', req.rawPath)
   }
 
   if (!req.page) {

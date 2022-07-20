@@ -5,10 +5,10 @@ import { pathToRegexp } from 'path-to-regexp'
 
 const __dirname = path.dirname(url.fileURLToPath(import.meta.url))
 
-export default async function api (req) {
+export default async function api (basePath, req) {
 
   // if the route matches api/path/to/thing then we are running this function
-  let apiPath = getModule('api', req.rawPath)
+  let apiPath = getModule(basePath, 'api', req.rawPath)
   if (apiPath) {
     
     // only import if the module exists and only run if export equals httpMethod
@@ -16,7 +16,7 @@ export default async function api (req) {
     let method = mod[req.method.toLowerCase()]
     if (method) {
       // check to see if we need to modify the req and add in params
-      req.params = backfill(apiPath, req)
+      req.params = backfill(basePath, apiPath, req)
 
       // grab the state from the app/api route
       let state = await method(req)
@@ -29,7 +29,7 @@ export default async function api (req) {
       // if route requested:
       // - is a GET
       // - and has pages/path/to/thing then pass state thru middleware
-      let appPath = getModule('pages', req.rawPath)
+      let appPath = getModule(basePath, 'pages', req.rawPath)
       if (appPath && req.method.toLowerCase() === 'get') {
         req.page = appPath
         req.state = state.json
@@ -51,15 +51,15 @@ function requestedJSON (headers) {
 }
 
 /** adds url params back in */
-function backfill (tmpl, req) {
+function backfill (basePath, tmpl, req) {
   // get a clean copy of the params
   let { params, ...copy } = { ...req }
 
   // get the regexp for the given path
-  let base = path.join(__dirname, 'node_modules', '@architect', 'views', 'api')
+  let base = path.join(basePath, 'api')
   if (!tmpl) {
-    tmpl = getModule('pages', req.rawPath)
-    base = path.join(__dirname, 'node_modules', '@architect', 'views', 'pages')
+    tmpl = getModule(basePath, 'pages', req.rawPath)
+    base = path.join(basePath, 'pages')
   }
   tmpl = tmpl.replace(base, '').replace(/index\.mjs|\.mjs/, '').replace('$', ':').replace(/\/+$/, '')
   let pattern = pathToRegexp(tmpl)

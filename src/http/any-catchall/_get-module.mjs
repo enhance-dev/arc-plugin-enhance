@@ -10,14 +10,14 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const cache = {} 
 const filesOnly = f => f.split('/').pop().includes('.')
 
-export default function getModule (folder, route) {
+export default function getModule (basePath, folder, route) {
 
   if (!cache[folder])
     cache[folder] = {}
 
   if (!cache[folder][route]) {
   
-    let base = path.join(__dirname, 'node_modules', '@architect', 'views', folder)
+    let base = path.join(basePath, folder)
     let raw = glob.sync(base + '/**', { dot: false }).filter(filesOnly)
 
     let clean = f => f.replace(base, '').replace(/index\.html|index\.mjs|\.mjs|\.html/, '').replace('$', ':').replace(/\/+$/, '')
