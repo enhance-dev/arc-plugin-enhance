@@ -26,7 +26,7 @@ export default async function app (basePath, req) {
     elements['page-500'] = _500
 
   let pathToHead = join(basePath, 'head.mjs')
-  let head = fs.existsSync(pathToHead) === false? _head : await import(pathToHead)
+  let head = existsSync(pathToHead) === false? _head : await import(pathToHead)
 
   const html = enhance({
     elements,
