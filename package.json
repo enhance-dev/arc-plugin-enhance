@@ -1,5 +1,5 @@
 {
-  "name": "@enhance-dev/arc-plugin-enhance",
+  "name": "@enhance/arc-plugin-enhance",
   "version": "1.0.0-RC0",
   "main": "src/plugins/beginner.js",
   "scripts": {

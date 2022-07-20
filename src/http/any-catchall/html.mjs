@@ -3,17 +3,28 @@ import { join, dirname } from 'path'
 import { existsSync, readFileSync } from 'fs'
 
 import arc from '@architect/functions'
-import Head from '@architect/views/head.mjs'
 import elements from '@architect/views/elements.mjs'
 import enhance from '@enhance/ssr'
 import importTransform from '@enhance/import-transform'
 import styleTransform from '@enhance/enhance-style-transform'
 
+import _head from './_head.mjs'
+import _404 from './_404.mjs'
+import _500 from './_500.mjs'
 import getModule from './_get-module.mjs'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
 export default async function app (req) {
+
+  if (!elements['page-404']) 
+    elements['page-404'] = _404
+
+  if (!elements['page-500'])
+    elements['page-500'] = _500
+
+  let pathToHead = path.join(__dirname, 'node_modules', '@architect', 'views', 'head.mjs')
+  let head = fs.existsSync(pathToHead) === false? _head : await import(pathToHead)
 
   const html = enhance({
     elements,
@@ -32,21 +43,18 @@ export default async function app (req) {
   }
 
   if (!req.page) {
-    const head = Head({ title: '404' })
-    const body = html`${ head }<page-404 error="${req.rawPath} not found"></page-404>`
+    const body = html`${ head({ title: '404' })}<page-404 error="${req.rawPath} not found"></page-404>`
     return { html: body }
   }
 
   if (req.page.includes('.html')) {
     try {
-      let head = Head({ title: '' })
       let raw = readFileSync(req.page).toString()
-      let body = html`${ head }${ raw }`
+      let body = html`${ head({ title:'' }) }${ raw }`
       return { html: body }
     }
     catch (err) {
-      const head = Head({ title: '500' })
-      const body = html`${ head }<page-500 error="${ err.message }" stack="${ err.stack }"></page-500>`
+      const body = html`${ head({ title: '500' })}<page-500 error="${ err.message }" stack="${ err.stack }"></page-500>`
       return { html: body }
     }
   }

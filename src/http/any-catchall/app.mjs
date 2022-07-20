@@ -3,17 +3,28 @@ import { join, dirname } from 'path'
 import { existsSync, readFileSync } from 'fs'
 
 import arc from '@architect/functions'
-import Head from '@architect/views/head.mjs'
 import elements from '@architect/views/elements.mjs'
 import enhance from '@enhance/ssr'
 import importTransform from '@enhance/import-transform'
 import styleTransform from '@enhance/enhance-style-transform'
 
+import _head from './_head.mjs'
+import _404 from './_404.mjs'
+import _500 from './_500.mjs'
 import getPageName from './_get-page-name.mjs'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
 export default async function app (req) {
+
+  if (!elements['page-404']) 
+    elements['page-404'] = _404
+
+  if (!elements['page-500'])
+    elements['page-500'] = _500
+
+  let pathToHead = path.join(__dirname, 'node_modules', '@architect', 'views', 'head.mjs')
+  let head = fs.existsSync(pathToHead) === false? _head : await import(pathToHead)
 
   // the name of the page we are looking for
   const title = getPageName(req.page)
@@ -30,13 +41,11 @@ export default async function app (req) {
   })
 
   try {
-    let head = Head({ title })
-    let body = html`${ head }<page-${ title }></page-${ title }>`
+    let body = html`${ head({ title:'' }) }<page-${ title }></page-${ title }>`
     return { html: body }
   }
   catch (err) {
-    const head = Head({ title: '500' })
-    const body = html`${ head }<page-500 error="${ err.message }" stack="${ err.stack }"></page-500>`
+    const body = html`${ head({ title: '500' })}<page-500 error="${ err.message }" stack="${ err.stack }"></page-500>`
     return { html: body }
   }
 }
