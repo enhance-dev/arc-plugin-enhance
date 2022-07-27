@@ -7,8 +7,10 @@ const __dirname = path.dirname(url.fileURLToPath(import.meta.url))
 
 export default async function api (basePath, req) {
 
+
   // if the route matches api/path/to/thing then we are running this function
   let apiPath = getModule(basePath, 'api', req.rawPath)
+
   if (apiPath) {
     
     // only import if the module exists and only run if export equals httpMethod
@@ -76,4 +78,3 @@ function backfill (basePath, tmpl, req) {
   }
   return params
 }
-

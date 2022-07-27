@@ -36,9 +36,3 @@ currently we need to generate an .arc file with a fair bit of 'required' configu
 - setting `@static` params like `fingerprint`
 - setting `@views` params like `src` (but they can override and remap later if they need to)
 - provisioning `@table` for begin/data (but they could add their own tables later) 
-
-
-## todo 
-
-- bare bones just app/pages/index.html app/pages/elements.mjs app/pages/head.mjs
-- cli pr that unzips this for `new project`

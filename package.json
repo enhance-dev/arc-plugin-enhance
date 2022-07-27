@@ -3,10 +3,13 @@
   "version": "1.0.2",
   "main": "src/plugins/beginner.js",
   "scripts": {
-    "start": "sandbox"
+    "start": "sandbox",
+    "test": "tape test/*.mjs | tap-spec"
   },
   "devDependencies": {
-    "@architect/sandbox": "5.3.0"
+    "@architect/sandbox": "5.3.0",
+    "tap-spec": "^5.0.0",
+    "tape": "^5.5.3"
   },
   "dependencies": {
     "@architect/functions": "^5.2.1",
