@@ -7,11 +7,8 @@ adds file based routing to arc.codes with enhance.dev server rendered custom ele
 ```
 app
 ├── api ............. api routes
-├── elements.mjs .... custom elements manifest
-├── head.mjs ........ <head> element
+├── elements ........ custom elements named-like-this
 └── pages ........... custom elements that map to routes (eg. /about renders about.mjs)
-    ├── 404.mjs
-    ├── 500.mjs
     ├── about.mjs
     ├── index.html
     └── notes
