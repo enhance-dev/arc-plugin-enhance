@@ -11,13 +11,13 @@ import _head from './_head.mjs'
 import _404 from './_404.mjs'
 import _500 from './_500.mjs'
 import getPageName from './_get-page-name.mjs'
+import getElements from './_get-elements.mjs'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
 export default async function app (basePath, req) {
 
-  let e = await import(join(basePath, 'elements.mjs'))
-  let elements = e.default
+  let elements = await getElements(basePath)
 
   if (!elements['page-404']) 
     elements['page-404'] = _404
