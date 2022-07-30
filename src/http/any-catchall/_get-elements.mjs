@@ -1,7 +1,11 @@
 import glob from 'glob'
 import { join } from 'path'
 import { existsSync as exists } from 'fs'
+
 import getPageName from './_get-page-name.mjs'
+import _404 from './templates/404.mjs'
+import _500 from './templates/500.mjs'
+import _head from './templates/head.mjs'
 
 const ls = glob.sync
 
@@ -16,16 +20,20 @@ export default async function getElements (basePath) {
   let pathToModule = join(basePath, 'elements.mjs')
   let pathToPages = join(basePath, 'pages')
   let pathToElements = join(basePath, 'elements')
+  let pathToHead = join(basePath, 'head.mjs')
+
+  // generate elements manifest
+  let els = {}
+  let head = exists(pathToHead) === false? _head : (await import(pathToHead)).default
 
   if (exists(pathToModule)) {
     // read explicit elements manifest
-    let els = await import(pathToModule)
-    return els.default
+    let mod = await import(pathToModule)
+    els = mod.default
   }
-  else if (exists(pathToElements)) {
 
-    // generate elements manifest
-    let els = {}
+  // look for pages
+  if (exists(pathToPages)) {
 
     // read all the pages
     let pages = ls(pathToPages + '/**').filter(f => f.includes('.mjs'))
@@ -34,7 +42,13 @@ export default async function getElements (basePath) {
       let mod = await import(p)
       els['page-' + tag] = mod.default
     }
+  }
+  else {
+    // throw to warn we cannot find pages
+    throw Error('cannot find `/pages` folder') 
+  }
 
+  if (exists(pathToElements)) {
     // read all the elements
     let files = ls(pathToElements + '/**').filter(f => f.includes('.mjs'))
     for (let e of files) {
@@ -47,11 +61,17 @@ export default async function getElements (basePath) {
       let mod = await import(e)
       els[tag] = mod.default
     }
-    return els
   }
   else {
     // generate based on page.html or page.mjs requested
-    throw Error('cannot find `elements.mjs` or an `elements/` folder')
+    console.log('warning: did not find `elements.mjs` or `elements/` folder')
   }
-}
 
+  if (!els['page-404']) 
+    els['page-404'] = _404
+
+  if (!els['page-500'])
+    els['page-500'] = _500
+
+  return { head, elements: els }
+}
