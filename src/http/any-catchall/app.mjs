@@ -44,7 +44,10 @@ export default async function app (basePath, req) {
 
   try {
     let body = html`${ head({ title:'' }) }<page-${ title }></page-${ title }>`
-    return { html: body }
+    let res = { html: body }
+    if (req.pageSession)
+      res.session = req.pageSession
+    return res
   }
   catch (err) {
     const body = html`${ head({ title: '500' })}<page-500 error="${ err.message }" stack="${ err.stack }"></page-500>`

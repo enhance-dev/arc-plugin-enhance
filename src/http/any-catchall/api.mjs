@@ -35,6 +35,7 @@ export default async function api (basePath, req) {
       if (appPath && req.method.toLowerCase() === 'get') {
         req.page = appPath
         req.state = state.json
+        req.pageSession = state.session
       }
       else {
         // otherwise defer to the api route

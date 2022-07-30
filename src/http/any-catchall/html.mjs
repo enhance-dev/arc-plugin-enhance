@@ -53,7 +53,10 @@ export default async function app (basePath, req) {
     try {
       let raw = readFileSync(req.page).toString()
       let body = html`${ head({ title:'' }) }${ raw }`
-      return { html: body }
+      let res = { html: body }
+      if (req.pageSession) 
+        res.session = req.pageSession
+      return res
     }
     catch (err) {
       const body = html`${ head({ title: '500' })}<page-500 error="${ err.message }" stack="${ err.stack }"></page-500>`
