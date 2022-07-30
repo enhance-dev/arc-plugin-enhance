@@ -1,8 +1,7 @@
 import path from 'path'
-import url from 'url'
 import plur from 'pluralize'
 
-const __dirname = path.dirname(url.fileURLToPath(import.meta.url))
+/** helper to get page element name */
 //
 // ... request path .......... filesystem path ..................... element name
 // -----------------------------------------------------------------------------

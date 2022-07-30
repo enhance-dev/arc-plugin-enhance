@@ -1,13 +1,11 @@
-import glob from 'glob'
 import { join } from 'path'
 import { existsSync as exists } from 'fs'
 
+import getFiles from './_get-files.mjs'
 import getPageName from './_get-page-name.mjs'
 import _404 from './templates/404.mjs'
 import _500 from './templates/500.mjs'
 import _head from './templates/head.mjs'
-
-const ls = glob.sync
 
 /**
  * - files in /elements must be lowcase dasherized to match tag name
@@ -16,6 +14,7 @@ const ls = glob.sync
  * - TODO can run a command to generate it based on app/elements
  */
 export default async function getElements (basePath) {
+  console.time('getElements')
 
   let pathToModule = join(basePath, 'elements.mjs')
   let pathToPages = join(basePath, 'pages')
@@ -36,7 +35,7 @@ export default async function getElements (basePath) {
   if (exists(pathToPages)) {
 
     // read all the pages
-    let pages = ls(pathToPages + '/**').filter(f => f.includes('.mjs'))
+    let pages = getFiles(basePath, 'pages').filter(f => f.includes('.mjs'))
     for (let p of pages) {
       let tag = await getPageName(basePath, p)
       let mod = await import(p)
@@ -50,7 +49,7 @@ export default async function getElements (basePath) {
 
   if (exists(pathToElements)) {
     // read all the elements
-    let files = ls(pathToElements + '/**').filter(f => f.includes('.mjs'))
+    let files = getFiles(basePath, 'elements').filter(f => f.includes('.mjs'))
     for (let e of files) {
       // turn foo/bar.mjs into foo-bar to make sure we have a legit tag name
       let tag = e.replace(basePath + '/elements/', '').replace('.mjs', '').replace('/', '-')
@@ -73,5 +72,6 @@ export default async function getElements (basePath) {
   if (!els['page-500'])
     els['page-500'] = _500
 
+  console.timeEnd('getElements')
   return { head, elements: els }
 }

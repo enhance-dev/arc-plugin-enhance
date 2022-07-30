@@ -1,6 +1,4 @@
-import { fileURLToPath } from 'url'
-import { join, dirname } from 'path'
-import { existsSync, readFileSync } from 'fs'
+import { readFileSync as read } from 'fs'
 
 import arc from '@architect/functions'
 import enhance from '@enhance/ssr'
@@ -12,8 +10,6 @@ import getElements from './_get-elements.mjs'
 import getPageName from './_get-page-name.mjs'
 import isJSON from './_is-json-request.mjs'
 import backfill from './_backfill-params.mjs'
-
-const __dirname = dirname(fileURLToPath(import.meta.url))
 
 export default async function api (basePath, req) {
 
@@ -72,7 +68,7 @@ export default async function api (basePath, req) {
   try {
     // rendering html page
     if (pagePath.includes('.html')) {
-      let raw = readFileSync(pagePath).toString()
+      let raw = read(pagePath).toString()
       let body = html`${ head({ title:'' }) }${ raw }`
       let res = { html: body }
       if (state.session) 

@@ -1,5 +1,4 @@
 import path from 'path'
-import getModule from './_get-module.mjs'
 
 import { pathToRegexp } from 'path-to-regexp'
 

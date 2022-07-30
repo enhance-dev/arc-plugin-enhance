@@ -4,6 +4,7 @@
   "main": "src/plugins/beginner.js",
   "scripts": {
     "start": "sandbox",
+    "lint": "eslint src/**/*.mjs",
     "test": "tape test/*.mjs | tap-spec"
   },
   "devDependencies": {
@@ -19,8 +20,18 @@
     "@enhance/import-transform": "^4.0.0",
     "@enhance/ssr": "^2.3.6",
     "@enhance/store": "^1.0.0",
+    "eslint": "^8.20.0",
     "glob": "^8.0.3",
     "path-to-regexp": "^6.2.1",
     "pluralize": "^8.0.0"
+  },
+  "eslintConfig": {
+    "env": { "node": true },
+    "extends": "eslint:recommended",
+    "rules": {},
+    "parserOptions": {
+      "sourceType": "module",
+      "ecmaVersion": 2022
+    }
   }
 }

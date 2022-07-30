@@ -1,3 +1,4 @@
+/** helper to sort routes from least ambiguous to most */
 export default function sorter (a, b) {
 
   // a is less than b (more ambiguous)

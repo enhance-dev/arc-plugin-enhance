@@ -1,27 +1,25 @@
-import fs from 'fs'
 import path from 'path'
-import { fileURLToPath } from 'url'
 
-import glob from 'glob'
 import { pathToRegexp } from 'path-to-regexp'
 
-import sorter from './_sorter.mjs'
+import getFiles from './_get-files.mjs'
+import sort from './_sort-routes.mjs'
 
 // cheap memoize for warm lambda
-const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const cache = {} 
-const filesOnly = f => f.split('/').pop().includes('.')
 
+/** helper to get module for given folder/route */
 export default function getModule (basePath, folder, route) {
+  console.time('getModule')
 
   if (!cache[folder])
     cache[folder] = {}
 
   if (!cache[folder][route]) {
   
-    let base = path.join(basePath, folder)
-    let raw = glob.sync(base + '/**', { dot: false }).filter(filesOnly).sort(sorter)
+    let raw = getFiles(basePath, folder).sort(sort)
 
+    let base = path.join(basePath, folder)
     let clean = f => f.replace(base, '').replace(/index\.html|index\.mjs|\.mjs|\.html/, '').replace('$', ':').replace(/\/+$/, '')
     let copy = raw.slice(0).map(clean).map(p => pathToRegexp(p))
 
@@ -29,7 +27,6 @@ export default function getModule (basePath, folder, route) {
     let found = false
  
     for (let r of copy) {
-      let result = r.test(route)
       if (r.test(route)) {
         found = raw[index]
         break
@@ -42,5 +39,6 @@ export default function getModule (basePath, folder, route) {
     }
   }
 
+  console.timeEnd('getModule')
   return cache[folder][route] || false
 }

@@ -1,5 +1,5 @@
 import test from 'tape'
-import sorter from '../src/http/any-catchall/_sorter.mjs'
+import sorter from '../src/http/any-catchall/_sort-routes.mjs'
 
 test('sorter', t => {
   t.plan(1)
