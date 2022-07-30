@@ -1,6 +1,6 @@
 {
   "name": "@enhance/arc-plugin-enhance",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "main": "src/plugins/beginner.js",
   "scripts": {
     "start": "sandbox",
@@ -26,7 +26,9 @@
     "pluralize": "^8.0.0"
   },
   "eslintConfig": {
-    "env": { "node": true },
+    "env": {
+      "node": true
+    },
     "extends": "eslint:recommended",
     "rules": {},
     "parserOptions": {
