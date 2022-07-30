@@ -41,7 +41,7 @@ export default async function api (basePath, req) {
       }
  
       // if not a GET just return api response; or if no corresponding page
-      if (req.method.toLowerCase() != 'get' || !pagePath) {
+      if (req.method.toLowerCase() != 'get' || !pagePath || state.location) {
         return state
       }
     }
