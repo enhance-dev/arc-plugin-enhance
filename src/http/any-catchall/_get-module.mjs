@@ -10,7 +10,7 @@ const cache = {}
 
 /** helper to get module for given folder/route */
 export default function getModule (basePath, folder, route) {
-  console.time('getModule')
+  // console.time('getModule')
 
   if (!cache[folder])
     cache[folder] = {}
@@ -39,6 +39,6 @@ export default function getModule (basePath, folder, route) {
     }
   }
 
-  console.timeEnd('getModule')
+  // console.timeEnd('getModule')
   return cache[folder][route] || false
 }

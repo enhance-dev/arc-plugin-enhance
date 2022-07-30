@@ -10,6 +10,7 @@ import getElements from './_get-elements.mjs'
 import getPageName from './_get-page-name.mjs'
 import isJSON from './_is-json-request.mjs'
 import backfill from './_backfill-params.mjs'
+import render from './_render.mjs'
 
 export default async function api (basePath, req) {
 
@@ -29,7 +30,7 @@ export default async function api (basePath, req) {
       req.params = backfill(basePath, apiPath, pagePath, req)
  
       // grab the state from the app/api route
-      state = await method(req)
+      state = await method(req, render.bind({}, basePath))
  
       // if the api route does nothing backfill empty json response
       if (!state) state = { json:{} }

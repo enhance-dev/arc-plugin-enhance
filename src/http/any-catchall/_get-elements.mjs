@@ -14,7 +14,7 @@ import _head from './templates/head.mjs'
  * - TODO can run a command to generate it based on app/elements
  */
 export default async function getElements (basePath) {
-  console.time('getElements')
+  // console.time('getElements')
 
   let pathToModule = join(basePath, 'elements.mjs')
   let pathToPages = join(basePath, 'pages')
@@ -72,6 +72,6 @@ export default async function getElements (basePath) {
   if (!els['page-500'])
     els['page-500'] = _500
 
-  console.timeEnd('getElements')
+  // console.timeEnd('getElements')
   return { head, elements: els }
 }
