@@ -30,7 +30,7 @@ export default async function api (basePath, req) {
       req.params = backfill(basePath, apiPath, pagePath, req)
  
       // grab the state from the app/api route
-      let res =  render.bind({}, basePath, req)
+      let res =  render.bind({}, basePath)
       state = await method(req, res)
  
       // if the api route does nothing backfill empty json response
