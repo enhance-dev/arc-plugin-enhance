@@ -1,7 +1,7 @@
 import router from './router.mjs'
 
 export default async function render (basePath, rawPath, session) {
-  return router(basePath, {
+  let res = await router(basePath, {
     rawPath,
     method: 'GET',
     headers: {
@@ -9,4 +9,13 @@ export default async function render (basePath, rawPath, session) {
     },
     session
   })
+  let location = rawPath
+  return {
+    location,
+    session,
+    json: { 
+      location, 
+      ...res 
+    }
+  }
 }
