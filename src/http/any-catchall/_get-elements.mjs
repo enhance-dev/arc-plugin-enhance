@@ -61,10 +61,6 @@ export default async function getElements (basePath) {
       els[tag] = mod.default
     }
   }
-  else {
-    // generate based on page.html or page.mjs requested
-    console.log('warning: did not find `elements.mjs` or `elements/` folder')
-  }
 
   if (!els['page-404']) 
     els['page-404'] = _404

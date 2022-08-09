@@ -7,3 +7,4 @@ beginner
 
 @bundles
 store 'node_modules/@enhance/store'
+parser 'node_modules/@architect/parser'
