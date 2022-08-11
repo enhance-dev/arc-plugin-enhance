@@ -8,6 +8,7 @@ export default function Head ({ title='' }) {
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>${title || ''}</title>
   <link rel="stylesheet" href="${ arc.static('styles.css') }">
+  <link rel="icon" href="${ arc.static('favicon.svg') }">
 </head>
 `
 }
