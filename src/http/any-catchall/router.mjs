@@ -42,7 +42,10 @@ export default async function api (basePath, req) {
         return state
       }
  
-      // if not a GET just return api response; or if no corresponding page
+      // just return the api response if 
+      // - not a GET
+      // - no corresponding page 
+      // - state.location has been explicitly passed
       if (req.method.toLowerCase() != 'get' || !pagePath || state.location) {
         return state
       }
@@ -66,7 +69,7 @@ export default async function api (basePath, req) {
   try {
 
     // 404
-    if (!pagePath) {
+    if (!pagePath || state.code === 404 || state.status === 404 || state.statusCode === 404) {
       const body = html`
         ${ head({ title: '404' }) }
         <page-404 error="${req.rawPath} not found"></page-404>
@@ -86,7 +89,6 @@ export default async function api (basePath, req) {
     }
     res.statusCode = state.status || state.code || state.statusCode || 200
     if (state.session) res.session = state.session
-    if (state.location) res.location = state.location
     return res
   }
   catch (err) {
