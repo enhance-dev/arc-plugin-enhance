@@ -60,7 +60,7 @@ export default async function api (basePath, req) {
     scriptTransforms: [
       importTransform({ map: arc.static })
     ],
-    styleTranstforms: [
+    styleTransforms: [
       styleTransform
     ],
     initialState: state.json? state.json : {}
