@@ -17,7 +17,7 @@ export default async function api (basePath, req) {
   let apiPath = getModule(basePath, 'api', req.rawPath)
   let pagePath = getModule(basePath, 'pages', req.rawPath)
   let state = {}
- 
+
   // rendering a json response or passing state to an html response
   if (apiPath) {
 
@@ -25,26 +25,26 @@ export default async function api (basePath, req) {
     let mod = await import(apiPath)
     let method = mod[req.method.toLowerCase()]
     if (method) {
- 
+
       // check to see if we need to modify the req and add in params
       req.params = backfill(basePath, apiPath, pagePath, req)
- 
+
       // grab the state from the app/api route
       let res =  render.bind({}, basePath)
       state = await method(req, res)
- 
+
       // if the api route does nothing backfill empty json response
       if (!state) state = { json:{} }
- 
+
       // if the user-agent requested json return the response immediately
       if (isJSON(req.headers)) {
         delete state.location
         return state
       }
- 
-      // just return the api response if 
+
+      // just return the api response if
       // - not a GET
-      // - no corresponding page 
+      // - no corresponding page
       // - state.location has been explicitly passed
       if (req.method.toLowerCase() != 'get' || !pagePath || state.location) {
         return state
@@ -70,33 +70,38 @@ export default async function api (basePath, req) {
 
     // 404
     if (!pagePath || state.code === 404 || state.status === 404 || state.statusCode === 404) {
+      const status = 404
+      const error = `${req.rawPath} not found`
       const body = html`
-        ${ head({ title: '404' }) }
-        <page-404 error="${req.rawPath} not found"></page-404>
+        ${ head(req, status, error) }
+        <page-404 error="${error}"></page-404>
       `
-      return { status: 404, html: body }
+      return { status, html: body }
     }
 
     // 200
+    const status = state.status || state.code || state.statusCode || 200
     let res = {}
     if (pagePath.includes('.html')) {
       let raw = read(pagePath).toString()
-      res.html = html`${ head({ title:'' }) }${ raw }`
+      res.html = html`${ head(req, status) }${ raw }`
     }
     else {
       let tag = getPageName(basePath, pagePath)
-      res.html = html`${ head({ title:'' }) }<page-${ tag }></page-${ tag }>`
+      res.html = html`${ head(req, status) }<page-${ tag }></page-${ tag }>`
     }
-    res.statusCode = state.status || state.code || state.statusCode || 200
+    res.statusCode = status
     if (state.session) res.session = state.session
     return res
   }
   catch (err) {
     // 500
+    const status = 500
+    const error = err.message || ''
     const body = html`
-      ${ head({ title: '500' }) }
-      <page-500 error="${ err.message }"></page-500>
+      ${ head(req, status, error) }
+      <page-500 error="${ error }"></page-500>
     `
-    return { status: 500, html: body }
+    return { status, html: body }
   }
 }
