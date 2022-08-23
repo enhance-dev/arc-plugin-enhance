@@ -11,3 +11,10 @@ test('render', async t => {
   t.ok(result, 'got result')
   console.log(result)
 })
+
+test('404', async t => {
+  let base = path.join(__dirname, '..', 'app')
+  let result = await render(base, '/nope', {})
+  t.ok(result, 'got 404')
+  console.log(result)
+})
