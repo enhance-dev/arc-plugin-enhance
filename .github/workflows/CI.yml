@@ -34,6 +34,7 @@ jobs:
         echo "Git ref:    ${{ github.ref }}"
         echo "GH actor:   ${{ github.actor }}"
         echo "SHA:        ${{ github.sha }}"
+        echo "OS:         ${{ matrix.os }}"
         VER=`node --version`; echo "Node ver:   $VER"
         VER=`npm --version`; echo "npm ver:    $VER"
 
