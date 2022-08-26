@@ -5,6 +5,7 @@ let cache = false
 
 /** helper to return files from basePath */
 export default function getFiles (basePath, folder) {
+  console.log('basePath', basePath)
   if (!cache) {
     const filesOnly = f => f.split('/').pop().includes('.')
     const expr = basePath + '/**'
