@@ -9,6 +9,7 @@ export default function getFiles (basePath, folder) {
     const filesOnly = f => f.split('/').pop().includes('.')
     const expr = basePath + '/**'
     cache = glob.sync(expr, { dot: false }).filter(filesOnly)
+    console.log(cache)
   }
   const base = join(basePath, folder)
   const requestedFolder = f => f.startsWith(base)
