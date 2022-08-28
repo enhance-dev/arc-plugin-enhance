@@ -1,16 +1,14 @@
 import glob from 'glob'
 import { join } from 'path'
 
-let cache = false
+let cache = {}
 
 /** helper to return files from basePath */
 export default function getFiles (basePath, folder) {
-  if (!cache) {
-    const filesOnly = f => f.split('/').pop().includes('.')
-    const expr = basePath + '/**'
-    cache = glob.sync(expr, { dot: false }).filter(filesOnly)
+  if (!cache[folder]) {
+    let root = join(basePath, folder)
+    let raw = glob.sync('/**', { dot: false, root })
+    cache[folder] = raw.filter(f => f.includes('.'))
   }
-  const base = join(basePath, folder)
-  const requestedFolder = f => f.startsWith(base)
-  return cache.filter(requestedFolder)
+  return cache[folder]
 }

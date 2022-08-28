@@ -1,3 +1,4 @@
+/* eslint-disable */
 import arc from '@architect/functions'
 
 export default function Head (req, status, error) {
