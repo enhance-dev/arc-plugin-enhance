@@ -7,6 +7,13 @@
     "lint": "eslint src/**/*.mjs",
     "test": "tape test/*.mjs | tap-spec"
   },
+  "files": [
+    "app/*",
+    "models/*",
+    "src/*",
+    "public/*",
+    ".arc"
+  ],
   "dependencies": {
     "@architect/functions": "^5.2.1",
     "@architect/plugin-bundles": "^3.0.5",
