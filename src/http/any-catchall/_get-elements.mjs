@@ -48,16 +48,21 @@ export default async function getElements (basePath) {
   }
 
   if (exists(pathToElements)) {
+    let elementsURL = new URL('file://')
+    elementsURL.pathname = basePath + '/'
+    elementsURL = new URL('elements', fileURL)
     // read all the elements
     let files = getFiles(basePath, 'elements').filter(f => f.includes('.mjs'))
     for (let e of files) {
       // turn foo/bar.mjs into foo-bar to make sure we have a legit tag name
-      let tag = e.replace(basePath + '/elements/', '').replace('.mjs', '').replace('/', '-')
+      const fileURL = new URL('file://')
+      fileURL.pathname = e
+      let tag = fileURL.pathname.replace(elementsURL.pathname, '').slice(1).replace(/.mjs$/, '').replace(/\//g, '-')
       if (/^[a-z][a-z0-9-]*$/.test(tag) === false) {
         throw Error(`Illegal element name "${tag}" must be lowercase alphanumeric dash`)
       }
       // import the element and add to the map
-      let mod = await import(e)
+      let mod = await import(fileURL.href)
       els[tag] = mod.default
     }
   }
