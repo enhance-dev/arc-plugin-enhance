@@ -1,4 +1,5 @@
 import { join } from 'path'
+import { pathToFileURL } from 'url'
 import { existsSync as exists } from 'fs'
 
 import getFiles from './_get-files.mjs'
@@ -23,11 +24,14 @@ export default async function getElements (basePath) {
 
   // generate elements manifest
   let els = {}
-  let head = exists(pathToHead) === false? _head : (await import(pathToHead)).default
+
+  let head = exists(pathToHead) === false ?
+    _head :
+    await import(pathToFileURL(pathToHead).href);
 
   if (exists(pathToModule)) {
     // read explicit elements manifest
-    let mod = await import(pathToModule)
+    let mod = await import(pathToFileURL(pathToModule).href)
     els = mod.default
   }
 
@@ -35,10 +39,10 @@ export default async function getElements (basePath) {
   if (exists(pathToPages)) {
 
     // read all the pages
-    let pages = getFiles(basePath, 'pages').filter(f => f.includes('.mjs'))
+    let pages = getFiles(basePath, 'pages').filter(f => f.endsWith('.mjs'))
     for (let p of pages) {
       let tag = await getPageName(basePath, p)
-      let mod = await import(p)
+      let mod = await import(pathToFileURL(p).href)
       els['page-' + tag] = mod.default
     }
   }
@@ -48,15 +52,12 @@ export default async function getElements (basePath) {
   }
 
   if (exists(pathToElements)) {
-    let elementsURL = new URL('file://')
-    elementsURL.pathname = basePath + '/'
-    elementsURL = new URL('elements', fileURL)
+    let elementsURL = pathToFileURL(join(basePath, 'elements'));
     // read all the elements
-    let files = getFiles(basePath, 'elements').filter(f => f.includes('.mjs'))
+    let files = getFiles(basePath, 'elements').filter(f => f.endsWith('.mjs'))
     for (let e of files) {
       // turn foo/bar.mjs into foo-bar to make sure we have a legit tag name
-      const fileURL = new URL('file://')
-      fileURL.pathname = e
+      const fileURL = pathToFileURL(e)
       let tag = fileURL.pathname.replace(elementsURL.pathname, '').slice(1).replace(/.mjs$/, '').replace(/\//g, '-')
       if (/^[a-z][a-z0-9-]*$/.test(tag) === false) {
         throw Error(`Illegal element name "${tag}" must be lowercase alphanumeric dash`)

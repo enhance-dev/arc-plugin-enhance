@@ -1,4 +1,5 @@
 import { readFileSync as read } from 'fs'
+import { pathToFileURL } from 'url';
 
 import arc from '@architect/functions'
 import enhance from '@enhance/ssr'
@@ -22,7 +23,7 @@ export default async function api (basePath, req) {
   if (apiPath) {
 
     // only import if the module exists and only run if export equals httpMethod
-    let mod = await import(apiPath)
+    let mod = await import(pathToFileURL(apiPath).href)
     let method = mod[req.method.toLowerCase()]
     if (method) {
 
