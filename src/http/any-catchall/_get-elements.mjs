@@ -27,7 +27,7 @@ export default async function getElements (basePath) {
 
   let head = exists(pathToHead) === false ?
     _head :
-    await import(pathToFileURL(pathToHead).href);
+    (await import(pathToFileURL(pathToHead).href)).default;
 
   if (exists(pathToModule)) {
     // read explicit elements manifest
