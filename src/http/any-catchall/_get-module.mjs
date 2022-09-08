@@ -1,4 +1,5 @@
 import path from 'path'
+import { pathToFileURL } from 'url';
 
 import { pathToRegexp } from 'path-to-regexp'
 
@@ -20,11 +21,12 @@ export default function getModule (basePath, folder, route) {
     let raw = getFiles(basePath, folder).sort(sort)
 
     let base = path.join(basePath, folder)
-    let clean = f => f.replace(base, '')
+    let basePathname = pathToFileURL(base).pathname
+    let clean = f => f.replace(basePathname, '')
                       .replace(/index\.html|index\.mjs|\.mjs|\.html/, '')
                       .replace('$', ':')
                       .replace(/\/+$/, '')
-    let copy = raw.slice(0).map(clean).map(p => pathToRegexp(p))
+    let copy = raw.slice(0).map(p => pathToFileURL(p).pathname).map(clean).map(p => pathToRegexp(p))
 
     let index = 0
     let found = false
