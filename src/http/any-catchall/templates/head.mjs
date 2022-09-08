@@ -4,6 +4,7 @@ import arc from '@architect/functions'
 export default function Head (req, status, error) {
   return `
 <!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
