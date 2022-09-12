@@ -73,10 +73,15 @@ export default async function api (basePath, req) {
     if (!pagePath || state.code === 404 || state.status === 404 || state.statusCode === 404) {
       const status = 404
       const error = `${req.rawPath} not found`
-      const body = html`
-        ${ head(req, status, error) }
-        <page-404 error="${error}"></page-404>
-      `
+      const fourOhFour = getModule(basePath, 'pages', '/404')
+      let body = ''
+      if (fourOhFour && fourOhFour.includes('.html')) {
+        let raw = read(fourOhFour).toString()
+        body = html`${ head(req, status, error) }${ raw }`
+      }
+      else {
+        body = html`${ head(req, status, error) }<page-404 error="${error}"></page-404>`
+      }
       return { status, html: body }
     }
 
@@ -99,10 +104,15 @@ export default async function api (basePath, req) {
     // 500
     const status = 500
     const error = err.message || ''
-    const body = html`
-      ${ head(req, status, error) }
-      <page-500 error="${ error }"></page-500>
-    `
-    return { status, html: body }
+      const fiveHundred = getModule(basePath, 'pages', '/500')
+      let body = ''
+      if (fiveHundred && fiveHundred.includes('.html')) {
+        let raw = read(fiveHundred).toString()
+        body = html`${ head(req, status, error) }${ raw }`
+      }
+      else {
+        body = html`${ head(req, status, error) }<page-500 error="${ error }"></page-500>`
+      }
+      return { status, html: body }
   }
 }
