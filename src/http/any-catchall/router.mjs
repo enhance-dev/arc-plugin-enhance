@@ -59,7 +59,7 @@ export default async function api (basePath, req) {
   const html = enhance({
     elements,
     scriptTransforms: [
-      importTransform({ map: arc.static })
+      importTransform({ lookup: arc.static })
     ],
     styleTransforms: [
       styleTransform
