@@ -2,6 +2,23 @@
 export default function sorter (a, b) {
 
   // a is less than b (more ambiguous)
+  if (a.includes('catchall') && b.includes('catchall') === false) {
+    return 1
+  }
+  
+  // a is greater than b (less ambiguous)
+  if (a.includes('catchall')  === false && b.includes('catchall')) {
+    return -1
+  }
+  
+  // a and b both have $ (so who is longer; because they are less ambiguous)
+  if (a.includes('catchall') && b.includes('catchall')) {
+    return a.length > b.length? -1 : 1
+  }
+  
+ //----------------
+
+  // a is less than b (more ambiguous)
   if (a.includes('$') && b.includes('$') === false) {
     return 1
   }

@@ -9,11 +9,13 @@ test('sorter', t => {
     'views/pages/books/ack.mjs',
     'views/pages/books/new.mjs',
     'views/pages/books/$id/arg.mjs', // less abiguity (has $ but longer)
-    'views/pages/books/$id.mjs' // total ambiguity last
+    'views/pages/books/$id.mjs', // total ambiguity last
+    'views/pages/books/catchall.mjs'
   ]
   const bad = [
     'views/pages/books.mjs',
     'views/pages/books/$id.mjs',
+    'views/pages/books/catchall.mjs',
     'views/pages/books/$id/arg.mjs',
     'views/pages/books/ack.mjs',
     'views/pages/books/new.mjs',

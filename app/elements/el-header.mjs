@@ -8,6 +8,7 @@ export default function Header ({ html }) {
     <a href=/fun>fun</a>
     <a href=/contact>contact</a>
     <a href=/notes>notes</a>
+    <a href=/stuff/foo>catch all</a>
   </nav>
 </header>
 `

@@ -19,12 +19,12 @@ export default function getModule (basePath, folder, route) {
   if (!cache[folder][route]) {
 
     let raw = getFiles(basePath, folder).sort(sort)
-
     let base = path.join(basePath, folder)
     let basePathname = pathToFileURL(base).pathname
     let clean = f => f.replace(basePathname, '')
                       .replace(/index\.html|index\.mjs|\.mjs|\.html/, '')
                       .replace('$', ':')
+                      .replace(/catchall/, '(.*)')
                       .replace(/\/+$/, '')
     let copy = raw.slice(0).map(p => pathToFileURL(p).pathname).map(clean).map(p => pathToRegexp(p))
 

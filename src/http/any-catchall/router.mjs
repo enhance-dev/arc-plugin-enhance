@@ -17,6 +17,7 @@ export default async function api (basePath, req) {
 
   let apiPath = getModule(basePath, 'api', req.rawPath)
   let pagePath = getModule(basePath, 'pages', req.rawPath)
+
   let state = {}
 
   // rendering a json response or passing state to an html response
