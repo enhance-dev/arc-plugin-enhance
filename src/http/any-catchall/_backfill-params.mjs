@@ -12,7 +12,11 @@ export default function backfill (basePath, apiPath, pagePath, req) {
   let base = apiPath? path.join(basePath, 'api') : path.join(basePath, 'pages')
   let tmpl = apiPath? apiPath : pagePath
 
-  tmpl = tmpl.replace(base, '').replace(/index\.mjs|\.mjs/, '').replace('$', ':').replace(/\/+$/, '')
+  tmpl = tmpl.replace(base, '')
+    .replace(/index\.mjs|\.mjs/, '')
+    .replace(/(\/?)\$\$\/?$/, '$1(.*)')
+    .replace('$', ':')
+    .replace(/\/+$/, '')
   let pattern = pathToRegexp(tmpl)
 
   // resolve matches with param names in tmpl
