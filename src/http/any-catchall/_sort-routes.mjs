@@ -1,47 +1,30 @@
 /** helper to sort routes from least ambiguous to most */
-export default function sorter (a, b) {
+export default function sorter(a, b) {
+  function pathPartWeight(str) {
+    // assign a weight to each path parameter
+    // catchall=1 < dynamic=2 < static=3 < index=4 
+    if (str === 'catchall.mjs'||str==='catchall.html') return 1 
+    if (str.startsWith('$')) return 2 
+    if (!(str==="index.mjs"||str==="index.html")) return 3
+    if (str==="index.mjs"||str==="index.html") return 4
+  }
 
-  // a is less than b (more ambiguous)
-  if (a.includes('catchall') && b.includes('catchall') === false) {
-    return 1
+  function totalWeightByPosition(str) {
+    // weighted by position in the path
+    // /highest/high/low/lower/.../lowest
+    // weigh/1, weight/10, weight/100, weight/1000
+    // return result weighted by type and position
+    // i.e. /index.mjs = 4
+    // i.e. /test/index.mjs = 3.4
+    // i.e. /test/this.mjs = 3.3
+    // i.e. /test/$id.mjs = 3.2
+    // i.e. /test/catchall.mjs = 3.1
+    return str.split('/').reduce((prev, curr, i) => {
+      return (prev + (pathPartWeight(curr) / Math.pow(10, i)))
+    }, 0)
   }
-  
-  // a is greater than b (less ambiguous)
-  if (a.includes('catchall')  === false && b.includes('catchall')) {
-    return -1
-  }
-  
-  // a and b both have $ (so who is longer; because they are less ambiguous)
-  if (a.includes('catchall') && b.includes('catchall')) {
-    return a.length > b.length? -1 : 1
-  }
-  
- //----------------
 
-  // a is less than b (more ambiguous)
-  if (a.includes('$') && b.includes('$') === false) {
-    return 1
-  }
-  
-  // a is greater than b (less ambiguous)
-  if (a.includes('$')  === false && b.includes('$')) {
-    return -1
-  }
-  
-  // a and b both have $ (so who is longer; because they are less ambiguous)
-  if (a.includes('$') && b.includes('$')) {
-    return a.length > b.length? -1 : 1
-  }
-  
-  // neither has $
-  
-  // always ensure index.html wins
-  let left = a.split('/').pop()
-  if (left === 'index.html' || left === 'index.mjs') return -1
 
-  let right = b.split('/').pop()
-  if (right === 'index.html' || right === 'index.mjs') return 1
-  
-  // fallback to str compare
-  return a > b? 1 : -1
+  return totalWeightByPosition(a) < totalWeightByPosition(b) ?1 : -1
+
 }

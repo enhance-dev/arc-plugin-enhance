@@ -5,7 +5,7 @@
   "scripts": {
     "start": "sandbox",
     "lint": "eslint src/**/*.mjs",
-    "test": "tape test/*.mjs | tap-spec"
+    "test": "tape test/*.mjs | tap-arc"
   },
   "files": [
     "app/*",
@@ -26,7 +26,8 @@
     "eslint": "^8.23.0",
     "glob": "^8.0.3",
     "path-to-regexp": "^6.2.1",
-    "pluralize": "^8.0.0"
+    "pluralize": "^8.0.0",
+    "tap-arc": "^0.3.5"
   },
   "devDependencies": {
     "@architect/sandbox": "^5.3.3",

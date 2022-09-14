@@ -10,3 +10,24 @@ test('getModules', async t => {
   let result = await getModule(base, folder, '/')
   t.equal(expected, result, 'Got back index')
 })
+
+test('getModules catchall', async t => {
+  t.plan(1)
+  let base = path.join(process.cwd(), 'test', 'mock-folders','app')
+  let folder = 'api/place/$id'
+  let file = 'catchall.mjs'
+  let expected = path.join(base, folder, file)
+  let result = await getModule(base, folder, '/place/anything/anywhere')
+  t.equal(expected, result, 'Got the catchall')
+})
+
+test('avoids false catchall', async t => {
+  t.plan(1)
+  let base = path.join(process.cwd(), 'test', 'mock-folders','app')
+  let folder = 'api'
+  let file = 'catchallextra.mjs'
+  let expected = path.join(base, folder, file)
+  let result = await getModule(base, folder, '/nothing')
+  t.false(result, 'avoided false catchall')
+})
+
