@@ -23,8 +23,8 @@ export default function getModule (basePath, folder, route) {
     let basePathname = pathToFileURL(base).pathname
     let clean = f => f.replace(basePathname, '')
                       .replace(/index\.html|index\.mjs|\.mjs|\.html/, '')
+                      .replace(/(\/?)\$\$\/?$/, '$1(.*)') //$$.mjs is catchall
                       .replace('$', ':')
-                      .replace(/(\/?)catchall(\/?)/, '$1(.*)$2')
                       .replace(/\/+$/, '')
     let copy = raw.slice(0).map(p => pathToFileURL(p).pathname).map(clean).map(p => pathToRegexp(p))
 
