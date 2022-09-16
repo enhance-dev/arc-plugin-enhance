@@ -26,6 +26,8 @@ export default async function api (basePath, req) {
     // only import if the module exists and only run if export equals httpMethod
     let mod = await import(pathToFileURL(apiPath).href)
     let method = mod[req.method.toLowerCase()]
+    if (Array.isArray(method))
+      method = arc.http.async.apply(null, method)
     if (method) {
 
       // check to see if we need to modify the req and add in params
