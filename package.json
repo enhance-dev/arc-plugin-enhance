@@ -16,7 +16,7 @@
   ],
   "dependencies": {
     "@architect/functions": "^5.2.2",
-    "@architect/plugin-bundles": "^3.1.0",
+    "@architect/plugin-bundles": "^3.1.1",
     "@begin/data": "^4.0.0",
     "@enhance/arc-plugin-styles": "^0.0.10",
     "@enhance/enhance-style-transform": "^0.0.1",
