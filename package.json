@@ -2,6 +2,15 @@
   "name": "@enhance/arc-plugin-enhance",
   "version": "1.0.39",
   "main": "src/plugins/beginner.js",
+  "license": "Apache-2.0",
+  "homepage": "https://enhance.dev",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/enhance-dev/arc-plugin-enhance.git"
+  },
+  "bugs": {
+    "url": "https://github.com/enhance-dev/arc-plugin-enhance/issues"
+  },
   "scripts": {
     "start": "sandbox",
     "lint": "eslint src/**/*.mjs",
