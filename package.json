@@ -1,6 +1,6 @@
 {
   "name": "@enhance/arc-plugin-enhance",
-  "version": "1.0.39",
+  "version": "1.1.0",
   "main": "src/plugins/beginner.js",
   "license": "Apache-2.0",
   "homepage": "https://enhance.dev",
