@@ -2,29 +2,23 @@ let path = require('path')
 let bundles = require('@architect/plugin-bundles')
 let styles = require('@enhance/arc-plugin-styles')
 
-module.exports = { 
+module.exports = {
 
   sandbox: {
     async start (params) {
-      await bundles.sandbox.start(params)  
+      await bundles.sandbox.start(params)
       await styles.sandbox.start(params)
     }
   },
 
   deploy: {
     async start (params) {
-      await bundles.deploy.start(params)  
+      await bundles.deploy.start(params)
       await styles.deploy.start(params)
     }
   },
 
   set: {
-
-    static () {
-      return {
-        fingerprint: true
-      }
-    },
 
     /** frontend logic will *only* be shared w ANY and GET handlers */
     views () {
@@ -40,8 +34,8 @@ module.exports = {
       }
     },
 
-    /** 
-     * sets up a greedy lambda for the frontend 
+    /**
+     * sets up a greedy lambda for the frontend
      *
      * - userland can still add routes to override this!
      * - makes single responsiblity functions an opt-in rather than up front cost
