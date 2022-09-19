@@ -22,7 +22,7 @@ export default function getPageName (basePath, template) {
 /** serialize template name to element name */
 function fmt (basePath, templatePath) {
   let base = path.join(basePath, 'pages')
-  let raw = templatePath.replace(base, '').replace(/\.mjs/g, '').replace('/', '').replace(/\//g, '-')
+  let raw = templatePath.replace(base, '').replace(/\.mjs/g, '').replace(path.sep, '').replace(new RegExp('\\' + path.sep, 'g'), '-')
   // if there are dynamic parts we need to do some additional formatting
   if (raw.includes('$')) {
     let parts = raw.split('-')
