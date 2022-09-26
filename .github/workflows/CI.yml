@@ -40,6 +40,9 @@ jobs:
     - name: Install
       run: npm install
 
+    - name: Hydrate Test Mocks
+      run: cd test/mocks/app-with-static-assets && npm i
+
     - name: Test
       run: npm test
 
