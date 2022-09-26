@@ -12,8 +12,9 @@ import getPageName from './_get-page-name.mjs'
 import isJSON from './_is-json-request.mjs'
 import backfill from './_backfill-params.mjs'
 import render from './_render.mjs'
+import fingerprintPaths from './_fingerprint-paths.mjs'
 
-export default async function api (basePath, req) {
+export default async function api(basePath, req) {
 
   let apiPath = getModule(basePath, 'api', req.rawPath)
   let pagePath = getModule(basePath, 'pages', req.rawPath)
@@ -34,11 +35,11 @@ export default async function api (basePath, req) {
       req.params = backfill(basePath, apiPath, pagePath, req)
 
       // grab the state from the app/api route
-      let res =  render.bind({}, basePath)
+      let res = render.bind({}, basePath)
       state = await method(req, res)
 
       // if the api route does nothing backfill empty json response
-      if (!state) state = { json:{} }
+      if (!state) state = { json: {} }
 
       // if the user-agent requested json return the response immediately
       if (isJSON(req.headers)) {
@@ -62,16 +63,19 @@ export default async function api (basePath, req) {
   const store = state.json
     ? state.json
     : {}
-  const html = enhance({
-    elements,
-    scriptTransforms: [
-      importTransform({ lookup: arc.static })
-    ],
-    styleTransforms: [
-      styleTransform
-    ],
-    initialState: store
-  })
+  function html(str, ...values) {
+    const _html = enhance({
+      elements,
+      scriptTransforms: [
+        importTransform({ lookup: arc.static })
+      ],
+      styleTransforms: [
+        styleTransform
+      ],
+      initialState: store
+    })
+    return fingerprintPaths(_html(str, ...values))
+  }
 
   try {
 
@@ -83,10 +87,10 @@ export default async function api (basePath, req) {
       let body = ''
       if (fourOhFour && fourOhFour.includes('.html')) {
         let raw = read(fourOhFour).toString()
-        body = html`${ head({ req, status, error, store }) }${ raw }`
+        body = html`${head({ req, status, error, store })}${raw}`
       }
       else {
-        body = html`${ head({ req, status, error, store }) }<page-404 error="${error}"></page-404>`
+        body = html`${head({ req, status, error, store })}<page-404 error="${error}"></page-404>`
       }
       return { status, html: body }
     }
@@ -97,14 +101,15 @@ export default async function api (basePath, req) {
     const error = false
     if (pagePath.includes('.html')) {
       let raw = read(pagePath).toString()
-      res.html = html`${ head({ req, status, error, store }) }${ raw }`
+      res.html = html`${head({ req, status, error, store })}${raw}`
     }
     else {
       let tag = getPageName(basePath, pagePath)
-      res.html = html`${ head({ req, status, error, store }) }<page-${ tag }></page-${ tag }>`
+      res.html = html`${head({ req, status, error, store })}<page-${tag}></page-${tag}>`
     }
     res.statusCode = status
     if (state.session) res.session = state.session
+
     return res
   }
   catch (err) {
@@ -115,10 +120,10 @@ export default async function api (basePath, req) {
     let body = ''
     if (fiveHundred && fiveHundred.includes('.html')) {
       let raw = read(fiveHundred).toString()
-      body = html`${ head({ req, status, error, store }) }${ raw }`
+      body = html`${head({ req, status, error, store })}${raw}`
     }
     else {
-      body = html`${ head({ req, status, error, store }) }<page-500 error="${ error }"></page-500>`
+      body = html`${head({ req, status, error, store })}<page-500 error="${error}"></page-500>`
     }
     return { status, html: body }
   }

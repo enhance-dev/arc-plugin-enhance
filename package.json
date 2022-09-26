@@ -24,6 +24,7 @@
     ".arc"
   ],
   "dependencies": {
+    "@architect/asap": "^5.0.1",
     "@architect/functions": "^5.2.2",
     "@architect/plugin-bundles": "^3.1.1",
     "@begin/data": "^4.0.0",
@@ -41,7 +42,8 @@
   "devDependencies": {
     "@architect/sandbox": "^5.3.4",
     "tap-spec": "^5.0.0",
-    "tape": "^5.6.0"
+    "tape": "^5.6.0",
+    "tiny-json-http": "^7.4.2"
   },
   "eslintConfig": {
     "env": {
