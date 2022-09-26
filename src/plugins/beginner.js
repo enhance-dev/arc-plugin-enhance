@@ -12,14 +12,11 @@ function processAssets(params){
   const publicFolderName = params.inventory.inv.static.folder
   const publicFolder = path.join(cwd,publicFolderName)
   const publicBuildFolder = path.join(publicFolder,'_public')
-  //const viewsFolder = params.inventory.inv.views.src
   fingerprint(publicFolder)
   fs.copyFileSync(path.join(publicBuildFolder,'replacement-manifest.json'),
     path.join(rootCatchallSrcDir,'.replacement-manifest.json'))
   fs.copyFileSync(path.join(publicBuildFolder, 'static-manifest.json'),
     path.join(staticAssetSrcDir, '.static-manifest.json'))
-  fs.copyFileSync(path.join(publicBuildFolder, 'fingerprinted-manifest.json'),
-    path.join(staticAssetSrcDir, '.fingerprinted-manifest.json'))
 }
 
 
@@ -44,16 +41,18 @@ module.exports = {
   set: {
 
     /** frontend logic will *only* be shared w ANY and GET handlers */
-    views () {
+    views ({inventory}) {
+      const cwd = inventory.inv._project.cwd 
       return {
-        src: 'app'
+        src: path.join(cwd,'app')
       }
     },
 
     /** we want to share models business logic across all lambdas */
-    shared () {
+    shared ({inventory}) {
+      const cwd = inventory.inv._project.cwd 
       return {
-        src: 'models'
+        src: path.join(cwd,'models')
       }
     },
 

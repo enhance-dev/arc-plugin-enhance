@@ -3,7 +3,6 @@ const path = require('path')
 const esbuild = require('esbuild');
 
 // 1. List all static files
-// const __dirname = path.dirname(url.fileURLToPath(import.meta.url))
 
 function getFilesRecursively(directory,skip=[]) {
   let files = [];
@@ -19,7 +18,6 @@ function getFilesRecursively(directory,skip=[]) {
   return files
 }
 
-//const publicDir = path.join(__dirname, '..','..','public')
 
 module.exports = function (publicDir) {
 
@@ -30,20 +28,18 @@ const staticFiles = getFilesRecursively(publicDir, ['_public'])
   .filter(file => !filterOutFiles.includes(path.basename(file)))
   .filter(file => !filterOutExtensions.includes(path.extname(file)))
 
-// // 2a. Copy pre fingerprinted files
-// fs.mkdirSync(path.join(publicDir,'_public'),{recursive:true})
-// staticFiles.forEach(file => {
-//   const newFile = path.join(publicDir,'_public',path.relative(publicDir,file))
-//   fs.copyFileSync(file,newFile)
-// })
-
-// 2b. Create Manifest 
+// 2. Create Static Manifest 
 let staticManifest = {}
 staticFiles.forEach(file => {
   const partialPath = file.slice(publicDir.length+1)
-  staticManifest[partialPath]=partialPath
+  const aliasPath = path.join('_public',partialPath)
+  staticManifest['/'+ aliasPath]='/'+partialPath
 })
 // 3. Bundle and fingerprint files
+const commonMimeTypes = require('@architect/asap/src/lib/common-mime-types')
+let loader ={}
+Object.keys(commonMimeTypes).filter(ext=>!['js','mjs'].includes(ext)).forEach(ext=>loader[`.${ext}`]='file')
+
 const publicBuildDir = path.join(publicDir,'_public')
 const config = {
   bundle: true,
@@ -55,18 +51,11 @@ const config = {
   entryPoints: staticFiles,
   entryNames: '[name]-[hash]',
   assetNames: '[name]-[hash]',
-  // TODO: Add loader for all file types to be fingerprinted
-  loader: {
-    '.png': 'file',
-    '.svg': 'file',
-    '.css': 'file',
-    '.jpg': 'file',
-  }
+  loader
 }
 const buildReport = esbuild.buildSync(config)
 
 // 4. Create Manifest of fingerprinted files
-let fingerprintedAssets = {}
 let replaceManifest = {}
 const buildOutputs = buildReport.metafile.outputs
 const relToPublic = path.relative('.',publicDir)+path.sep
@@ -75,14 +64,12 @@ const relToPublicBuild = path.relative('.',publicBuildDir)+path.sep
 // console.log({relToPublicBuild})
 for (const [key, value] of Object.entries(buildOutputs)) {
   if (!value.hasOwnProperty('entryPoint')) {
-    fingerprintedAssets[key.replace(relToPublicBuild,'')]= key.replace(relToPublicBuild,'')
     replaceManifest[Object.keys(value.inputs)[0].replace(relToPublic,'')] = key.replace(relToPublicBuild,'')
   } else if (path.extname(key) !== path.extname(value.entryPoint)) {
     // no manifest entry
   } else if (
     key.replace(relToPublicBuild, '').replace(/\/?([^/]*)-[0-9A-Z]{8}.(.*)$/gm, '$1.$2')
     === value.entryPoint.replace(relToPublic, '')) {
-      fingerprintedAssets[key.replace(relToPublicBuild,'')]= key.replace(relToPublicBuild,'')
       replaceManifest[value.entryPoint.replace(relToPublic,'')] = key.replace(relToPublicBuild,'')
 
   }
@@ -90,12 +77,8 @@ for (const [key, value] of Object.entries(buildOutputs)) {
 
 const staticManifestFile = path.join(publicBuildDir,'static-manifest.json')
 const replacementManifestFile = path.join(publicBuildDir,'replacement-manifest.json')
-const fingerprintedManifestFile = path.join(publicBuildDir,'fingerprinted-manifest.json')
 fs.writeFileSync(staticManifestFile,JSON.stringify(staticManifest))
 fs.writeFileSync(replacementManifestFile,JSON.stringify(replaceManifest))
-fs.writeFileSync(fingerprintedManifestFile,JSON.stringify(fingerprintedAssets))
-
-
 
 // 5. Add gitignore TODO:
 }
