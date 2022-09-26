@@ -3,8 +3,11 @@ import path from 'path'
 import url from 'url'
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
-const manifestFile = fs.readFileSync(path.join(__dirname,'.replacement-manifest.json'))
-const manifest = JSON.parse(manifestFile)
+let manifest
+try {
+  const manifestFile = fs.readFileSync(path.join(__dirname,'.replacement-manifest.json'))
+  manifest = JSON.parse(manifestFile)
+} catch(e){console.log('no replacement manifest found')}
 
 function replaceAll(str,mapObj){
     var re = new RegExp(Object.keys(mapObj).join("|"),"gi");
@@ -19,5 +22,9 @@ Object.entries(manifest).forEach(file => {
   manifestMap[`_public/${file[0]}`]=`_public/${file[1]}` 
 })
 export default function(str) {
-  return replaceAll(str,manifestMap)
+  if (!manifest) {
+    return str
+  } else {
+    return replaceAll(str,manifestMap)
+  }
 }
