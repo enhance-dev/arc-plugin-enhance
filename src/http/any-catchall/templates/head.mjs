@@ -1,7 +1,8 @@
 /* eslint-disable */
 import arc from '@architect/functions'
 
-export default function Head (req, status, error) {
+export default function Head (state) {
+  const { req, status, error } = state
   return `
 <!DOCTYPE html>
 <html lang="en">
