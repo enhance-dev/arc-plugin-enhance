@@ -12,6 +12,7 @@ import getPageName from './_get-page-name.mjs'
 import isJSON from './_is-json-request.mjs'
 import backfill from './_backfill-params.mjs'
 import render from './_render.mjs'
+import fingerprintPaths from './_fingerprint-paths.mjs'
 
 export default async function api (basePath, req) {
 
@@ -59,16 +60,19 @@ export default async function api (basePath, req) {
   // rendering an html page
   let { head, elements } = await getElements(basePath)
 
-  const html = enhance({
-    elements,
-    scriptTransforms: [
-      importTransform({ lookup: arc.static })
-    ],
-    styleTransforms: [
-      styleTransform
-    ],
-    initialState: state.json? state.json : {}
-  })
+  function html(str, ...values) {
+    const _html = enhance({
+      elements,
+      scriptTransforms: [
+        importTransform({ lookup: arc.static })
+      ],
+      styleTransforms: [
+        styleTransform
+      ],
+      initialState: state.json? state.json : {}
+    })
+    return fingerprintPaths(_html(str,...values))
+  }
 
   try {
 
@@ -80,10 +84,10 @@ export default async function api (basePath, req) {
       let body = ''
       if (fourOhFour && fourOhFour.includes('.html')) {
         let raw = read(fourOhFour).toString()
-        body = html`${ head(req, status, error) }${ raw }`
+        body = html`${head(req, status, error)}${raw}`
       }
       else {
-        body = html`${ head(req, status, error) }<page-404 error="${error}"></page-404>`
+        body = html`${head(req, status, error)}<page-404 error="${error}"></page-404>`
       }
       return { status, html: body }
     }
@@ -93,14 +97,15 @@ export default async function api (basePath, req) {
     let res = {}
     if (pagePath.includes('.html')) {
       let raw = read(pagePath).toString()
-      res.html = html`${ head(req, status) }${ raw }`
+      res.html = html`${head(req, status)}${raw}`
     }
     else {
       let tag = getPageName(basePath, pagePath)
-      res.html = html`${ head(req, status) }<page-${ tag }></page-${ tag }>`
+      res.html = html`${head(req, status)}<page-${tag}></page-${tag}>`
     }
     res.statusCode = status
     if (state.session) res.session = state.session
+    
     return res
   }
   catch (err) {
