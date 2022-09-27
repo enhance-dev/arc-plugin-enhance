@@ -13,8 +13,10 @@
   },
   "scripts": {
     "start": "sandbox",
-    "lint": "eslint src/**/*.mjs",
-    "test": "tape test/*.mjs | tap-arc"
+    "lint": "eslint 'src/**/*.*js' 'test/*.*js'",
+    "hydrate:tests": "cd test/mock/mock-app && npm i",
+    "lint:fix": "eslint 'src/**/*.*js' 'test/*.*js' --fix",
+    "test": "npm run lint && tape test/*.mjs | tap-arc"
   },
   "files": [
     "app/*",
