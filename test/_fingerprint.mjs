@@ -7,7 +7,7 @@ import tiny from 'tiny-json-http'
 import sandbox from '@architect/sandbox'
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url))
-const mockProjectDir = path.join(__dirname,'mocks','app-with-static-assets')
+const mockProjectDir = path.join(__dirname, 'mocks', 'mock-app')
 const mockPublicDir = path.join(mockProjectDir, 'public')
 const mockBuildDir = path.join(mockPublicDir, '_public')
 try {
@@ -39,7 +39,7 @@ test('get javascript asset fingerprinted', async t => {
   const replacementFile = fs.readFileSync(path.join(mockBuildDir,'replacement-manifest.json'))
   const replacementManifest = JSON.parse(replacementFile)
   const bar = await tiny.get({url:`http://localhost:3333/_public/${replacementManifest['bar.mjs']}`})
-  t.equal(bar.body, '// test/mocks/app-with-static-assets/public/bar.mjs\n' +
+  t.equal(bar.body, '// test/mocks/mock-app/public/bar.mjs\n' +
         'var bar_default = "bar";\n' +
         'export {\n' +
         '  bar_default as default\n' +

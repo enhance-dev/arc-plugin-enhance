@@ -15,7 +15,7 @@ test('getModules', async t => {
 
 test('getModules catchall', async t => {
   t.plan(1)
-  let base = path.join(__dirname,'mocks', '_get-module-mock-folders','app')
+  let base = path.join(__dirname,'mocks', 'mock-folders','app')
   let folder = 'api/place/$id'
   let file = '$$.mjs'
   let expected = path.join(base, folder, file)
