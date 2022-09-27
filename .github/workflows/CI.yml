@@ -41,7 +41,7 @@ jobs:
       run: npm install
 
     - name: Hydrate Test Mocks
-      run: cd test/mocks/app-with-static-assets && npm i
+      run: cd test/mocks/mock-app && npm i
 
     - name: Test
       run: npm test
