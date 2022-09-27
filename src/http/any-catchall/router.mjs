@@ -14,7 +14,7 @@ import backfill from './_backfill-params.mjs'
 import render from './_render.mjs'
 import fingerprintPaths from './_fingerprint-paths.mjs'
 
-export default async function api (basePath, req) {
+export default async function api(basePath, req) {
 
   let apiPath = getModule(basePath, 'api', req.rawPath)
   let pagePath = getModule(basePath, 'pages', req.rawPath)
@@ -35,11 +35,11 @@ export default async function api (basePath, req) {
       req.params = backfill(basePath, apiPath, pagePath, req)
 
       // grab the state from the app/api route
-      let res =  render.bind({}, basePath)
+      let res = render.bind({}, basePath)
       state = await method(req, res)
 
       // if the api route does nothing backfill empty json response
-      if (!state) state = { json:{} }
+      if (!state) state = { json: {} }
 
       // if the user-agent requested json return the response immediately
       if (isJSON(req.headers)) {
@@ -69,9 +69,9 @@ export default async function api (basePath, req) {
       styleTransforms: [
         styleTransform
       ],
-      initialState: state.json? state.json : {}
+      initialState: state.json ? state.json : {}
     })
-    return fingerprintPaths(_html(str,...values))
+    return fingerprintPaths(_html(str, ...values))
   }
 
   try {
@@ -105,22 +105,22 @@ export default async function api (basePath, req) {
     }
     res.statusCode = status
     if (state.session) res.session = state.session
-    
+
     return res
   }
   catch (err) {
     // 500
     const status = 500
     const error = err.message || ''
-      const fiveHundred = getModule(basePath, 'pages', '/500')
-      let body = ''
-      if (fiveHundred && fiveHundred.includes('.html')) {
-        let raw = read(fiveHundred).toString()
-        body = html`${ head(req, status, error) }${ raw }`
-      }
-      else {
-        body = html`${ head(req, status, error) }<page-500 error="${ error }"></page-500>`
-      }
-      return { status, html: body }
+    const fiveHundred = getModule(basePath, 'pages', '/500')
+    let body = ''
+    if (fiveHundred && fiveHundred.includes('.html')) {
+      let raw = read(fiveHundred).toString()
+      body = html`${head(req, status, error)}${raw}`
+    }
+    else {
+      body = html`${head(req, status, error)}<page-500 error="${error}"></page-500>`
+    }
+    return { status, html: body }
   }
 }
