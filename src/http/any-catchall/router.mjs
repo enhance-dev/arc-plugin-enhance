@@ -59,7 +59,7 @@ export default async function api (basePath, req) {
   // rendering an html page
   let { head, elements } = await getElements(basePath)
 
-  const initialState = state.json
+  const store = state.json
     ? state.json
     : {}
   const html = enhance({
@@ -70,7 +70,7 @@ export default async function api (basePath, req) {
     styleTransforms: [
       styleTransform
     ],
-    initialState
+    initialState: store
   })
 
   try {
@@ -83,10 +83,10 @@ export default async function api (basePath, req) {
       let body = ''
       if (fourOhFour && fourOhFour.includes('.html')) {
         let raw = read(fourOhFour).toString()
-        body = html`${ head({ req, status, error }) }${ raw }`
+        body = html`${ head({ req, status, error, store }) }${ raw }`
       }
       else {
-        body = html`${ head({ req, status, error }) }<page-404 error="${error}"></page-404>`
+        body = html`${ head({ req, status, error, store }) }<page-404 error="${error}"></page-404>`
       }
       return { status, html: body }
     }
@@ -94,14 +94,13 @@ export default async function api (basePath, req) {
     // 200
     const status = state.status || state.code || state.statusCode || 200
     let res = {}
-    const state = Object.assign(initialState, { req, status })
     if (pagePath.includes('.html')) {
       let raw = read(pagePath).toString()
-      res.html = html`${ head(state) }${ raw }`
+      res.html = html`${ head({ req, status, error, store }) }${ raw }`
     }
     else {
       let tag = getPageName(basePath, pagePath)
-      res.html = html`${ head(state) }<page-${ tag }></page-${ tag }>`
+      res.html = html`${ head({ req, status, error, store }) }<page-${ tag }></page-${ tag }>`
     }
     res.statusCode = status
     if (state.session) res.session = state.session
@@ -115,10 +114,10 @@ export default async function api (basePath, req) {
       let body = ''
       if (fiveHundred && fiveHundred.includes('.html')) {
         let raw = read(fiveHundred).toString()
-        body = html`${ head({ req, status, error }) }${ raw }`
+        body = html`${ head({ req, status, error, store }) }${ raw }`
       }
       else {
-        body = html`${ head({ req, status, error }) }<page-500 error="${ error }"></page-500>`
+        body = html`${ head({ req, status, error, store }) }<page-500 error="${ error }"></page-500>`
       }
       return { status, html: body }
   }
