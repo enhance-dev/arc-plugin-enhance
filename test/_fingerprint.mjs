@@ -12,7 +12,7 @@ const mockPublicDir = path.join(mockProjectDir, 'public')
 const mockBuildDir = path.join(mockPublicDir, '_public')
 try {
   fs.rmSync(mockBuildDir, { recursive: true }) // cleanup previous build
-} catch (e) { }
+} catch (e) { console.log("already clean") }
 
 
 test('fingerprinting', async t => {
