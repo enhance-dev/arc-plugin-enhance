@@ -94,6 +94,7 @@ export default async function api (basePath, req) {
     // 200
     const status = state.status || state.code || state.statusCode || 200
     let res = {}
+    const error = false
     if (pagePath.includes('.html')) {
       let raw = read(pagePath).toString()
       res.html = html`${ head({ req, status, error, store }) }${ raw }`
@@ -110,15 +111,15 @@ export default async function api (basePath, req) {
     // 500
     const status = 500
     const error = err.message || ''
-      const fiveHundred = getModule(basePath, 'pages', '/500')
-      let body = ''
-      if (fiveHundred && fiveHundred.includes('.html')) {
-        let raw = read(fiveHundred).toString()
-        body = html`${ head({ req, status, error, store }) }${ raw }`
-      }
-      else {
-        body = html`${ head({ req, status, error, store }) }<page-500 error="${ error }"></page-500>`
-      }
-      return { status, html: body }
+    const fiveHundred = getModule(basePath, 'pages', '/500')
+    let body = ''
+    if (fiveHundred && fiveHundred.includes('.html')) {
+      let raw = read(fiveHundred).toString()
+      body = html`${ head({ req, status, error, store }) }${ raw }`
+    }
+    else {
+      body = html`${ head({ req, status, error, store }) }<page-500 error="${ error }"></page-500>`
+    }
+    return { status, html: body }
   }
 }
