@@ -11,6 +11,16 @@ test('getModules', async t => {
   t.equal(expected, result, 'Got back index')
 })
 
+test('getModules multiple params', async t => {
+  t.plan(1)
+  let base = path.join(process.cwd(), 'test', 'mock-folders','app')
+  let folder = 'api/foo/$first/bar/$second/baz'
+  let file = '$third.mjs'
+  let expected = path.join(base, folder, file)
+  let result = await getModule(base,  'api', '/foo/7/bar/8/baz/9')
+  t.equal(expected, result, 'Got the api with multiple params')
+})
+
 test('getModules catchall', async t => {
   t.plan(1)
   let base = path.join(process.cwd(), 'test', 'mock-folders','app')
