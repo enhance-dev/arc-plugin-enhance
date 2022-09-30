@@ -15,13 +15,13 @@ export default function backfill (basePath, apiPath, pagePath, req) {
   tmpl = tmpl.replace(base, '')
     .replace(/index\.mjs|\.mjs/, '')
     .replace(/(\/?)\$\$\/?$/, '$1(.*)')
-    .replace('$', ':')
+    .replaceAll(/\/\$(\w+)/g, "/:$1")
     .replace(/\/+$/, '')
   let pattern = pathToRegexp(tmpl)
 
   // resolve matches with param names in tmpl
   let matches = copy.rawPath.match(pattern)
-  let parts = tmpl.split('/').filter((p) => p.startsWith(:))
+  let parts = tmpl.split('/').filter((p) => p.startsWith(':'))
   parts.forEach((p, index) => {
     params[p.replace(':', '')] = matches[index+1]
   })
