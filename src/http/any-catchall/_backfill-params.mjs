@@ -15,7 +15,7 @@ export default function backfill (basePath, apiPath, pagePath, req) {
   tmpl = tmpl.replace(base, '')
     .replace(/index\.mjs|\.mjs/, '')
     .replace(/(\/?)\$\$\/?$/, '$1(.*)')
-    .replaceAll(/\/\$(\w+)/g, "/:$1")
+    .replace(/\/\$(\w+)/g, "/:$1")
     .replace(/\/+$/, '')
   let pattern = pathToRegexp(tmpl)
 
