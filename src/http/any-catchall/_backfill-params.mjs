@@ -1,6 +1,7 @@
 import path from 'path'
 
 import { pathToRegexp } from 'path-to-regexp'
+import clean from './utils.mjs'
 
 /** adds url params back in */
 export default function backfill (basePath, apiPath, pagePath, req) {
@@ -12,11 +13,7 @@ export default function backfill (basePath, apiPath, pagePath, req) {
   let base = apiPath? path.join(basePath, 'api') : path.join(basePath, 'pages')
   let tmpl = apiPath? apiPath : pagePath
 
-  tmpl = tmpl.replace(base, '')
-    .replace(/index\.mjs|\.mjs/, '')
-    .replace(/(\/?)\$\$\/?$/, '$1(.*)')
-    .replace(/\/\$(\w+)/g, "/:$1")
-    .replace(/\/+$/, '')
+  tmpl = clean({ pathTmpl: tmpl, base, fileNameRegEx: /index\.mjs|\.mjs/ })
   let pattern = pathToRegexp(tmpl)
 
   // resolve matches with param names in tmpl
