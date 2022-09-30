@@ -21,7 +21,7 @@ export default function backfill (basePath, apiPath, pagePath, req) {
 
   // resolve matches with param names in tmpl
   let matches = copy.rawPath.match(pattern)
-  let parts = tmpl.split('/').filter((p) => p.includes(:))
+  let parts = tmpl.split('/').filter((p) => p.startsWith(:))
   parts.forEach((p, index) => {
     params[p.replace(':', '')] = matches[index+1]
   })
