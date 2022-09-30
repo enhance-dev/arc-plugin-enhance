@@ -2,7 +2,7 @@
 begin-app
 
 @static
-fingerprint false
+fingerprint true
 
 @plugins
 enhance/arc-plugin-enhance
