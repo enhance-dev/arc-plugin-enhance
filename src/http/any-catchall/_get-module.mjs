@@ -5,7 +5,7 @@ import { pathToRegexp } from 'path-to-regexp'
 
 import getFiles from './_get-files.mjs'
 import sort from './_sort-routes.mjs'
-import clean from './utils.mjs'
+import clean from './_clean.mjs'
 
 // cheap memoize for warm lambda
 const cache = {}

@@ -1,7 +1,7 @@
 import path from 'path'
 
 import { pathToRegexp } from 'path-to-regexp'
-import clean from './utils.mjs'
+import clean from './_clean.mjs'
 
 /** adds url params back in */
 export default function backfill (basePath, apiPath, pagePath, req) {
