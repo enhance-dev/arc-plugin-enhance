@@ -15,7 +15,7 @@ import render from './_render.mjs'
 
 export default async function api (basePath, req) {
 
-  let apiPath = getModule(basePath, 'api', req.rawPath)
+  let apiPath = getModule(basePath, 'api', req.rawPath, false)
   let pagePath = getModule(basePath, 'pages', req.rawPath)
 
   let state = {}

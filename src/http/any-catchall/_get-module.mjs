@@ -11,7 +11,7 @@ import clean from './_clean.mjs'
 const cache = {}
 
 /** helper to get module for given folder/route */
-export default function getModule (basePath, folder, route) {
+export default function getModule (basePath, folder, route, allowFolder = true) {
   // console.time('getModule')
 
   if (!cache[folder])
@@ -19,7 +19,9 @@ export default function getModule (basePath, folder, route) {
 
   if (!cache[folder][route]) {
 
-    let raw = getFiles(basePath, folder).sort(sort)
+    let raw = getFiles(basePath, folder)
+      .filter(p => allowFolder || p.endsWith('/') === false)
+      .sort(sort)
     let base = path.join(basePath, folder)
     let basePathname = pathToFileURL(base).pathname
 
