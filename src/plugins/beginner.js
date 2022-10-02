@@ -7,25 +7,11 @@
 
 let path = require('path')
 
-// let fs = require('fs')
 let bundles = require('@architect/plugin-bundles')
 let styles = require('@enhance/arc-plugin-styles')
-// let fingerprint = require('./_fingerprint')
 
 let rootCatchallSrcDir = path.join(__dirname, '..', 'http', 'any-catchall')
 let staticAssetSrcDir = path.join(__dirname, '..', 'http', 'get-_public-catchall')
-
-// function processAssets(params){
-//   const cwd = params.inventory.inv._project.cwd
-//   const publicFolderName = params.inventory.inv.static.folder
-//   const publicFolder = path.join(cwd,publicFolderName)
-//   const publicBuildFolder = path.join(publicFolder,'_public')
-//   fingerprint(publicFolder)
-//   fs.copyFileSync(path.join(publicBuildFolder,'replacement-manifest.json'),
-//     path.join(rootCatchallSrcDir,'.replacement-manifest.json'))
-//   fs.copyFileSync(path.join(publicBuildFolder, 'static-manifest.json'),
-//     path.join(staticAssetSrcDir, '.static-manifest.json'))
-// }
 
 
 module.exports = {
@@ -35,7 +21,6 @@ module.exports = {
     async start (params) {
       await bundles.sandbox.start(params)
       await styles.sandbox.start(params)
-      // processAssets(params)
     }
   },
 
@@ -43,14 +28,13 @@ module.exports = {
     async start (params) {
       await bundles.deploy.start(params)
       await styles.deploy.start(params)
-      // processAssets(params)
     }
   },
 
   set: {
     env() {
       return {
-        CACHE_ID: Math.random().toString(36).slice(2, 8)
+        ENHANCE_CACHE_ID: Date.now()
       }
     },
 

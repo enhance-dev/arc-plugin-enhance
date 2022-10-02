@@ -59,7 +59,7 @@ export default async function api(basePath, req) {
   // rendering an html page
   let { head, elements } = await getElements(basePath)
   function _cacheVersion(str) {
-    const cacheId = process.env.CACHE_ID
+    const cacheId = process.env.ENHANCE_CACHE_ID
     return str.replace(/\/_public\//g,`/_public/v-${cacheId}/`)
 }
 
