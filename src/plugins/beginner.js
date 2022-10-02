@@ -1,4 +1,12 @@
+// 1. Save epoch time stamp in env as cache version
+// 2. Add that cache version to a previous versions list 
+//    This list could also be kept in the env as json 
+//    so that you don't have to read from disk
+// 3. Replace "/_public/" with cache ID
+// 4. 
+
 let path = require('path')
+
 // let fs = require('fs')
 let bundles = require('@architect/plugin-bundles')
 let styles = require('@enhance/arc-plugin-styles')
@@ -21,6 +29,7 @@ let staticAssetSrcDir = path.join(__dirname, '..', 'http', 'get-_public-catchall
 
 
 module.exports = {
+  
 
   sandbox: {
     async start (params) {
@@ -39,6 +48,11 @@ module.exports = {
   },
 
   set: {
+    env() {
+      return {
+        CACHE_ID: Math.random().toString(36).slice(2, 8)
+      }
+    },
 
     /** frontend logic will *only* be shared w ANY and GET handlers */
     views ({inventory}) {

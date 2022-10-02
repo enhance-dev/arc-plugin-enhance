@@ -12,7 +12,6 @@ import getPageName from './_get-page-name.mjs'
 import isJSON from './_is-json-request.mjs'
 import backfill from './_backfill-params.mjs'
 import render from './_render.mjs'
-import fingerprintPaths from './_fingerprint-paths.mjs'
 
 export default async function api(basePath, req) {
 
@@ -59,6 +58,10 @@ export default async function api(basePath, req) {
 
   // rendering an html page
   let { head, elements } = await getElements(basePath)
+  function _cacheVersion(str) {
+    const cacheId = process.env.CACHE_ID
+    return str.replace(/\/_public\//g,`/_public/v-${cacheId}/`)
+}
 
   const store = state.json
     ? state.json
@@ -74,7 +77,8 @@ export default async function api(basePath, req) {
       ],
       initialState: store
     })
-    return fingerprintPaths(_html(str, ...values))
+
+    return _cacheVersion(_html(str, ...values))
   }
 
   try {
