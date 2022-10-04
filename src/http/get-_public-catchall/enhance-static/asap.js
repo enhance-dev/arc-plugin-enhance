@@ -22,13 +22,16 @@ let errors = require('./lib/error')
  */
 function asap (config = {}) {
   return async function handler (req) {
-    let { ARC_ENV, ARC_STATIC_BUCKET, ARC_STATIC_SPA } = process.env
+    let { ARC_ENV, ARC_STATIC_BUCKET, ARC_STATIC_SPA, ENHANCE_CACHE_ID} = process.env
     let deprecated = req.version === undefined || req.version === '1.0'
 
     let isProduction = ARC_ENV === 'production'
     let path = deprecated ? req.path : req.rawPath
     let isFolder = path.split('/').pop().indexOf('.') === -1
     let Key // Assigned below
+    let pathCacheId = path.replace(/\/(_public\/_v-([^/]*)\/)?.*/,'$2')
+    let cacheIdMatch = pathCacheId === ENHANCE_CACHE_ID && pathCacheId
+    console.log(ENHANCE_CACHE_ID)
 
     /**
      * Bucket config
@@ -61,7 +64,12 @@ function asap (config = {}) {
       let isFile = last ? last.includes('.') : false
       let isRoot = path === '/'
 
-      Key = isRoot ? 'index.html' : path.substring(1) // Always remove leading slash
+      // Key = isRoot ? 'index.html' : path.substring(1) // Always remove leading slash
+      if (!pathCacheId) {
+        Key = isRoot ? 'index.html' : path.replace(`/_public/`,'')
+      } else {
+        Key = isRoot ? 'index.html' : path.replace(`/_public/_v-${pathCacheId}/`,'')
+      }
 
       // Append default index.html to requests to folder paths
       if (isRoot === false && isFile === false) {
@@ -92,7 +100,8 @@ function asap (config = {}) {
     let IfNoneMatch = req.headers && req.headers[Object.keys(req.headers).find(find)]
 
     let read = reader({ env: config.env, sandboxPath: config.sandboxPath })
-    return read({ Key, Bucket, IfNoneMatch, isFolder, config, rootPath })
+    console.log({ Key, Bucket, IfNoneMatch, isFolder, config, rootPath, cacheIdMatch, pathCacheId })
+    return read({ Key, Bucket, IfNoneMatch, isFolder, config, rootPath, cacheIdMatch, pathCacheId })
   }
 }
 

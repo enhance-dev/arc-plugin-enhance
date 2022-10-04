@@ -45,6 +45,20 @@ module.exports = async function readS3 (params) {
       // Those headers are already set in S3 file metadata
       Key = assets[Key]
     }
+// no matching cache id
+    const cacheId = process.env.ENHANCE_CACHE_ID
+    if (!params.cacheIdMatch && !isHTMLorJSON) {
+      let location = rootPath
+        ? `/${rootPath}/_public/_v-${cacheId}/${Key}`
+        : `/_public/_v-${cacheId}/${Key}`
+      return {
+        statusCode: 302,
+        headers: {
+          location,
+          'cache-control': 'no-cache, no-store, must-revalidate, max-age=0, s-maxage=0'
+        }
+      }
+    }
 
     /**
      * Check for possible fingerprint upgrades and forward valid requests

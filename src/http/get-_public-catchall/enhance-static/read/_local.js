@@ -98,6 +98,11 @@ module.exports = async function readLocal (params) {
       response.headers.etag = result.ETag
     }
 
+    if (params.pathCacheId && !params.cacheIdMatch) {
+      response.location = `/_public/${Key}`
+      response.statusCode = 302
+    }
+
     if (!response.statusCode) {
       response.statusCode = 200
     }

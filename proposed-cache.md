@@ -29,3 +29,15 @@ Benefits:
 - "_public" or some other namespace keyword seems like essential complexity of static assets that we should not try to hide from people. If they are learning the platform they need to know that static assets are different than dynamic routes, and need different treatment.
 - We should consider naming the actual folder "_public" to make it more intuitive less confusing and more obvious what is happening. 
 - The name can be configured to be "public" or "whatever_they_want". 
+
+Files
+`/public/foo.mjs`
+`/public/something/foo.mjs`
+
+Requests
+`/_public/v-XYZ123/foo.mjs` -> `/public/foo.mjs`
+`/_public/v-NOT123/foo.mjs` -> 302 -> `/public/foo.mjs`
+`/_public/foo.mjs` -> 302 -> `/public/foo.mjs`
+`/_public/something/foo.mjs` -> 302 -> `/public/something/foo.mjs`
+`/_public/nowhere/foo.mjs` -> 404 (should not accidentally match `/public/foo.mjs` )
+`/_public/v-XYZ123/something/foo.mjs` -> `/public/something/foo.mjs`
