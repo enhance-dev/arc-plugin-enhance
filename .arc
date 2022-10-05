@@ -1,6 +1,9 @@
 @app
 thrasher
 
+@static
+fingerprint true
+
 @plugins
 architect/plugin-bundles
 beginner

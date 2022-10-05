@@ -1,21 +1,24 @@
 import fs from 'fs'
 import path from 'path'
 import url from 'url'
+const _local = process.env.ARC_ENV==='testing'
 
-const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 let manifest = {}
-try {
-  const manifestFile = fs.readFileSync(path.join(__dirname, '.replacement-manifest.json'))
-  manifest = JSON.parse(manifestFile)
-} catch (e) {
-  console.log('no replacement manifest found')
+if (!_local) {
+  const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
+  try {
+    const manifestFile = fs.readFileSync(path.join(__dirname, 'node_modules', '@architect', 'shared', 'static.json'))
+    manifest = JSON.parse(manifestFile)
+  } catch (e) {
+    console.log('no replacement manifest found')
+  }
 }
 
-function replaceAll(str, mapObj) {
+function replaceEvery(str, mapObj) {
   var re = new RegExp(Object.keys(mapObj).join("|"), "gi");
 
   return str.replace(re, function (matched) {
-    return mapObj[matched.toLowerCase()];
+    return mapObj[matched];
   });
 }
 
@@ -28,6 +31,6 @@ export default function (str) {
   if (mapEntries.length === 0) {
     return str
   } else {
-    return replaceAll(str, manifestMap)
+    return replaceEvery(str, manifestMap)
   }
 }
