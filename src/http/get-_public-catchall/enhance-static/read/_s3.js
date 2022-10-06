@@ -46,7 +46,7 @@ module.exports = async function readS3 (params) {
       Key = assets[Key]
     }
 // no matching cache id
-    const cacheId = process.env.ENHANCE_CACHE_ID
+    const cacheId = params.cacheId
     if (!params.cacheIdMatch && !isHTMLorJSON) {
       let location = rootPath
         ? `/${rootPath}/_public/_v-${cacheId}/${Key}`

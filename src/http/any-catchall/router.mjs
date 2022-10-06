@@ -13,6 +13,15 @@ import isJSON from './_is-json-request.mjs'
 import backfill from './_backfill-params.mjs'
 import render from './_render.mjs'
 
+import crypto from 'crypto'
+const deployDate = process.env.BEGIN_DEPLOY_DATE
+let cacheId
+if (!deployDate) {
+  cacheId = encodeURIComponent(crypto.createHash('sha1').update(process.env.ENHANCE_CACHE_ID).digest('hex').slice(0, 9))
+} else {
+  cacheId = encodeURIComponent(crypto.createHash('sha1').update(deployDate).digest('hex').slice(0, 9))
+}
+
 export default async function api(basePath, req) {
 
   let apiPath = getModule(basePath, 'api', req.rawPath)
@@ -59,7 +68,6 @@ export default async function api(basePath, req) {
   // rendering an html page
   let { head, elements } = await getElements(basePath)
   function _cacheVersion(str) {
-    const cacheId = process.env.ENHANCE_CACHE_ID
     return str.replace(/\/_public\//g,`/_public/v-${cacheId}/`)
 }
 

@@ -1,6 +1,15 @@
 let reader = require('./read')
 let errors = require('./lib/error')
 
+const crypto = require('crypto')
+const deployDate = process.env.BEGIN_DEPLOY_DATE
+let cacheId
+if (!deployDate) {
+    cacheId = crypto.createHash('sha1').update(process.env.ENHANCE_CACHE_ID).digest('hex').slice(0, 9)
+  } else {
+    cacheId = crypto.createHash('sha1').update(deployDate).digest('hex').slice(0, 9)
+  }
+
 /**
  * Architect Static Asset Proxy
  *
@@ -22,7 +31,7 @@ let errors = require('./lib/error')
  */
 function asap (config = {}) {
   return async function handler (req) {
-    let { ARC_ENV, ARC_STATIC_BUCKET, ARC_STATIC_SPA, ENHANCE_CACHE_ID} = process.env
+    let { ARC_ENV, ARC_STATIC_BUCKET, ARC_STATIC_SPA} = process.env
     let deprecated = req.version === undefined || req.version === '1.0'
 
     let isProduction = ARC_ENV === 'production'
@@ -30,8 +39,9 @@ function asap (config = {}) {
     let isFolder = path.split('/').pop().indexOf('.') === -1
     let Key // Assigned below
     let pathCacheId = path.replace(/\/(_public\/_v-([^/]*)\/)?.*/,'$2')
-    let cacheIdMatch = pathCacheId === ENHANCE_CACHE_ID && pathCacheId
-    console.log(ENHANCE_CACHE_ID)
+    let cacheIdMatch = pathCacheId === cacheId && pathCacheId
+
+    
 
     /**
      * Bucket config
@@ -100,8 +110,8 @@ function asap (config = {}) {
     let IfNoneMatch = req.headers && req.headers[Object.keys(req.headers).find(find)]
 
     let read = reader({ env: config.env, sandboxPath: config.sandboxPath })
-    console.log({ Key, Bucket, IfNoneMatch, isFolder, config, rootPath, cacheIdMatch, pathCacheId })
-    return read({ Key, Bucket, IfNoneMatch, isFolder, config, rootPath, cacheIdMatch, pathCacheId })
+    console.log({ Key, Bucket, IfNoneMatch, isFolder, config, rootPath, cacheIdMatch, pathCacheId, cacheId, path:req.path})
+    return read({ Key, Bucket, IfNoneMatch, isFolder, config, rootPath, cacheIdMatch, pathCacheId, cacheId})
   }
 }
 
