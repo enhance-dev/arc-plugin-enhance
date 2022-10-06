@@ -25,23 +25,22 @@
   ],
   "dependencies": {
     "@architect/functions": "^5.2.2",
-    "@architect/plugin-bundles": "^3.1.1",
-    "@begin/data": "^4.0.0",
+    "@architect/plugin-bundles": "^3.2.0",
+    "@begin/data": "^4.0.1",
     "@enhance/arc-plugin-styles": "^0.0.10",
     "@enhance/enhance-style-transform": "^0.0.1",
     "@enhance/import-transform": "^4.0.0",
     "@enhance/ssr": "^3.0.9",
     "@enhance/store": "^1.0.0",
-    "eslint": "^8.23.1",
     "glob": "^8.0.3",
     "path-to-regexp": "^6.2.1",
-    "pluralize": "^8.0.0",
-    "tap-arc": "^0.3.5"
+    "pluralize": "^8.0.0"
   },
   "devDependencies": {
     "@architect/sandbox": "^5.3.4",
-    "tap-spec": "^5.0.0",
-    "tape": "^5.6.0"
+    "eslint": "^8.24.0",
+    "tap-arc": "^0.3.5",
+    "tape": "^5.6.1"
   },
   "eslintConfig": {
     "env": {
