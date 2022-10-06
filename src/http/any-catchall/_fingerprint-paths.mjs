@@ -25,7 +25,7 @@ function replaceEvery(str, mapObj) {
 let manifestMap = {}
 const mapEntries = Object.entries(manifest)
 mapEntries.forEach(file => {
-  manifestMap[`_public/${file[0]}`] = `_public/${file[1]}`
+  manifestMap[`${file[0]}`] = `${file[1]}`
 })
 export default function (str) {
   if (mapEntries.length === 0) {
