@@ -14,6 +14,7 @@ export default function backfill (basePath, apiPath, pagePath, req) {
   let tmpl = apiPath? apiPath : pagePath
 
   tmpl = clean({ pathTmpl: tmpl, base, fileNameRegEx: /index\.mjs|\.mjs/ })
+  let pattern = pathToRegexp(tmpl)
 
   // resolve matches with param names in tmpl
   let matches = copy.rawPath.match(pattern)

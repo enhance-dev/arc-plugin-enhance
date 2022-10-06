@@ -5,6 +5,7 @@ import { pathToRegexp } from 'path-to-regexp'
 
 import getFiles from './_get-files.mjs'
 import sort from './_sort-routes.mjs'
+import clean from './_clean.mjs'
 
 // cheap memoize for warm lambda
 const cache = {}
@@ -21,12 +22,8 @@ export default function getModule (basePath, folder, route) {
     let raw = getFiles(basePath, folder).sort(sort)
     let base = path.join(basePath, folder)
     let basePathname = pathToFileURL(base).pathname
-    let clean = f => f.replace(basePathname, '')
-                      .replace(/index\.html|index\.mjs|\.mjs|\.html/, '')
-                      .replace(/(\/?)\$\$\/?$/, '$1(.*)') //$$.mjs is catchall
-                      .replace('$', ':')
-                      .replace(/\/+$/, '')
-    let copy = raw.slice(0).map(p => pathToFileURL(p).pathname).map(clean).map(p => pathToRegexp(p))
+
+    let copy = raw.slice(0).map(p => pathToFileURL(p).pathname).map(p => clean({ pathTmpl: p, base: basePathname, fileNameRegEx: /index\.html|index\.mjs|\.mjs|\.html/ })).map(p => pathToRegexp(p))
 
     let index = 0
     let found = false

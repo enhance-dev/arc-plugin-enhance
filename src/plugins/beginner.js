@@ -3,7 +3,6 @@ let bundles = require('@architect/plugin-bundles')
 let styles = require('@enhance/arc-plugin-styles')
 
 let rootCatchallSrcDir = path.join(__dirname, '..', 'http', 'any-catchall')
-let staticAssetSrcDir = path.join(__dirname, '..', 'http', 'get-_public-catchall')
 
 
 module.exports = {
@@ -49,7 +48,6 @@ module.exports = {
     http () {
       return [
         { method: 'any', path: '/*', src:rootCatchallSrcDir },
-        { method: 'get', path: '/_public/*', src:staticAssetSrcDir },
       ]
     },
 

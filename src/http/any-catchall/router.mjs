@@ -12,7 +12,6 @@ import getPageName from './_get-page-name.mjs'
 import isJSON from './_is-json-request.mjs'
 import backfill from './_backfill-params.mjs'
 import render from './_render.mjs'
-import fingerprintPaths from './_fingerprint-paths.mjs'
 
 export default async function api(basePath, req) {
 
@@ -63,19 +62,16 @@ export default async function api(basePath, req) {
   const store = state.json
     ? state.json
     : {}
-  function html(str, ...values) {
-    const _html = enhance({
-      elements,
-      scriptTransforms: [
-        importTransform({ lookup: arc.static })
-      ],
-      styleTransforms: [
-        styleTransform
-      ],
-      initialState: store
-    })
-    return fingerprintPaths(_html(str, ...values))
-  }
+  const html = enhance({
+    elements,
+    scriptTransforms: [
+      importTransform({ lookup: arc.static })
+    ],
+    styleTransforms: [
+      styleTransform
+    ],
+    initialState: store
+  })
 
   try {
 
