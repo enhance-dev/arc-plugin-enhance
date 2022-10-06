@@ -17,9 +17,9 @@ import crypto from 'crypto'
 const deployDate = process.env.BEGIN_DEPLOY_DATE
 let cacheId
 if (!deployDate) {
-  cacheId = encodeURIComponent(crypto.createHash('sha1').update(process.env.ENHANCE_CACHE_ID).digest('hex').slice(0, 9))
+  cacheId = crypto.createHash('sha1').update(process.env.ENHANCE_CACHE_ID).digest('hex').slice(0, 9)
 } else {
-  cacheId = encodeURIComponent(crypto.createHash('sha1').update(deployDate).digest('hex').slice(0, 9))
+  cacheId = crypto.createHash('sha1').update(deployDate).digest('hex').slice(0, 9)
 }
 
 export default async function api(basePath, req) {
