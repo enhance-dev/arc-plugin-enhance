@@ -11,6 +11,3 @@ beginner
 @bundles
 store 'node_modules/@enhance/store'
 parser 'node_modules/@architect/parser'
-
-@begin
-appID N977389D
