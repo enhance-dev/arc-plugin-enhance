@@ -19,18 +19,19 @@ module.exports = {
   },
 
   set: {
-
     /** frontend logic will *only* be shared w ANY and GET handlers */
-    views () {
+    views({ inventory }) {
+      const cwd = inventory.inv._project.cwd
       return {
-        src: 'app'
+        src: path.join(cwd, 'app')
       }
     },
 
     /** we want to share models business logic across all lambdas */
-    shared () {
+    shared ({ inventory }) {
+      const cwd = inventory.inv._project.cwd
       return {
-        src: 'models'
+        src: path.join(cwd, 'models')
       }
     },
 
@@ -38,12 +39,14 @@ module.exports = {
      * sets up a greedy lambda for the frontend
      *
      * - userland can still add routes to override this!
-     * - makes single responsiblity functions an opt-in rather than up front cost
+     * - makes single responsibility functions an opt-in rather than up front cost
      */
     http () {
-      let src = path.join(__dirname, '..', 'http', 'any-catchall')
+      let rootCatchallSrcDir = path.join(__dirname, '..', 'http', 'any-catchall')
+      let staticAssetSrcDir = path.join(__dirname, '..', 'http', 'get-_public-catchall')
       return [
-        { method: 'any', path: '/*', src }
+        { method: 'any', path: '/*', src: rootCatchallSrcDir },
+        { method: 'get', path: '/_public/*', src: staticAssetSrcDir },
       ]
     },
 

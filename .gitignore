@@ -2,6 +2,7 @@
 .DS_Store
 node_modules
 public/static.json
+models/static.json
 public/bundles
 sam.json
 sam.yaml
