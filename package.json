@@ -13,9 +13,9 @@
   },
   "scripts": {
     "start": "sandbox",
-    "lint": "eslint 'src/**/*.*js' 'test/*.*js'",
+    "lint": "npx eslint 'src/**/*.*js' 'test/*.*js'",
     "hydrate:tests": "cd test/mocks/mock-app && npm i",
-    "lint:fix": "eslint 'src/**/*.*js' 'test/*.*js' --fix",
+    "lint:fix": "npx eslint 'src/**/*.*js' 'test/*.*js' --fix",
     "test": "npm run lint && tape test/*.mjs | npx tap-arc"
   },
   "files": [
@@ -28,7 +28,7 @@
   "dependencies": {
     "@architect/asap": "^5.0.1",
     "@architect/functions": "^5.2.2",
-    "@architect/plugin-bundles": "^3.1.1",
+    "@architect/plugin-bundles": "^3.2.0",
     "@begin/data": "^4.0.0",
     "@enhance/arc-plugin-styles": "^0.0.10",
     "@enhance/enhance-style-transform": "^0.0.1",
@@ -41,6 +41,8 @@
   },
   "devDependencies": {
     "@architect/sandbox": "^5.3.4",
+    "eslint": "^8.24.0",
+    "tap-arc": "^0.3.5",
     "tap-spec": "^5.0.0",
     "tape": "^5.6.0",
     "tiny-json-http": "^7.4.2"

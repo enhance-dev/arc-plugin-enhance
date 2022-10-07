@@ -37,8 +37,11 @@ jobs:
         VER=`node --version`; echo "Node ver:   $VER"
         VER=`npm --version`; echo "npm ver:    $VER"
 
-    - name: Install
+    - name: Install 
       run: npm install
+
+    - name: Install eslint
+      run: npm install eslint
 
     - name: Hydrate Test Mocks
       run: npm run hydrate:tests
