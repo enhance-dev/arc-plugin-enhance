@@ -14,7 +14,6 @@
   "scripts": {
     "start": "sandbox",
     "lint": "npx eslint 'src/**/*.*js' 'test/*.*js'",
-    "hydrate:tests": "cd test/mocks/mock-app && npm i",
     "lint:fix": "npx eslint 'src/**/*.*js' 'test/*.*js' --fix",
     "test": "npm run lint && tape test/*.mjs | npx tap-arc"
   },

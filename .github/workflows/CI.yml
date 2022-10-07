@@ -40,9 +40,6 @@ jobs:
     - name: Install 
       run: npm install
 
-    - name: Hydrate Test Mocks
-      run: npm run hydrate:tests
-
     - name: Test
       run: npm test
 
