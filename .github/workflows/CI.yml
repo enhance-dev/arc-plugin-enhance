@@ -40,9 +40,6 @@ jobs:
     - name: Install 
       run: npm install
 
-    - name: Install eslint
-      run: npm install eslint
-
     - name: Hydrate Test Mocks
       run: npm run hydrate:tests
 
