@@ -16,7 +16,7 @@
     "lint": "eslint 'src/**/*.*js' 'test/*.*js'",
     "hydrate:tests": "cd test/mocks/mock-app && npm i",
     "lint:fix": "eslint 'src/**/*.*js' 'test/*.*js' --fix",
-    "test": "npm run lint && tape test/*.mjs | tap-arc"
+    "test": "npm run lint && tape test/*.mjs | npx tap-arc"
   },
   "files": [
     "app/*",
@@ -35,11 +35,9 @@
     "@enhance/import-transform": "^4.0.0",
     "@enhance/ssr": "^3.0.9",
     "@enhance/store": "^1.0.0",
-    "eslint": "^8.23.1",
     "glob": "^8.0.3",
     "path-to-regexp": "^6.2.1",
-    "pluralize": "^8.0.0",
-    "tap-arc": "^0.3.5"
+    "pluralize": "^8.0.0"
   },
   "devDependencies": {
     "@architect/sandbox": "^5.3.4",
