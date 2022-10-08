@@ -8,3 +8,6 @@ beginner
 @bundles
 store 'node_modules/@enhance/store'
 parser 'node_modules/@architect/parser'
+
+@begin
+appID 3BFKBQ8D

@@ -13,9 +13,11 @@ if (!_local) {
     console.log('no replacement manifest found')
   }
 }
-
-function replaceEvery(str, mapObj) {
-  var re = new RegExp(Object.keys(mapObj).join("|"), "gi");
+function escapeRegExp(string) {
+  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
+}
+export function replaceEvery(str, mapObj) {
+  var re = new RegExp(Object.keys(mapObj).map(i=>escapeRegExp(i)).join("|"), "gi");
 
   return str.replace(re, function (matched) {
     return mapObj[matched];
