@@ -8,15 +8,18 @@ test('path fingerpinter', t => {
   /_public/foo.mjs
   /_public/foo/foo.mjs
   /_public/fooooo.mjs
+  /_public/bar.mjs
   `
   const manifest = {
     'foo.mjs':'foo-abc.mjs',
+    'bar.mjs':'bar-1$1.mjs',
     'foo/foo.mjs':'foo/foo-123.mjs'
   }
   const expected = `
   /_public/foo-abc.mjs
   /_public/foo/foo-123.mjs
   /_public/fooooo.mjs
+  /_public/bar-1$1.mjs
   `
   let result = replaceEvery(input,manifest)
   console.log(result)
