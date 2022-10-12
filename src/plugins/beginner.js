@@ -8,6 +8,10 @@ module.exports = {
     async start (params) {
       await bundles.sandbox.start(params)
       await styles.sandbox.start(params)
+    },
+
+    async watcher (params) {
+      await bundles.sandbox.watcher(params)
     }
   },
 
