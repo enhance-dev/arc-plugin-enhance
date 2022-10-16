@@ -1,4 +1,4 @@
-let path = require('path')
+let { join } = require('path')
 let bundles = require('@architect/plugin-bundles')
 let styles = require('@enhance/arc-plugin-styles')
 
@@ -27,7 +27,7 @@ module.exports = {
     views({ inventory }) {
       const cwd = inventory.inv._project.cwd
       return {
-        src: path.join(cwd, 'app')
+        src: join(cwd, 'app')
       }
     },
 
@@ -35,7 +35,7 @@ module.exports = {
     shared ({ inventory }) {
       const cwd = inventory.inv._project.cwd
       return {
-        src: path.join(cwd, 'models')
+        src: join(cwd, 'models')
       }
     },
 
@@ -46,11 +46,23 @@ module.exports = {
      * - makes single responsibility functions an opt-in rather than up front cost
      */
     http () {
-      let rootCatchallSrcDir = path.join(__dirname, '..', 'http', 'any-catchall')
-      let staticAssetSrcDir = path.join(__dirname, '..', 'http', 'get-_public-catchall')
+      let rootCatchallSrcDir = join(__dirname, '..', 'http', 'any-catchall')
+      let staticAssetSrcDir = join(__dirname, '..', 'http', 'get-_public-catchall')
       return [
-        { method: 'any', path: '/*', src: rootCatchallSrcDir },
-        { method: 'get', path: '/_public/*', src: staticAssetSrcDir },
+        {
+          method: 'any',
+          path: '/*',
+          src: rootCatchallSrcDir,
+        },
+        {
+          method: 'get',
+          path: '/_public/*',
+          src: staticAssetSrcDir,
+          config: {
+            shared: false,
+            views: false,
+          }
+        },
       ]
     },
 
@@ -65,7 +77,6 @@ module.exports = {
         ttl: 'TTL'
       }
     }
-
-  // eof
   }
+
 }
