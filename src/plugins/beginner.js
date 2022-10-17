@@ -59,7 +59,7 @@ module.exports = {
           path: '/_public/*',
           src: staticAssetSrcDir,
           config: {
-            shared: false,
+            // shared: false, // TODO ensure static.json remains, but shared is cleared out
             views: false,
           }
         },
