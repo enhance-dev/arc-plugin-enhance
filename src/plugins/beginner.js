@@ -23,6 +23,12 @@ module.exports = {
   },
 
   set: {
+    static () {
+      return {
+        fingerprint: true
+      }
+    },
+
     /** frontend logic will *only* be shared w ANY and GET handlers */
     views({ inventory }) {
       const cwd = inventory.inv._project.cwd
