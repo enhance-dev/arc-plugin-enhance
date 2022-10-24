@@ -12,6 +12,7 @@ module.exports = {
 
     async watcher (params) {
       await bundles.sandbox.watcher(params)
+      await styles.sandbox.watcher(params)
     }
   },
 
