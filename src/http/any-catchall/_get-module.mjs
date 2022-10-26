@@ -1,3 +1,4 @@
+import { statSync } from 'fs'
 import path from 'path'
 import { pathToFileURL } from 'url';
 
@@ -36,8 +37,8 @@ export default function getModule (basePath, folder, route) {
       index += 1
     }
 
-    if (found) {
-      cache[folder][route] = found
+    if (found && statSync(found).isFile()) {
+        cache[folder][route] = found
     }
   }
 
