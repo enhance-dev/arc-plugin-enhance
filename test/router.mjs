@@ -15,7 +15,22 @@ test('router', async t => {
     }
   }
   let base = path.join(__dirname, '..', 'app')
-  let result = await router(base, req)
+  let result = await router({basePath:base}, req)
+  t.ok(result, 'got result')
+  console.log(result)
+})
+
+test('router with no pages folder', async t => {
+  t.plan(1)
+  let req = {
+    rawPath: '/',
+    method: 'GET',
+    headers: {
+      'accept': 'text/html'
+    }
+  }
+  let base = path.join(__dirname, 'mock-folders', 'app')
+  let result = await router({basePath:base}, req)
   t.ok(result, 'got result')
   console.log(result)
 })

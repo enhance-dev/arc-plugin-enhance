@@ -69,10 +69,6 @@ export default async function getElements (basePath) {
       }
     }
   }
-  else {
-    // throw to warn we cannot find pages
-    throw Error('cannot find `/pages` folder')
-  }
 
   if (exists(pathToElements)) {
     let elementsURL = pathToFileURL(join(basePath, 'elements'));
