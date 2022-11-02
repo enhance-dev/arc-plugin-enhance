@@ -41,10 +41,6 @@ export default async function api (basePath, req) {
       // if the api route does nothing backfill empty json response
       if (!state) state = { json:{} }
 
-      // add session to state
-      if (!state.json) state.json = {}
-      state.json.session = req.session || {}
-
       // if the user-agent requested json return the response immediately
       if (isJSON(req.headers)) {
         delete state.location
@@ -67,9 +63,6 @@ export default async function api (basePath, req) {
   const store = state.json
     ? state.json
     : {}
-  // add session to store
-  store.session = req.session || {}
-
   function html(str, ...values) {
     const _html = enhance({
       elements,
