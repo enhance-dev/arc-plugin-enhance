@@ -43,7 +43,11 @@ export default async function api (basePath, req) {
 
       // add session to state
       if (!state.json) state.json = {}
-      state.json.session = req.session || {}
+      if (!state.session) {
+        state.json.session = req.session || {}
+      } else {
+        state.json.session = state.session
+      }
 
       // if the user-agent requested json return the response immediately
       if (isJSON(req.headers)) {
