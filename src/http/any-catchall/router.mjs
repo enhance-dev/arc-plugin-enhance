@@ -20,8 +20,10 @@ export default async function api (basePath, req) {
 
   let apiPath = getModule(basePath, 'api', req.rawPath)
   let pagePath = getModule(basePath, 'pages', req.rawPath)
-  
-  // if both are defined but match with different specificity only the most specific route will match
+
+  // if both are defined but match with different specificity 
+  // (i.e. one is exact and one is a catchall) 
+  // only the most specific route will match
   if (apiPath && pagePath){
     const apiPathPart = apiPath.replace(path.join(basePath,'api'),'')
     const pagePathPart = pagePath.replace(path.join(basePath,'pages'),'')
