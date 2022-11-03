@@ -21,8 +21,8 @@ export default async function api (basePath, req) {
   let apiPath = getModule(basePath, 'api', req.rawPath)
   let pagePath = getModule(basePath, 'pages', req.rawPath)
 
-  // if both are defined but match with different specificity 
-  // (i.e. one is exact and one is a catchall) 
+  // if both are defined but match with different specificity
+  // (i.e. one is exact and one is a catchall)
   // only the most specific route will match
   if (apiPath && pagePath){
     const apiPathPart = apiPath.replace(path.join(basePath,'api'),'')
@@ -40,7 +40,14 @@ export default async function api (basePath, req) {
   if (apiPath) {
 
     // only import if the module exists and only run if export equals httpMethod
-    let mod = await import(pathToFileURL(apiPath).href)
+    let mod
+    try {
+      mod = await import(pathToFileURL(apiPath).href)
+    }
+    catch(error) {
+      throw new Error(`Issue importing app/api/${apiPath}.mjs`, { cause: error })
+    }
+
     let method = mod[req.method.toLowerCase()]
     if (Array.isArray(method))
       method = arc.http.async.apply(null, method)

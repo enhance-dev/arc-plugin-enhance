@@ -25,14 +25,31 @@ export default async function getElements (basePath) {
   // generate elements manifest
   let els = {}
 
-  let head = exists(pathToHead) === false ?
-    _head :
-    (await import(pathToFileURL(pathToHead).href)).default;
+  // Load head element
+  let head
+  if (exists(pathToHead) === false) {
+    head = _head
+  }
+  else {
+    try {
+      head = (await import(pathToFileURL(pathToHead).href)).default;
+    }
+    catch(error) {
+      throw new Error('Issue importing app/head.mjs', { cause: error })
+    }
+  }
 
   if (exists(pathToModule)) {
     // read explicit elements manifest
-    let mod = await import(pathToFileURL(pathToModule).href)
-    els = mod.default
+    let mod
+    let href = pathToFileURL(pathToModule).href
+    try {
+      mod = await import(href)
+      els = mod.default
+    }
+    catch(error) {
+      throw new Error('Issue importing app/elements.mjs', { cause: error })
+    }
   }
 
   // look for pages
@@ -42,13 +59,19 @@ export default async function getElements (basePath) {
     let pages = getFiles(basePath, 'pages').filter(f => f.endsWith('.mjs'))
     for (let p of pages) {
       let tag = await getPageName(basePath, p)
-      let mod = await import(pathToFileURL(p).href)
-      els['page-' + tag] = mod.default
+      let mod
+      try {
+        mod = await import(pathToFileURL(p).href)
+        els['page-' + tag] = mod.default
+      }
+      catch(error) {
+        throw new Error(`Issue importing app/page/${p}.mjs`, { cause: error })
+      }
     }
   }
   else {
     // throw to warn we cannot find pages
-    throw Error('cannot find `/pages` folder') 
+    throw Error('cannot find `/pages` folder')
   }
 
   if (exists(pathToElements)) {
@@ -63,12 +86,18 @@ export default async function getElements (basePath) {
         throw Error(`Illegal element name "${tag}" must be lowercase alphanumeric dash`)
       }
       // import the element and add to the map
-      let mod = await import(fileURL.href)
-      els[tag] = mod.default
+      let mod
+      try {
+        mod = await import(fileURL.href)
+        els[tag] = mod.default
+      }
+      catch(error) {
+        throw new Error(`Issue importing app/elements/${e}.mjs`, { cause: error })
+      }
     }
   }
 
-  if (!els['page-404']) 
+  if (!els['page-404'])
     els['page-404'] = _404
 
   if (!els['page-500'])
