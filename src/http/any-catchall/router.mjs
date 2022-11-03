@@ -13,11 +13,24 @@ import isJSON from './_is-json-request.mjs'
 import backfill from './_backfill-params.mjs'
 import render from './_render.mjs'
 import fingerprintPaths from './_fingerprint-paths.mjs'
+import sort from './_sort-routes.mjs'
+import path from 'path'
 
 export default async function api (basePath, req) {
 
   let apiPath = getModule(basePath, 'api', req.rawPath)
   let pagePath = getModule(basePath, 'pages', req.rawPath)
+  
+  // if both are defined but match with different specificity only the most specific route will match
+  if (apiPath && pagePath){
+    const apiPathPart = apiPath.replace(path.join(basePath,'api'),'')
+    const pagePathPart = pagePath.replace(path.join(basePath,'pages'),'')
+    if (sort(apiPathPart,pagePathPart)===1) {
+      apiPath = false
+    } else if (sort(pagePathPart,apiPathPart)===1) {
+      pagePath = false
+    }
+  }
 
   let state = {}
 
