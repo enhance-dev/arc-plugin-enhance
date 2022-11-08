@@ -33,3 +33,11 @@ test('getModules catchall', async t => {
   t.equal(expected, result, 'Got the catchall')
 })
 
+test('getModules no api', async t => {
+  t.plan(1)
+  let base = path.join(process.cwd(), 'test', 'mock-apps','app')
+  let folder = 'api'
+  let expected = false
+  let result = await getModule(base, folder, '/')
+  t.equal(expected, result, 'No api')
+})

@@ -1,6 +1,6 @@
 {
   "name": "@enhance/arc-plugin-enhance",
-  "version": "3.0.0",
+  "version": "3.2.0",
   "main": "src/plugins/beginner.js",
   "license": "Apache-2.0",
   "homepage": "https://enhance.dev",
@@ -28,7 +28,7 @@
     "@architect/functions": "^5.2.3",
     "@architect/plugin-bundles": "^3.2.0",
     "@begin/data": "^4.0.1",
-    "@enhance/arc-plugin-styles": "^0.1.0",
+    "@enhance/arc-plugin-styles": "^1.0.0",
     "@enhance/enhance-style-transform": "^0.0.1",
     "@enhance/import-transform": "^4.0.0",
     "@enhance/ssr": "^3.0.9",
@@ -41,7 +41,8 @@
     "@architect/sandbox": "^5.3.4",
     "eslint": "^8.26.0",
     "tap-arc": "^0.3.5",
-    "tape": "^5.6.1"
+    "tape": "^5.6.1",
+    "tiny-json-http": "^7.4.2"
   },
   "eslintConfig": {
     "env": {
