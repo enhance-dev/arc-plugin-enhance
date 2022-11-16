@@ -1,3 +1,5 @@
+import getStyles from '@enhance/arc-plugin-styles/get-styles'
+
 export default function Head () {
   return `
 <!DOCTYPE html>
@@ -6,7 +8,7 @@ export default function Head () {
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title></title>
-  <link rel="stylesheet" href="/enhance-styles/styles.css">
+  ${getStyles().link}
   <link rel="icon" href="/_public/favicon.svg">
 </head>
 `
