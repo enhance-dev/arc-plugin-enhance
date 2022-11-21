@@ -1,6 +1,10 @@
-/* eslint-disable */
-export default function Head (state) {
-  const { req, status, error, store } = state
+import {   getLinkTag, getStyleTag }  from '@enhance/arc-plugin-styles/get-styles'
+
+export default function Head() {
+  const styles = process.env.ARC_LOCAL
+    ? getLinkTag()
+    : getStyleTag()
+
   return `
 <!DOCTYPE html>
 <html lang="en">
@@ -8,7 +12,7 @@ export default function Head (state) {
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title></title>
-  <link rel="stylesheet" href="/_public/styles.css">
+  ${ styles }
   <link rel="icon" href="/_public/favicon.svg">
 </head>
 `

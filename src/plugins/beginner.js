@@ -3,11 +3,15 @@ let bundles = require('@architect/plugin-bundles')
 let styles = require('@enhance/arc-plugin-styles')
 
 module.exports = {
+  hydrate: {
+    async copy (params) {
+      await styles.hydrate.copy(params)
+    }
+  },
 
   sandbox: {
     async start (params) {
       await bundles.sandbox.start(params)
-      await styles.sandbox.start(params)
     },
 
     async watcher (params) {
@@ -19,7 +23,6 @@ module.exports = {
   deploy: {
     async start (params) {
       await bundles.deploy.start(params)
-      await styles.deploy.start(params)
     }
   },
 
@@ -56,6 +59,7 @@ module.exports = {
       let rootCatchallSrcDir = join(__dirname, '..', 'http', 'any-catchall')
       let staticAssetSrcDir = join(__dirname, '..', 'http', 'get-_public-catchall')
       return [
+        ...styles.set.http(),
         {
           method: 'any',
           path: '/*',
@@ -87,3 +91,4 @@ module.exports = {
   }
 
 }
+
