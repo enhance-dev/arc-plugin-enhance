@@ -1,5 +1,6 @@
 let { join } = require('path')
 let bundles = require('@architect/plugin-bundles')
+let rollup = require('@enhance/arc-plugin-rollup')
 let styles = require('@enhance/arc-plugin-styles')
 
 module.exports = {
@@ -11,10 +12,12 @@ module.exports = {
 
   sandbox: {
     async start (params) {
+      await rollup.sandbox.start(params)
       await bundles.sandbox.start(params)
     },
 
     async watcher (params) {
+      await rollup.sandbox.watcher(params)
       await bundles.sandbox.watcher(params)
       await styles.sandbox.watcher(params)
     }
@@ -22,6 +25,7 @@ module.exports = {
 
   deploy: {
     async start (params) {
+      await rollup.deploy.start(params)
       await bundles.deploy.start(params)
     }
   },
