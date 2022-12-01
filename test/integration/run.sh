@@ -8,7 +8,7 @@ sandboxPid=$!
 sleep 2 # a smarter script would ping Sandbox
 
 echo -e "\nRunning Hurl tests\n"
-npx hurl --test test/integration/*.hurl
+npx hurl --test --variable host=http://localhost:3333 test/integration/*.hurl
 
 echo -e "Stopping Sandbox <${sandboxPid}>"
 kill $sandboxPid
