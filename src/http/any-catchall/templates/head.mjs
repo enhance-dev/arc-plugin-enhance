@@ -1,9 +1,9 @@
-import {   getLinkTag, getStyleTag }  from '@enhance/arc-plugin-styles/get-styles'
+import { styles }  from '@enhance/arc-plugin-styles'
 
 export default function Head() {
-  const styles = process.env.ARC_LOCAL
-    ? getLinkTag()
-    : getStyleTag()
+  const appStyles = process.env.ARC_LOCAL
+    ? styles.getLinkTag()
+    : styles.getStyleTag()
 
   return `
 <!DOCTYPE html>
@@ -12,7 +12,7 @@ export default function Head() {
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title></title>
-  ${ styles }
+  ${ appStyles }
   <link rel="icon" href="/_public/favicon.svg">
 </head>
 `

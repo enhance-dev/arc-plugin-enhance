@@ -24,11 +24,11 @@
     ".arc"
   ],
   "dependencies": {
-    "@architect/asap": "^5.0.2",
-    "@architect/functions": "^5.2.3",
+    "@architect/asap": "^5.1.0",
+    "@architect/functions": "^5.3.1",
     "@architect/plugin-bundles": "^3.2.0",
-    "@begin/data": "^4.0.1",
-    "@enhance/arc-plugin-styles": "^2.0.2",
+    "@begin/data": "^4.0.2",
+    "@enhance/arc-plugin-styles": "experimental",
     "@enhance/enhance-style-transform": "^0.0.1",
     "@enhance/import-transform": "^4.0.0",
     "@enhance/ssr": "^3.0.9",
@@ -38,8 +38,8 @@
     "pluralize": "^8.0.0"
   },
   "devDependencies": {
-    "@architect/sandbox": "^5.3.4",
-    "eslint": "^8.26.0",
+    "@architect/sandbox": "^5.4.1",
+    "eslint": "^8.28.0",
     "tap-arc": "^0.3.5",
     "tape": "^5.6.1",
     "tiny-json-http": "^7.4.2"
