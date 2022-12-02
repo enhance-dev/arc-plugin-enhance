@@ -1,9 +1,9 @@
-import {   getLinkTag, getStyleTag }  from '@enhance/arc-plugin-styles/get-styles'
+import { getStyles }  from '@enhance/arc-plugin-styles'
 
 export default function Head() {
   const styles = process.env.ARC_LOCAL
-    ? getLinkTag()
-    : getStyleTag()
+    ? getStyles.linkTag()
+    : getStyles.styleTag()
 
   return `
 <!DOCTYPE html>
