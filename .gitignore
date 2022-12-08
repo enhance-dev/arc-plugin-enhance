@@ -1,7 +1,7 @@
 .env
 .DS_Store
 node_modules
-tmp/
+.enhance
 public/static.json
 models/static.json
 public/bundles
