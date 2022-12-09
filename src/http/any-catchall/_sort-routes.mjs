@@ -21,10 +21,17 @@ export default function sorter(a, b) {
     // i.e. /test/$$.mjs = 3.1
     return str.split('/').reduce((prev, curr, i) => {
       return (prev + (pathPartWeight(curr) / Math.pow(10, i)))
-    }, 0)
+    }, 0) 
   }
 
+  const aWeight = totalWeightByPosition(a)
+  const bWeight = totalWeightByPosition(b)
 
-  return totalWeightByPosition(a) < totalWeightByPosition(b) ?1 : -1
+  let output
+  if (aWeight < bWeight) output = 1
+  if (aWeight > bWeight) output = -1
+  if (aWeight === bWeight) output = 0
+
+  return output
 
 }

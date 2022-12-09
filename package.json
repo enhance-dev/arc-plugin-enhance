@@ -2,6 +2,10 @@
   "name": "@enhance/arc-plugin-enhance",
   "version": "4.2.1",
   "main": "src/plugins/beginner.js",
+  "exports":{
+     ".": "./src/plugins/beginner.js",
+     "./src/http/any-catchall/router.mjs": "./src/http/any-catchall/router.mjs"
+  },
   "license": "Apache-2.0",
   "homepage": "https://enhance.dev",
   "repository": {

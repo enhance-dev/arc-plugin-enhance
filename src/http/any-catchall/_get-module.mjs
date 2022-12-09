@@ -14,10 +14,13 @@ const cache = {}
 export default function getModule (basePath, folder, route) {
   // console.time('getModule')
 
-  if (!cache[folder])
-    cache[folder] = {}
+  if (!cache[basePath])
+    cache[basePath] = {}
 
-  if (!cache[folder][route]) {
+  if (!cache[basePath][folder])
+    cache[basePath][folder] = {}
+
+  if (!cache[basePath][folder][route]) {
 
     let raw = getFiles(basePath, folder).sort(sort)
     let base = path.join(basePath, folder)
@@ -37,10 +40,10 @@ export default function getModule (basePath, folder, route) {
     }
 
     if (found) {
-      cache[folder][route] = found
+      cache[basePath][folder][route] = found
     }
   }
 
   // console.timeEnd('getModule')
-  return cache[folder][route] || false
+  return cache[basePath][folder][route] || false
 }
