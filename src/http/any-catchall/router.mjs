@@ -59,6 +59,7 @@ export default async function api (options, req) {
   }
 
   let state = {}
+  let isAsyncMiddleware = false
 
   // rendering a json response or passing state to an html response
   if (apiPath) {
@@ -73,7 +74,8 @@ export default async function api (options, req) {
     }
 
     let method = mod[req.method.toLowerCase()]
-    if (Array.isArray(method))
+    isAsyncMiddleware = Array.isArray(method)
+    if (isAsyncMiddleware)
       method = arc.http.async.apply(null, method)
     if (method) {
 
@@ -160,6 +162,7 @@ export default async function api (options, req) {
     }
     res.statusCode = status
     if (state.session) res.session = state.session
+    if (isAsyncMiddleware) res.headers = {'set-cookie': state.headers['set-cookie']}
     return res
   }
   catch (err) {
