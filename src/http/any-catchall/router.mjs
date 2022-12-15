@@ -114,7 +114,6 @@ export default async function api (options, req) {
     }
   }
 
-
   // rendering an html page
   let baseHeadElements = await getElements(basePath)
   let altHeadElements = {}
