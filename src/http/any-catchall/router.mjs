@@ -15,24 +15,24 @@ import render from './_render.mjs'
 import fingerprintPaths from './_fingerprint-paths.mjs'
 import compareRoute from './_sort-routes.mjs'
 import path from 'path'
-import { brotliDecompressSync } from 'zlib'
+import { brotliDecompressSync as brotli } from 'zlib'
 
 export default async function api (options, req) {
-  const { basePath, altPath } = options
+  let { basePath, altPath } = options
 
   let apiPath = getModule(basePath, 'api', req.rawPath)
   let pagePath = getModule(basePath, 'pages', req.rawPath)
-
   let apiBaseUsed = basePath
   let pageBaseUsed = basePath
-  if (altPath){
-    const apiPathPart = apiPath && apiPath.replace(path.join(basePath,'api'),'')
-    const pagePathPart = pagePath && pagePath.replace(path.join(basePath,'pages'),'')
 
-    const altApiPath = getModule(altPath, 'api', req.rawPath)
-    const altPagePath = getModule(altPath, 'pages', req.rawPath)
-    const altApiPathPart = altApiPath && altApiPath.replace(path.join(altPath,'api'),'')
-    const altPagePathPart = altPagePath && altPagePath.replace(path.join(altPath,'pages'),'')
+  if (altPath) {
+    let apiPathPart = apiPath && apiPath.replace(path.join(basePath,'api'),'')
+    let pagePathPart = pagePath && pagePath.replace(path.join(basePath,'pages'),'')
+
+    let altApiPath = getModule(altPath, 'api', req.rawPath)
+    let altPagePath = getModule(altPath, 'pages', req.rawPath)
+    let altApiPathPart = altApiPath && altApiPath.replace(path.join(altPath,'api'),'')
+    let altPagePathPart = altPagePath && altPagePath.replace(path.join(altPath,'pages'),'')
     if (!apiPath && altApiPath) {
       apiPath = altApiPath
       apiBaseUsed = altPath
@@ -53,10 +53,10 @@ export default async function api (options, req) {
   // (i.e. one is exact and one is a catchall)
   // only the most specific route will match
   if (apiPath && pagePath){
-    const apiPathPart = apiPath.replace(path.join(apiBaseUsed,'api'),'')
-    const pagePathPart = pagePath.replace(path.join(pageBaseUsed,'pages'),'')
-    if (compareRoute(apiPathPart,pagePathPart)===1) apiPath = false
-    if (compareRoute(apiPathPart,pagePathPart)===-1) pagePath = false
+    let apiPathPart = apiPath.replace(path.join(apiBaseUsed,'api'),'')
+    let pagePathPart = pagePath.replace(path.join(pageBaseUsed,'pages'),'')
+    if (compareRoute(apiPathPart,pagePathPart) === 1) apiPath = false
+    if (compareRoute(apiPathPart,pagePathPart) === -1) pagePath = false
   }
 
   let state = {}
@@ -103,21 +103,29 @@ export default async function api (options, req) {
       if (req.method.toLowerCase() != 'get' || !pagePath || state.location) {
         return state
       }
+      
+      // architect/functions always returns raw lambda response eg. {statusCode, body, headers}
+      // but we depend on terse shorthand eg. {json}
+      if (isAsyncMiddleware) {
+        let newb = v=>  new Buffer.from(v, 'base64')
+        let b = state.isBase64Encoded ? newb(brotli(newb(state.body))).toString() : state.body
+        state.json = JSON.parse(b) || {}
+      }
     }
   }
 
+
   // rendering an html page
-  const baseHeadElements = await getElements(basePath)
+  let baseHeadElements = await getElements(basePath)
   let altHeadElements = {}
   if (altPath) altHeadElements = await getElements(altPath)
-  const head = baseHeadElements.head || altHeadElements.head
-  const elements = {...altHeadElements.elements,...baseHeadElements.elements}
-  if(isAsyncMiddleware && state.isBase64Encoded && state.headers['content-type'] === 'application/json; charset=utf8') {
-    state.json = JSON.parse(new Buffer.from(brotliDecompressSync(new Buffer.from(state.body, 'base64')), 'base64').toString()) || {}
-  }
+  let head = baseHeadElements.head || altHeadElements.head
+  let elements = {...altHeadElements.elements,...baseHeadElements.elements}
+
   const store = state.json
     ? state.json
     : {}
+
   function html(str, ...values) {
     const _html = enhance({
       elements,
@@ -136,8 +144,8 @@ export default async function api (options, req) {
 
     // 404
     if (!pagePath || state.code === 404 || state.status === 404 || state.statusCode === 404) {
-      const status = 404
-      const error = `${req.rawPath} not found`
+      let status = 404
+      let error = `${req.rawPath} not found`
       let fourOhFour = getModule(basePath, 'pages', '/404')
       if (altPath && !fourOhFour) fourOhFour = getModule(altPath, 'pages', '/404')
       let body = ''
@@ -152,9 +160,9 @@ export default async function api (options, req) {
     }
 
     // 200
-    const status = state.status || state.code || state.statusCode || 200
+    let status = state.status || state.code || state.statusCode || 200
     let res = {}
-    const error = false
+    let error = false
     if (pagePath.includes('.html')) {
       let raw = read(pagePath).toString()
       res.html = html`${ head({ req, status, error, store }) }${ raw }`
@@ -170,8 +178,8 @@ export default async function api (options, req) {
   }
   catch (err) {
     // 500
-    const status = 500
-    const error = err.message || ''
+    let status = 500
+    let error = err.message || ''
     let fiveHundred = getModule(basePath, 'pages', '/500')
     if (altPath && !fiveHundred) fiveHundred = getModule(altPath, 'pages', '/500')
     let body = ''
