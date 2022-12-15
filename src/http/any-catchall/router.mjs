@@ -15,6 +15,7 @@ import render from './_render.mjs'
 import fingerprintPaths from './_fingerprint-paths.mjs'
 import compareRoute from './_sort-routes.mjs'
 import path from 'path'
+import { brotliDecompressSync } from 'zlib'
 
 export default async function api (options, req) {
   const { basePath, altPath } = options
@@ -111,7 +112,9 @@ export default async function api (options, req) {
   if (altPath) altHeadElements = await getElements(altPath)
   const head = baseHeadElements.head || altHeadElements.head
   const elements = {...altHeadElements.elements,...baseHeadElements.elements}
-
+  if(isAsyncMiddleware && state.isBase64Encoded && state.headers['content-type'] === 'application/json; charset=utf8') {
+    state.json = JSON.parse(new Buffer.from(brotliDecompressSync(new Buffer.from(state.body, 'base64')), 'base64').toString()) || {}
+  }
   const store = state.json
     ? state.json
     : {}
