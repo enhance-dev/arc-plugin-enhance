@@ -1,6 +1,5 @@
 /** helper to check if the user-agent requested json */
 export default function requestedJSON (headers) {
-  console.log('got headers', headers)
   let accept = headers['accept'] || headers['Accept']
   let ctype = headers['content-type'] || headers['Content-Type']
   let value = accept || ctype
