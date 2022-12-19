@@ -74,6 +74,6 @@ test('sorting with very deeply nested paths', t => {
 
   let result = bad.sort(sorter)
 
-  t.deepEqual(result,good, 'edgecase sorted')
+  t.deepEqual(result,good, 'deeply nested path sorted')
 })
 
