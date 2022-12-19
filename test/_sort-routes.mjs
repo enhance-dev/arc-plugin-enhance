@@ -59,7 +59,7 @@ test('sort dynamic parts diff positions ', t => {
   t.deepEqual(result,good, 'dynamic parts in different positions sorted')
 })
 
-test('sort edge case ', t => {
+test('sorting with very deeply nested paths', t => {
   t.plan(1)
   const good = [
    '/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/new.mjs',
