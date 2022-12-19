@@ -1,27 +1,31 @@
 /** helper to sort routes from least ambiguous to most */
 export default function sorter(a, b) {
+  // Sorting is done by assinging letters to each part of the path 
+  // and then using alphabetical ordering to sort on.
+  // They are sorted in reverse alphabetical order so that 
+  // extra path parts at the end will rank higher when reversed.
   function pathPartWeight(str) {
     // assign a weight to each path parameter
-    // catchall=1 < dynamic=2 < static=3 < index=4 
-    if (str === '$$.mjs'||str==='$$.html') return 1 
-    if (str.startsWith('$')) return 2 
-    if (!(str==="index.mjs"||str==="index.html")) return 3
-    if (str==="index.mjs"||str==="index.html") return 4
+    // catchall='A' < dynamic='B' < static='C' < index='D'
+    if (str === '$$.mjs'||str==='$$.html') return 'A' 
+    if (str.startsWith('$')) return 'B' 
+    if (!(str==="index.mjs"||str==="index.html")) return 'C'
+    if (str==="index.mjs"||str==="index.html") return 'D'
   }
 
   function totalWeightByPosition(str) {
     // weighted by position in the path
     // /highest/high/low/lower/.../lowest
-    // weigh/1, weight/10, weight/100, weight/1000
     // return result weighted by type and position
-    // i.e. /index.mjs = 4
-    // i.e. /test/index.mjs = 3.4
-    // i.e. /test/this.mjs = 3.3
-    // i.e. /test/$id.mjs = 3.2
-    // i.e. /test/$$.mjs = 3.1
+    // * When sorted in reverse alphabetical order the result is as expected.
+    // i.e. /index.mjs = 'D'
+    // i.e. /test/index.mjs = 'CD'
+    // i.e. /test/this.mjs = 'CC'
+    // i.e. /test/$id.mjs = 'CB'
+    // i.e. /test/$$.mjs = 'CA'
     return str.split('/').reduce((prev, curr, i) => {
-      return (prev + (pathPartWeight(curr) / Math.pow(10, i)))
-    }, 0) 
+      return (prev + (pathPartWeight(curr) ))
+    }, '') 
   }
 
   const aWeight = totalWeightByPosition(a)
