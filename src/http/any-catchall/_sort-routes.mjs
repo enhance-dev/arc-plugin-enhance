@@ -23,7 +23,7 @@ export default function sorter(a, b) {
     // i.e. /test/this.mjs = 'CC'
     // i.e. /test/$id.mjs = 'CB'
     // i.e. /test/$$.mjs = 'CA'
-    return str.split('/').reduce((prev, curr, i) => {
+    return str.split('/').reduce((prev, curr) => {
       return (prev + (pathPartWeight(curr) ))
     }, '') 
   }
