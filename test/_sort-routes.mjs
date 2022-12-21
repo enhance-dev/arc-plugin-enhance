@@ -56,5 +56,24 @@ test('sort dynamic parts diff positions ', t => {
 
   let result = bad.sort(sorter)
 
-  t.deepEqual(result,good, 'sorted')
+  t.deepEqual(result,good, 'dynamic parts in different positions sorted')
 })
+
+test('sorting with very deeply nested paths', t => {
+  t.plan(1)
+  const good = [
+   '/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/new.mjs',
+   '/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/$id.mjs',
+   '/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/$$.mjs',
+  ]
+  const bad = [
+   '/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/$$.mjs',
+   '/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/$id.mjs',
+   '/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/new.mjs',
+  ]
+
+  let result = bad.sort(sorter)
+
+  t.deepEqual(result,good, 'deeply nested path sorted')
+})
+
