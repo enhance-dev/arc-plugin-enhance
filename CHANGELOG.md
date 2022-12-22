@@ -9,7 +9,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-[4.3.0] Dec 14th 2020
+[4.3.3] Dec 22nd 2022
+
+### Added
+
+Support for "." in URL paths; this can mean file based routes look hidden on some operating systems! Blame the webfinger spec. =)
+
+[4.3.0] Dec 14th 2022
 ### Added
 
 Adds `@enhance/arc-plugin-rollup` _officially_
