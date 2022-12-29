@@ -99,8 +99,9 @@ export default async function api (options, req) {
       // just return the api response if
       // - not a GET
       // - no corresponding page
-      // - state.location has been explicitly passed
-      if (req.method.toLowerCase() != 'get' || !pagePath || state.location) {
+      // - location has been explicitly passed
+      let location = state.location || (state.headers && state.headers["Location"])
+      if (req.method.toLowerCase() != 'get' || !pagePath || location) {
         return state
       }
       
