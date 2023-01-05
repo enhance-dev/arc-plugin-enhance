@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+[4.3.4] Jan 5th 2023
+
+### Fixes
+
+Middleware respects a location response for early exit; h/t @clintjhill (https://github.com/enhance-dev/arc-plugin-enhance/pull/63)
+
 [4.3.3] Dec 22nd 2022
 
 ### Added
@@ -16,6 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 Support for "." in URL paths; this can mean file based routes look hidden on some operating systems! Blame the webfinger spec. =)
 
 [4.3.0] Dec 14th 2022
+
 ### Added
 
 Adds `@enhance/arc-plugin-rollup` _officially_
