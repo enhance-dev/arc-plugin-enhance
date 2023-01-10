@@ -1,5 +1,5 @@
 import path from 'path'
-import { pathToFileURL } from 'url';
+import { pathToFileURL } from 'url'
 
 import { pathToRegexp } from 'path-to-regexp'
 
@@ -12,8 +12,6 @@ const cache = {}
 
 /** helper to get module for given folder/route */
 export default function getModule (basePath, folder, route) {
-  // console.time('getModule')
-
   if (!cache[basePath])
     cache[basePath] = {}
 
@@ -43,6 +41,5 @@ export default function getModule (basePath, folder, route) {
     }
   }
 
-  // console.timeEnd('getModule')
   return cache[basePath][folder][route] || false
 }

@@ -15,8 +15,6 @@ import _head from './templates/head.mjs'
  * - TODO can run a command to generate it based on app/elements
  */
 export default async function getElements (basePath) {
-  // console.time('getElements')
-
   let pathToModule = join(basePath, 'elements.mjs')
   let pathToPages = join(basePath, 'pages')
   let pathToElements = join(basePath, 'elements')
@@ -32,7 +30,7 @@ export default async function getElements (basePath) {
   }
   else {
     try {
-      head = (await import(pathToFileURL(pathToHead).href)).default;
+      head = (await import(pathToFileURL(pathToHead).href)).default
     }
     catch(error) {
       throw new Error('Issue importing app/head.mjs', { cause: error })
@@ -71,7 +69,7 @@ export default async function getElements (basePath) {
   }
 
   if (exists(pathToElements)) {
-    let elementsURL = pathToFileURL(join(basePath, 'elements'));
+    let elementsURL = pathToFileURL(join(basePath, 'elements'))
     // read all the elements
     let files = getFiles(basePath, 'elements').filter(f => f.endsWith('.mjs'))
     for (let e of files) {
@@ -99,6 +97,5 @@ export default async function getElements (basePath) {
   if (!els['page-500'])
     els['page-500'] = _500
 
-  // console.timeEnd('getElements')
   return { head, elements: els }
 }
