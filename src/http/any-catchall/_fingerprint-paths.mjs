@@ -5,23 +5,27 @@ const _local = process.env.ARC_ENV === 'testing'
 
 let manifest = {}
 if (!_local) {
-  const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
-  try {
-    const manifestFile = fs.readFileSync(path.join(__dirname, 'node_modules', '@architect', 'shared', 'static.json'))
-    manifest = JSON.parse(manifestFile)
-  } catch (e) {
-    console.log('no replacement manifest found')
+  const dirPath = new URL('.', import.meta.url)
+  const __dirname = url.fileURLToPath(dirPath)
+  const filePath = path.join(__dirname, 'node_modules', '@architect', 'shared', 'static.json')
+  if (fs.existsSync(filePath)) {
+    try {
+      const manifestFile = fs.readFileSync(filePath)
+      manifest = JSON.parse(manifestFile)
+    } catch (e) {
+      console.error('Static manifest parsing error', e)
+    }
   }
 }
 function escapeRegExp(string) {
-  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
+  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') // $& means the whole matched string
 }
 export function replaceEvery(str, mapObj) {
-  var re = new RegExp(Object.keys(mapObj).map(i=>escapeRegExp(i)).join("|"), "gi");
+  var re = new RegExp(Object.keys(mapObj).map(i=>escapeRegExp(i)).join("|"), "gi")
 
   return str.replace(re, function (matched) {
-    return mapObj[matched];
-  });
+    return mapObj[matched]
+  })
 }
 
 let manifestMap = {}
