@@ -1,5 +1,5 @@
 import { readFileSync as read } from 'fs'
-import { pathToFileURL } from 'url';
+import { pathToFileURL } from 'url'
 
 import arc from '@architect/functions'
 import enhance from '@enhance/ssr'
@@ -104,7 +104,7 @@ export default async function api (options, req) {
       if (req.method.toLowerCase() != 'get' || !pagePath || location) {
         return state
       }
-      
+
       // architect/functions always returns raw lambda response eg. {statusCode, body, headers}
       // but we depend on terse shorthand eg. {json}
       if (isAsyncMiddleware) {

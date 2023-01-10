@@ -36,5 +36,5 @@ test('router middleware respects redirects', async t => {
   let res = await router.bind({}, { basePath })(req)
   t.equals(res.headers["Location"], "/login", "req location matches")
   t.equals(res.statusCode, 302, "proper redirect status")
-  console.log(res);
+  console.log(res)
 })
