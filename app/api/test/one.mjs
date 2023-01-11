@@ -1,3 +1,3 @@
-export async function get() {
-  return { json: { data:'one' }}
+export async function get () {
+  return { json: { data: 'one' } }
 }

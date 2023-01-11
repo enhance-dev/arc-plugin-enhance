@@ -7,7 +7,7 @@ const __dirname = path.dirname(url.fileURLToPath(import.meta.url))
 
 test('router dots', async t => {
   t.plan(1)
-  process.env.ARC_SESSION_TABLE_NAME = 'jwe' 
+  process.env.ARC_SESSION_TABLE_NAME = 'jwe'
   let basePath = path.join(__dirname, 'mock-dots', 'app')
   let res = await router.bind({}, { basePath })({
     rawPath: '/.well-known/webfinger',

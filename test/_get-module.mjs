@@ -25,7 +25,7 @@ test('getModules multiple params', async t => {
 
 test('getModules catchall', async t => {
   t.plan(1)
-  let base = path.join(process.cwd(), 'test', 'mock-folders','app')
+  let base = path.join(process.cwd(), 'test', 'mock-folders', 'app')
   let folder = 'api/place/$id'
   let file = '$$.mjs'
   let expected = path.join(base, folder, file)
@@ -35,7 +35,7 @@ test('getModules catchall', async t => {
 
 test('getModules no api', async t => {
   t.plan(1)
-  let base = path.join(process.cwd(), 'test', 'mock-apps','app')
+  let base = path.join(process.cwd(), 'test', 'mock-apps', 'app')
   let folder = 'api'
   let expected = false
   let result = await getModule(base, folder, '/')

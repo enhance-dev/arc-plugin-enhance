@@ -26,24 +26,26 @@ export default async function api (options, req) {
   let pageBaseUsed = basePath
 
   if (altPath) {
-    let apiPathPart = apiPath && apiPath.replace(path.join(basePath,'api'),'')
-    let pagePathPart = pagePath && pagePath.replace(path.join(basePath,'pages'),'')
+    let apiPathPart = apiPath && apiPath.replace(path.join(basePath, 'api'), '')
+    let pagePathPart = pagePath && pagePath.replace(path.join(basePath, 'pages'), '')
 
     let altApiPath = getModule(altPath, 'api', req.rawPath)
     let altPagePath = getModule(altPath, 'pages', req.rawPath)
-    let altApiPathPart = altApiPath && altApiPath.replace(path.join(altPath,'api'),'')
-    let altPagePathPart = altPagePath && altPagePath.replace(path.join(altPath,'pages'),'')
+    let altApiPathPart = altApiPath && altApiPath.replace(path.join(altPath, 'api'), '')
+    let altPagePathPart = altPagePath && altPagePath.replace(path.join(altPath, 'pages'), '')
     if (!apiPath && altApiPath) {
       apiPath = altApiPath
       apiBaseUsed = altPath
-    } else if (apiPath && altApiPath && (compareRoute(apiPathPart,altApiPathPart)===-1)) {
+    }
+    else if (apiPath && altApiPath && (compareRoute(apiPathPart, altApiPathPart) === -1)) {
       apiPath = altApiPath
       apiBaseUsed = altPath
     }
     if (!pagePath && altPagePath) {
       pagePath = altPagePath
       pageBaseUsed = altPath
-    } else if (pagePath && altPagePath && (compareRoute(pagePathPart,altPagePathPart)===-1)) {
+    }
+    else if (pagePath && altPagePath && (compareRoute(pagePathPart, altPagePathPart) === -1)) {
       pagePath = altPagePath
       pageBaseUsed = altPath
     }
@@ -53,10 +55,10 @@ export default async function api (options, req) {
   // (i.e. one is exact and one is a catchall)
   // only the most specific route will match
   if (apiPath && pagePath){
-    let apiPathPart = apiPath.replace(path.join(apiBaseUsed,'api'),'')
-    let pagePathPart = pagePath.replace(path.join(pageBaseUsed,'pages'),'')
-    if (compareRoute(apiPathPart,pagePathPart) === 1) apiPath = false
-    if (compareRoute(apiPathPart,pagePathPart) === -1) pagePath = false
+    let apiPathPart = apiPath.replace(path.join(apiBaseUsed, 'api'), '')
+    let pagePathPart = pagePath.replace(path.join(pageBaseUsed, 'pages'), '')
+    if (compareRoute(apiPathPart, pagePathPart) === 1) apiPath = false
+    if (compareRoute(apiPathPart, pagePathPart) === -1) pagePath = false
   }
 
   let state = {}
@@ -70,7 +72,7 @@ export default async function api (options, req) {
     try {
       mod = await import(pathToFileURL(apiPath).href)
     }
-    catch(error) {
+    catch (error) {
       throw new Error(`Issue importing app/api/${apiPath}.mjs`, { cause: error })
     }
 
@@ -88,7 +90,7 @@ export default async function api (options, req) {
       state = await method(req, res)
 
       // if the api route does nothing backfill empty json response
-      if (!state) state = { json:{} }
+      if (!state) state = { json: {} }
 
       // if the user-agent requested json return the response immediately
       if (isJSON(req.headers)) {
@@ -100,7 +102,7 @@ export default async function api (options, req) {
       // - not a GET
       // - no corresponding page
       // - location has been explicitly passed
-      let location = state.location || (state.headers && state.headers["Location"])
+      let location = state.location || (state.headers && state.headers['Location'])
       if (req.method.toLowerCase() != 'get' || !pagePath || location) {
         return state
       }
@@ -108,7 +110,7 @@ export default async function api (options, req) {
       // architect/functions always returns raw lambda response eg. {statusCode, body, headers}
       // but we depend on terse shorthand eg. {json}
       if (isAsyncMiddleware) {
-        let newb = v=>  new Buffer.from(v, 'base64')
+        let newb = v =>  new Buffer.from(v, 'base64')
         let b = state.isBase64Encoded ? newb(brotli(newb(state.body))).toString() : state.body
         state.json = JSON.parse(b) || {}
       }
@@ -120,13 +122,13 @@ export default async function api (options, req) {
   let altHeadElements = {}
   if (altPath) altHeadElements = await getElements(altPath)
   let head = baseHeadElements.head || altHeadElements.head
-  let elements = {...altHeadElements.elements,...baseHeadElements.elements}
+  let elements = { ...altHeadElements.elements, ...baseHeadElements.elements }
 
   const store = state.json
     ? state.json
     : {}
 
-  function html(str, ...values) {
+  function html (str, ...values) {
     const _html = enhance({
       elements,
       scriptTransforms: [
@@ -151,10 +153,10 @@ export default async function api (options, req) {
       let body = ''
       if (fourOhFour && fourOhFour.includes('.html')) {
         let raw = read(fourOhFour).toString()
-        body = html`${ head({ req, status, error, store }) }${ raw }`
+        body = html`${head({ req, status, error, store })}${raw}`
       }
       else {
-        body = html`${ head({ req, status, error, store }) }<page-404 error="${error}"></page-404>`
+        body = html`${head({ req, status, error, store })}<page-404 error="${error}"></page-404>`
       }
       return { status, html: body }
     }
@@ -165,15 +167,15 @@ export default async function api (options, req) {
     let error = false
     if (pagePath.includes('.html')) {
       let raw = read(pagePath).toString()
-      res.html = html`${ head({ req, status, error, store }) }${ raw }`
+      res.html = html`${head({ req, status, error, store })}${raw}`
     }
     else {
       let tag = getPageName(pageBaseUsed, pagePath)
-      res.html = html`${ head({ req, status, error, store }) }<page-${ tag }></page-${ tag }>`
+      res.html = html`${head({ req, status, error, store })}<page-${tag}></page-${tag}>`
     }
     res.statusCode = status
     if (state.session) res.session = state.session
-    if (isAsyncMiddleware) res.headers = {'set-cookie': state.headers['set-cookie']}
+    if (isAsyncMiddleware) res.headers = { 'set-cookie': state.headers['set-cookie'] }
     return res
   }
   catch (err) {
@@ -185,10 +187,10 @@ export default async function api (options, req) {
     let body = ''
     if (fiveHundred && fiveHundred.includes('.html')) {
       let raw = read(fiveHundred).toString()
-      body = html`${ head({ req, status, error, store }) }${ raw }`
+      body = html`${head({ req, status, error, store })}${raw}`
     }
     else {
-      body = html`${ head({ req, status, error, store }) }<page-500 error="${ error }"></page-500>`
+      body = html`${head({ req, status, error, store })}<page-500 error="${error}"></page-500>`
     }
     return { status, html: body }
   }

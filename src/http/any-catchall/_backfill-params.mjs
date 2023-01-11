@@ -10,8 +10,8 @@ export default function backfill (basePath, apiPath, pagePath, req) {
   let { params, ...copy } = { ...req }
 
   // get the regexp for the given path
-  let base = apiPath? path.join(basePath, 'api') : path.join(basePath, 'pages')
-  let tmpl = apiPath? apiPath : pagePath
+  let base = apiPath ? path.join(basePath, 'api') : path.join(basePath, 'pages')
+  let tmpl = apiPath ? apiPath : pagePath
 
   tmpl = clean({ pathTmpl: tmpl, base, fileNameRegEx: /index\.mjs|\.mjs/ })
   let pattern = pathToRegexp(tmpl)
@@ -20,7 +20,7 @@ export default function backfill (basePath, apiPath, pagePath, req) {
   let matches = copy.rawPath.match(pattern)
   let parts = tmpl.split('/').filter((p) => p.startsWith(':'))
   parts.forEach((p, index) => {
-    params[p.replace(':', '')] = matches[index+1]
+    params[p.replace(':', '')] = matches[index + 1]
   })
   return params
 }

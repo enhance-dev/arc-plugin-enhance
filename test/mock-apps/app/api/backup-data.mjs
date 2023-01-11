@@ -6,8 +6,8 @@
 /**
  * @type {EnhanceApiFn}
  */
- export async function get () {
-    return {
-      json: { data: ['fred', 'joe', 'mary'] }
-    }
+export async function get () {
+  return {
+    json: { data: [ 'fred', 'joe', 'mary' ] }
   }
+}

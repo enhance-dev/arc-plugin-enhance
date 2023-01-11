@@ -1,7 +1,7 @@
-export let get = [one, two]
+export let get = [ one, two ]
 
 async function one (req) {
-  req.stuff = [1, true, 'yas']
+  req.stuff = [ 1, true, 'yas' ]
 }
 
 async function two (req) {
