@@ -12,16 +12,17 @@ if (!_local) {
     try {
       const manifestFile = fs.readFileSync(filePath)
       manifest = JSON.parse(manifestFile)
-    } catch (e) {
+    }
+    catch (e) {
       console.error('Static manifest parsing error', e)
     }
   }
 }
-function escapeRegExp(string) {
+function escapeRegExp (string) {
   return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') // $& means the whole matched string
 }
-export function replaceEvery(str, mapObj) {
-  var re = new RegExp(Object.keys(mapObj).map(i=>escapeRegExp(i)).join("|"), "gi")
+export function replaceEvery (str, mapObj) {
+  var re = new RegExp(Object.keys(mapObj).map(i => escapeRegExp(i)).join('|'), 'gi')
 
   return str.replace(re, function (matched) {
     return mapObj[matched]
@@ -36,7 +37,8 @@ mapEntries.forEach(file => {
 export default function (str) {
   if (mapEntries.length === 0) {
     return str
-  } else {
+  }
+  else {
     return replaceEvery(str, manifestMap)
   }
 }

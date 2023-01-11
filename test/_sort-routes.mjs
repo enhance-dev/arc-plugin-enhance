@@ -10,12 +10,12 @@ test('sorter', t => {
     'views/pages/books/new.mjs',
     'views/pages/books/ack.mjs',
     'views/pages/books/back.mjs',
-    'views/pages/books/$id/arg.mjs', 
-    'views/pages/books/$id.mjs', 
+    'views/pages/books/$id/arg.mjs',
+    'views/pages/books/$id.mjs',
     'views/pages/books/$$.mjs',
-    'views/pages/$thing/food/arg.mjs', 
-    'views/pages/$thing/id/$place.mjs', 
-    'views/pages/$thing/$id/$place.mjs', 
+    'views/pages/$thing/food/arg.mjs',
+    'views/pages/$thing/id/$place.mjs',
+    'views/pages/$thing/$id/$place.mjs',
     'views/pages/$$.mjs',
     'views/$$.mjs',
     '$$.mjs',
@@ -24,12 +24,12 @@ test('sorter', t => {
     '$$.mjs',
     'views/$$.mjs',
     'views/pages/$$.mjs',
-    'views/pages/$thing/$id/$place.mjs', 
-    'views/pages/$thing/id/$place.mjs', 
-    'views/pages/$thing/food/arg.mjs', 
+    'views/pages/$thing/$id/$place.mjs',
+    'views/pages/$thing/id/$place.mjs',
+    'views/pages/$thing/food/arg.mjs',
     'views/pages/books/$$.mjs',
-    'views/pages/books/$id.mjs', 
-    'views/pages/books/$id/arg.mjs', 
+    'views/pages/books/$id.mjs',
+    'views/pages/books/$id/arg.mjs',
     'views/pages/books/new.mjs',
     'views/pages/books/ack.mjs',
     'views/pages/books/back.mjs',
@@ -40,40 +40,40 @@ test('sorter', t => {
 
   let result = bad.sort(sorter)
 
-  t.deepEqual(result,good, 'sorted')
+  t.deepEqual(result, good, 'sorted')
 })
 
 test('sort dynamic parts diff positions ', t => {
   t.plan(1)
   const good = [
-    'views/cats/food/$id.mjs', 
-    'views/$thing/food/arg.mjs', 
+    'views/cats/food/$id.mjs',
+    'views/$thing/food/arg.mjs',
   ]
   const bad = [
-    'views/$thing/food/arg.mjs', 
-    'views/cats/food/$id.mjs', 
+    'views/$thing/food/arg.mjs',
+    'views/cats/food/$id.mjs',
   ]
 
   let result = bad.sort(sorter)
 
-  t.deepEqual(result,good, 'dynamic parts in different positions sorted')
+  t.deepEqual(result, good, 'dynamic parts in different positions sorted')
 })
 
 test('sorting with very deeply nested paths', t => {
   t.plan(1)
   const good = [
-   '/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/new.mjs',
-   '/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/$id.mjs',
-   '/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/$$.mjs',
+    '/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/new.mjs',
+    '/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/$id.mjs',
+    '/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/$$.mjs',
   ]
   const bad = [
-   '/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/$$.mjs',
-   '/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/$id.mjs',
-   '/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/new.mjs',
+    '/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/$$.mjs',
+    '/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/$id.mjs',
+    '/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/new.mjs',
   ]
 
   let result = bad.sort(sorter)
 
-  t.deepEqual(result,good, 'deeply nested path sorted')
+  t.deepEqual(result, good, 'deeply nested path sorted')
 })
 

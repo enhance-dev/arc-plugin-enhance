@@ -37,7 +37,7 @@ test('middleware parsed json state passes thru to html render', async t => {
   let res = await router.bind({}, { basePath })(req)
   t.ok(res.html.includes('<debug-state>'), 'res html includes <debug-state>')
   t.ok(res.headers['set-cookie'], 'set-cookie')
-  let r = new RegExp("<pre[^>]*>(.*?)</pre>")
+  let r = new RegExp('<pre[^>]*>(.*?)</pre>')
   let s = res.html.replace(/\n/g, '').match(r)[1]
   let j = JSON.parse(s)
   console.log(j)

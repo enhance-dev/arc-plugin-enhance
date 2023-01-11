@@ -1,5 +1,5 @@
-export async function get (req) {
+export async function get (/* req */) {
   return {
-    json: { people: ['backup'] }
+    json: { people: [ 'backup' ] }
   }
 }

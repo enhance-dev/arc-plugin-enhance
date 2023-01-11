@@ -4,8 +4,8 @@ import list from '../../../models/notes/list.mjs'
 // get /notes - list notes
 export async function get () {
   let notes = await list()
-  return { 
-    json: { notes } 
+  return {
+    json: { notes }
   }
 }
 

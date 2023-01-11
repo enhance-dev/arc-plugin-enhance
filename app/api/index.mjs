@@ -1,3 +1,3 @@
-export async function get() {
-  return { json: { message: 'dynamic content' }}
+export async function get () {
+  return { json: { message: 'dynamic content' } }
 }

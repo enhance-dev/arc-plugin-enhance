@@ -34,7 +34,7 @@ test('router middleware respects redirects', async t => {
   process.env.ARC_SESSION_TABLE_NAME = 'jwe' // if we do not do this we need to setup dynamo!
   let basePath = path.join(__dirname, 'mock-async-middleware', 'app')
   let res = await router.bind({}, { basePath })(req)
-  t.equals(res.headers["Location"], "/login", "req location matches")
-  t.equals(res.statusCode, 302, "proper redirect status")
+  t.equals(res.headers['Location'], '/login', 'req location matches')
+  t.equals(res.statusCode, 302, 'proper redirect status')
   console.log(res)
 })

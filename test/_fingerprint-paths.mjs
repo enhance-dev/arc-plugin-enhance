@@ -11,9 +11,9 @@ test('path fingerpinter', t => {
   /_public/bar.mjs
   `
   const manifest = {
-    'foo.mjs':'foo-abc.mjs',
-    'bar.mjs':'bar-1$1.mjs',
-    'foo/foo.mjs':'foo/foo-123.mjs'
+    'foo.mjs': 'foo-abc.mjs',
+    'bar.mjs': 'bar-1$1.mjs',
+    'foo/foo.mjs': 'foo/foo-123.mjs'
   }
   const expected = `
   /_public/foo-abc.mjs
@@ -21,8 +21,8 @@ test('path fingerpinter', t => {
   /_public/fooooo.mjs
   /_public/bar-1$1.mjs
   `
-  let result = replaceEvery(input,manifest)
+  let result = replaceEvery(input, manifest)
   console.log(result)
 
-  t.equal(result,expected, 'fingerprinted')
+  t.equal(result, expected, 'fingerprinted')
 })

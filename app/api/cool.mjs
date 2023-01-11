@@ -1,4 +1,4 @@
-export let get = [one, two]
+export let get = [ one, two ]
 
 async function one (req) {
   req.value = 'some value'
@@ -8,6 +8,6 @@ async function one (req) {
 async function two (req) {
   console.log(req.value)
   return {
-    json: "apples oranges".split()
+    json: 'apples oranges'.split()
   }
 }

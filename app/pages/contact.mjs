@@ -1,4 +1,4 @@
-export default function Contact ({ html, state }) {
+export default function Contact ({ html, /* state */ }) {
   return html`
 <el-header></el-header>
 <form method=post action=/contact>

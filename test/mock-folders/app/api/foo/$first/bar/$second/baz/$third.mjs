@@ -1,1 +1,1 @@
-export function get(){}
+export function get (){}
