@@ -2,6 +2,12 @@
 
 ---
 
+## [4.4.0] 2023-01-18
+
+### Added
+
+- Support for user supplied rollup.config.js 
+
 ## [4.3.5] 2023-01-10
 
 ### Fixes
