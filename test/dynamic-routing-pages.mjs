@@ -14,7 +14,6 @@ test('router finds right dynamic page mjs', async t => {
       'accept': 'text/html',
     },
   }
-  // process.env.ARC_SESSION_TABLE_NAME = 'jwe' // if we do not do this we need to setup dynamo!
   let basePath = path.join(__dirname, 'mock-dynamic-routes', 'app')
   let res = await router.bind({}, { basePath })(req)
   t.ok(res.html.includes('LEVEL3'), 'Got the Right mjs Page')
@@ -31,7 +30,6 @@ test('router finds right dynamic html page', async t => {
       'accept': 'text/html',
     },
   }
-  // process.env.ARC_SESSION_TABLE_NAME = 'jwe' // if we do not do this we need to setup dynamo!
   let basePath = path.join(__dirname, 'mock-dynamic-routes', 'app')
   let res = await router.bind({}, { basePath })(req)
   t.ok(res.html.includes('LEVEL2'), 'Got the Right HTML Page')
