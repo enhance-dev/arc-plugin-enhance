@@ -142,6 +142,8 @@ export default async function api (options, req) {
     return fingerprintPaths(_html(str, ...values))
   }
 
+  console.log("in here")
+
   try {
 
     // 404
@@ -170,6 +172,8 @@ export default async function api (options, req) {
       res.html = html`${head({ req, status, error, store })}${raw}`
     }
     else {
+      console.log("in router")
+      console.log({pagePath})
       let tag = getPageName(pageBaseUsed, pagePath)
       res.html = html`${head({ req, status, error, store })}<page-${tag}></page-${tag}>`
     }
