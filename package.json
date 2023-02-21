@@ -4,6 +4,7 @@
   "main": "src/plugins/beginner.js",
   "exports": {
     ".": "./src/plugins/beginner.js",
+    "./src/http/any-catchall/index.mjs": "./src/http/any-catchall/index.mjs",
     "./src/http/any-catchall/router.mjs": "./src/http/any-catchall/router.mjs"
   },
   "license": "Apache-2.0",
