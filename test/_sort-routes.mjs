@@ -77,3 +77,20 @@ test('sorting with very deeply nested paths', t => {
   t.deepEqual(result, good, 'deeply nested path sorted')
 })
 
+test('sorting mixed types in dynamic routes', t => {
+  t.plan(1)
+  const good = [
+    '$level1/$level2/$level3.mjs',
+    '$level1/$level2.html',
+    '$level1.mjs',
+  ]
+  const bad = [
+    '$level1.mjs',
+    '$level1/$level2.html',
+    '$level1/$level2/$level3.mjs',
+  ]
+
+  let result = bad.sort(sorter)
+
+  t.deepEqual(result, good, 'mixed types of dynamic paths')
+})
