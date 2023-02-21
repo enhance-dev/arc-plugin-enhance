@@ -1,12 +1,34 @@
 # Changelog
 
+## [5.0.0] 2023-02-21
+
+### Update
+- Exports `any-catchall/index.mjs` for `fastify` plugin
+
+### Fixes
+- Fix for nested dynamic routes
+
+```
+// ... /people/13/things/4 ... pages/users/$id/things/$thingID.mjs . page-users--id-things--thingid
+```
+
+### Breaking
+- Updates output of browser bundles to `/_public/browser`
+
+---
+
+## [4.4.1] 2023-01-18
+
+### Update
+
+- Patch for user-supplied rollup.config.mjs
 ---
 
 ## [4.4.0] 2023-01-18
 
 ### Added
 
-- Support for user supplied rollup.config.js 
+- Support for user-supplied rollup.config.js
 
 ## [4.3.5] 2023-01-10
 
@@ -28,7 +50,7 @@
 
 ### Added
 
-- Support for "." in URL paths; this can mean file based routes look hidden on some operating systems! Blame the webfinger spec. =)
+- Support for "." in URL paths; this can mean file-based routes look hidden on some operating systems! Blame the webfinger spec. =)
 
 ---
 
@@ -56,3 +78,4 @@
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+z
