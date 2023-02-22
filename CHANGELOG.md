@@ -1,6 +1,6 @@
 # Changelog
 
-## [5.0.0] 2023-02-21
+## [5.0.1] 2023-02-21
 
 ### Update
 - Exports `any-catchall/index.mjs` for `fastify` plugin
