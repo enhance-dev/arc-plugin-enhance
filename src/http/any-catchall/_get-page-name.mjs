@@ -28,8 +28,8 @@ function fmt (basePath, templatePath) {
     .replace(/\.mjs/g, '')
     .replace(path.sep, '')
     .replace(new RegExp('\\' + path.sep, 'g'), '-')
-    .replace(/\$/g,"-") //replace dynamic markers with extra dashes to ensure unique element names
+    .replace(/\$/g, '-') // replace dynamic markers with extra dashes to ensure unique element names
     .replace('-index', '')
-    .toLowerCase() //custom elements can't have capital letters
+    .toLowerCase() // custom elements can't have capital letters
   return raw
 }

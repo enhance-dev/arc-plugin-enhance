@@ -15,7 +15,7 @@ import render from './_render.mjs'
 import fingerprintPaths from './_fingerprint-paths.mjs'
 import compareRoute from './_sort-routes.mjs'
 import path from 'path'
-import { brotliDecompressSync as brotli } from 'zlib'
+import { brotliDecompressSync, gunzipSync } from 'zlib'
 
 export default async function api (options, req) {
   let { basePath, altPath } = options
@@ -102,7 +102,7 @@ export default async function api (options, req) {
       // - not a GET
       // - no corresponding page
       // - location has been explicitly passed
-      let location = state.location || (state.headers && state.headers['Location'])
+      let location = state.location || (state?.headers?.['Location'])
       if (req.method.toLowerCase() != 'get' || !pagePath || location) {
         return state
       }
@@ -110,8 +110,14 @@ export default async function api (options, req) {
       // architect/functions always returns raw lambda response eg. {statusCode, body, headers}
       // but we depend on terse shorthand eg. {json}
       if (isAsyncMiddleware) {
-        let newb = v =>  new Buffer.from(v, 'base64')
-        let b = state.isBase64Encoded ? newb(brotli(newb(state.body))).toString() : state.body
+        let b
+        if (state.isBase64Encoded) {
+          let encoding = state?.headers?.['content-encoding'] || state?.headers?.['Content-Encoding']
+          let body = Buffer.from(state.body, 'base64')
+          if (encoding === 'br') b = brotliDecompressSync(body).toString()
+          if (encoding === 'gzip') b = gunzipSync(body).toString()
+        }
+        else b = state.body
         state.json = JSON.parse(b) || {}
       }
     }
