@@ -1,27 +1,23 @@
 # `@enhance-dev/arc-plugin-enhance`
+This Architect plugin customizes a default [Architect](https://arc.codes) project to add file based routing and server rendered Custom Elements.
 
-adds file based routing to arc.codes with enhance.dev server rendered custom elements
+## Quick start
+`npx "@enhance/create@latest" ./myproject -y`
 
-## project structure
+⚠️ This repo is **not** meant to be cloned unless you are filing an issue or adding functionality. It is meant to be used by the generators linked above instead.
+
+## Project structure
 
 ```
-public/ ............... static assets
-app/
-├── api/ .............. api routes
-├── elements/ ......... custom elements named-like-this
-└── pages/ ............ html or custom elements that are routes (eg. about.html renders /about)
-    ├── about.mjs
-    ├── index.html
-    └── notes/
-        ├── $id.mjs ... url parameters are supported
-        └── index.mjs
+app
+├── api ............... data routes
+│   └── index.mjs
+├── browser ........... browser JavaScript
+│   └── index.mjs
+├── elements .......... Custom Element pure functions
+│   └── my-header.mjs
+└── pages ............. file-based routing
+    └── index.html
+
 ```
-
-### decisions
-
-file based routing using leading `$` for dynamic parameters reasoning 
-
-- `$` is safe on windows and linux UNLESS its trailing in which case thats a hidden file in windows
-- `:` is illegal in windows file paths
-- `*` will expand in various system shells creating ambiguity 
-- `.` is meaningful in system shells (current dir) and completions with `..` and/or `...` creates ambiguity 
+[Read the documentation here →](https://enhance.dev)
