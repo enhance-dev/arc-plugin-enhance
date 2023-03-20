@@ -49,7 +49,7 @@ module.exports = {
     shared ({ inventory }) {
       const cwd = inventory.inv._project.cwd
       return {
-        src: join(cwd, 'models')
+        src: join(cwd, 'shared')
       }
     },
 
