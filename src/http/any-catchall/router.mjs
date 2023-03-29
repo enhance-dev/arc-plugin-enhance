@@ -181,7 +181,7 @@ export default async function api (options, req) {
     }
     res.statusCode = status
     if (state.session) res.session = state.session
-    if (isAsyncMiddleware) res.headers = { 'set-cookie': state.headers['set-cookie'] }
+    if (state.headers) res.headers = state.headers
     return res
   }
   catch (err) {
