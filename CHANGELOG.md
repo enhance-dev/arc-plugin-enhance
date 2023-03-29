@@ -1,7 +1,7 @@
 # Changelog
 
 
-## [6.0.0] 2023-03-29
+## [5.0.3] 2023-03-29
 
 ### Update
 Updates to latest Enhance SSR which adds `context` and `instanceID` support
