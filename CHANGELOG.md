@@ -1,5 +1,16 @@
 # Changelog
 
+
+## [6.0.0] 2023-03-29
+
+### Update
+Updates to latest Enhance SSR which adds `context` and `instanceID` support
+Updates to latest Enhance styles which updates script name to `enhance-styles` from `enhance`
+Updates to latest Architect sandbox
+
+### Fixes
+Fixes passing all user supplied headers
+
 ## [5.0.1] 2023-02-21
 
 ### Update
