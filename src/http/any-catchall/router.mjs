@@ -17,7 +17,7 @@ import compareRoute from './_sort-routes.mjs'
 import path from 'path'
 import { brotliDecompressSync, gunzipSync } from 'zlib'
 
-export default async function api (options, req) {
+export default async function api(options, req) {
   let { basePath, altPath } = options
 
   let apiPath = getModule(basePath, 'api', req.rawPath)
@@ -134,7 +134,7 @@ export default async function api (options, req) {
     ? state.json
     : {}
 
-  function html (str, ...values) {
+  function html(str, ...values) {
     const _html = enhance({
       elements,
       scriptTransforms: [
@@ -181,7 +181,6 @@ export default async function api (options, req) {
     }
     res.statusCode = status
     if (state.session) res.session = state.session
-    if (state.headers) res.headers = state.headers
     if (isAsyncMiddleware) {
       /* eslint-disable-next-line  no-unused-vars */
       const { 'content-type': contentType, 'content-encoding': contentEncoding, ...otherHeaders } = state.headers
