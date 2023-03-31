@@ -181,6 +181,7 @@ export default async function api (options, req) {
     }
     res.statusCode = status
     if (state.session) res.session = state.session
+    if (state.headers) res.headers = state.headers
     if (isAsyncMiddleware) {
       /* eslint-disable-next-line  no-unused-vars */
       const { 'content-type': contentType, 'content-encoding': contentEncoding, ...otherHeaders } = state.headers
