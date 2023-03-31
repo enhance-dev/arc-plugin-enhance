@@ -1,6 +1,12 @@
 # Changelog
 
 
+## [5.0.5] 2023-03-31
+
+### Update
+
+Adds tests for middleware headers
+
 ## [5.0.4] 2023-03-31
 
 ### Fixes
