@@ -1,6 +1,11 @@
 # Changelog
 
 
+## [5.0.4] 2023-03-31
+
+### Fixes
+Fixes headers passed in middleware pattern
+
 ## [5.0.3] 2023-03-29
 
 ### Update
