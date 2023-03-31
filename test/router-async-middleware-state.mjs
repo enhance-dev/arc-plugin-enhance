@@ -23,7 +23,7 @@ test('middleware parsed json state happens', async t => {
   console.log(stuff)
 })
 
-test('middleware parsed json state passes thru to html render', async t => {
+test.only('middleware parsed json state passes thru to html render', async t => {
   t.plan(4)
   let req = {
     rawPath: '/test-store',

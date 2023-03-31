@@ -4,7 +4,7 @@ import { join } from 'path'
 let cache = {}
 
 /** helper to return files from basePath */
-export default function getFiles (basePath, folder) {
+export default function getFiles(basePath, folder) {
   if (!cache[basePath]) cache[basePath] = {}
   if (!cache[basePath][folder]) {
     let root = join(basePath, folder)
