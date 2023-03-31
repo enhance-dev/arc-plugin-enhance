@@ -54,7 +54,7 @@ export default async function api (options, req) {
   // if both are defined but match with different specificity
   // (i.e. one is exact and one is a catchall)
   // only the most specific route will match
-  if (apiPath && pagePath){
+  if (apiPath && pagePath) {
     let apiPathPart = apiPath.replace(path.join(apiBaseUsed, 'api'), '')
     let pagePathPart = pagePath.replace(path.join(pageBaseUsed, 'pages'), '')
     if (compareRoute(apiPathPart, pagePathPart) === 1) apiPath = false
@@ -86,7 +86,7 @@ export default async function api (options, req) {
       req.params = backfill(apiBaseUsed, apiPath, '', req)
 
       // grab the state from the app/api route
-      let res =  render.bind({}, apiBaseUsed)
+      let res = render.bind({}, apiBaseUsed)
       state = await method(req, res)
 
       // if the api route does nothing backfill empty json response
@@ -181,7 +181,11 @@ export default async function api (options, req) {
     }
     res.statusCode = status
     if (state.session) res.session = state.session
-    if (state.headers) res.headers = state.headers
+    if (isAsyncMiddleware) {
+      /* eslint-disable-next-line  no-unused-vars */
+      const { 'content-type': contentType, 'content-encoding': contentEncoding, ...otherHeaders } = state.headers
+      res.headers = otherHeaders
+    }
     return res
   }
   catch (err) {
