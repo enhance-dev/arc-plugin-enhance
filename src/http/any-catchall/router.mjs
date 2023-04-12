@@ -17,7 +17,7 @@ import compareRoute from './_sort-routes.mjs'
 import path from 'path'
 import { brotliDecompressSync, gunzipSync } from 'zlib'
 
-export default async function api(options, req) {
+export default async function api (options, req) {
   let { basePath, altPath } = options
 
   let apiPath = getModule(basePath, 'api', req.rawPath)
@@ -102,7 +102,7 @@ export default async function api(options, req) {
       // - not a GET
       // - no corresponding page
       // - location has been explicitly passed
-      let location = state.location || (state?.headers?.['Location'])
+      let location = state.location || (state?.headers?.['location'] || state?.headers?.['Location'])
       if (req.method.toLowerCase() != 'get' || !pagePath || location) {
         return state
       }
@@ -134,7 +134,7 @@ export default async function api(options, req) {
     ? state.json
     : {}
 
-  function html(str, ...values) {
+  function html (str, ...values) {
     const _html = enhance({
       elements,
       scriptTransforms: [

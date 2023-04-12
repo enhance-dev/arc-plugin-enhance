@@ -1,5 +1,14 @@
 # Changelog
 
+---
+
+## [5.0.6] 2023-04-11
+
+### Fixed
+
+- Fixed issue when returning a lowercase `location` header
+
+---
 
 ## [5.0.5] 2023-03-31
 
@@ -7,34 +16,49 @@
 
 Adds tests for middleware headers
 
+---
+
 ## [5.0.4] 2023-03-31
 
 ### Fixes
-Fixes headers passed in middleware pattern
+
+- Fixes headers passed in middleware pattern
+
+---
 
 ## [5.0.3] 2023-03-29
 
 ### Update
-Updates to latest Enhance SSR which adds `context` and `instanceID` support
-Updates to latest Enhance styles which updates script name to `enhance-styles` from `enhance`
-Updates to latest Architect sandbox
+
+- Updates to latest Enhance SSR which adds `context` and `instanceID` support
+- Updates to latest Enhance styles which updates script name to `enhance-styles` from `enhance`
+- Updates to latest Architect sandbox
+
 
 ### Fixes
-Fixes passing all user supplied headers
+
+- Fixes passing all user supplied headers
+
+---
 
 ## [5.0.1] 2023-02-21
 
 ### Update
+
 - Exports `any-catchall/index.mjs` for `fastify` plugin
 
+
 ### Fixes
+
 - Fix for nested dynamic routes
 
 ```
 // ... /people/13/things/4 ... pages/users/$id/things/$thingID.mjs . page-users--id-things--thingid
 ```
 
+
 ### Breaking
+
 - Updates output of browser bundles to `/_public/browser`
 
 ---
@@ -44,6 +68,7 @@ Fixes passing all user supplied headers
 ### Update
 
 - Patch for user-supplied rollup.config.mjs
+
 ---
 
 ## [4.4.0] 2023-01-18
@@ -51,6 +76,8 @@ Fixes passing all user supplied headers
 ### Added
 
 - Support for user-supplied rollup.config.js
+
+---
 
 ## [4.3.5] 2023-01-10
 
@@ -91,7 +118,7 @@ Fixes passing all user supplied headers
 
 ## [4.2.0] 2022-12-08
 
-### changed
+### Changed
 
 - Updates `@enhance/arc-plugin-enhance` to latest which includes swapping `/tmp` to `.enhance` for generated output
 
@@ -100,4 +127,3 @@ Fixes passing all user supplied headers
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
-z
