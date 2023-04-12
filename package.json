@@ -16,6 +16,9 @@
   "bugs": {
     "url": "https://github.com/enhance-dev/arc-plugin-enhance/issues"
   },
+  "engines": {
+    "node": ">=14"
+  },
   "scripts": {
     "start": "sandbox",
     "lint": "eslint . --fix",
