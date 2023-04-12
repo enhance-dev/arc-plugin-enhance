@@ -22,7 +22,7 @@ test('router middleware passes values', async t => {
   console.log(res)
 })
 
-test('router middleware respects redirects', async t => {
+test('router middleware respects redirect property', async t => {
   t.plan(2)
   let req = {
     rawPath: '/test-redirect',
@@ -34,7 +34,24 @@ test('router middleware respects redirects', async t => {
   process.env.ARC_SESSION_TABLE_NAME = 'jwe' // if we do not do this we need to setup dynamo!
   let basePath = path.join(__dirname, 'mock-async-middleware', 'app')
   let res = await router.bind({}, { basePath })(req)
-  t.equals(res.headers['Location'], '/login', 'req location matches')
+  t.equals(res.headers['location'] || res.headers['Location'], '/login', 'req location matches')
+  t.equals(res.statusCode, 302, 'proper redirect status')
+  console.log(res)
+})
+
+test('router middleware respects redirect headers', async t => {
+  t.plan(2)
+  let req = {
+    rawPath: '/test-redirect-header',
+    method: 'GET',
+    headers: {
+      'accept': 'text/html',
+    },
+  }
+  process.env.ARC_SESSION_TABLE_NAME = 'jwe' // if we do not do this we need to setup dynamo!
+  let basePath = path.join(__dirname, 'mock-async-middleware', 'app')
+  let res = await router.bind({}, { basePath })(req)
+  t.equals(res.headers['location'] || res.headers['Location'], '/login', 'req location matches')
   t.equals(res.statusCode, 302, 'proper redirect status')
   console.log(res)
 })
