@@ -1,6 +1,12 @@
 # Changelog
 
 
+## [5.0.6] 2023-04-20
+
+### Update
+
+Updates Enhance SSR to add support for returning only the body content with the `contentBody` property.
+
 ## [5.0.5] 2023-03-31
 
 ### Update
