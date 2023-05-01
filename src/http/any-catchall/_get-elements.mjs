@@ -33,7 +33,7 @@ export default async function getElements (basePath) {
       head = (await import(pathToFileURL(pathToHead).href)).default
     }
     catch (error) {
-      throw new Error('Issue importing app/head.mjs', { cause: error })
+      throw new Error('Issue when trying to import head file.', { cause: error })
     }
   }
 
@@ -46,7 +46,7 @@ export default async function getElements (basePath) {
       els = mod.default
     }
     catch (error) {
-      throw new Error('Issue importing app/elements.mjs', { cause: error })
+      throw new Error('Issue when trying to import elements manifest.', { cause: error })
     }
   }
 
@@ -63,7 +63,7 @@ export default async function getElements (basePath) {
         els['page-' + tag] = mod.default
       }
       catch (error) {
-        throw new Error(`Issue importing app/page/${p}.mjs`, { cause: error })
+        throw new Error(`Issue when trying to import page: ${p}`, { cause: error })
       }
     }
   }
@@ -86,7 +86,7 @@ export default async function getElements (basePath) {
         els[tag] = mod.default
       }
       catch (error) {
-        throw new Error(`Issue importing app/elements/${e}.mjs`, { cause: error })
+        throw new Error(`Issue importing element: ${e}`, { cause: error })
       }
     }
   }
