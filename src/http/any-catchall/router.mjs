@@ -73,7 +73,7 @@ export default async function api (options, req) {
       mod = await import(pathToFileURL(apiPath).href)
     }
     catch (error) {
-      throw new Error(`Issue rendering API: ${apiPath}`, { cause: error })
+      throw new Error(`Issue when trying to import API: ${apiPath}`, { cause: error })
     }
 
     let method = mod[req.method.toLowerCase()]
