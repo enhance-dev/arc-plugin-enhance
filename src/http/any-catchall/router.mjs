@@ -73,7 +73,7 @@ export default async function api (options, req) {
       mod = await import(pathToFileURL(apiPath).href)
     }
     catch (error) {
-      throw new Error(`Issue importing app/api/${apiPath}.mjs`, { cause: error })
+      throw new Error(`Issue when trying to import API: ${apiPath}`, { cause: error })
     }
 
     let method = mod[req.method.toLowerCase()]
@@ -191,7 +191,8 @@ export default async function api (options, req) {
   catch (err) {
     // 500
     let status = 500
-    let error = err.message || ''
+    let error = err.stack
+    console.error(err)
     let fiveHundred = getModule(basePath, 'pages', '/500')
     if (altPath && !fiveHundred) fiveHundred = getModule(altPath, 'pages', '/500')
     let body = ''
