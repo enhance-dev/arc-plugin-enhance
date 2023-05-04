@@ -40,7 +40,7 @@
     "@enhance/arc-plugin-styles": "^2.2.2",
     "@enhance/enhance-style-transform": "^0.0.1",
     "@enhance/import-transform": "^4.0.0",
-    "@enhance/ssr": "^3.2.0",
+    "@enhance/ssr": "^3.3.1",
     "@enhance/store": "^1.0.1",
     "glob": "^9.2.1",
     "path-to-regexp": "^6.2.1"
