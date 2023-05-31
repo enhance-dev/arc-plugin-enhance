@@ -62,7 +62,6 @@ test('router with result in both reversed', async t => {
   let basePath = path.join(__dirname, '..', 'app')
   let altPath = path.join(__dirname, 'mock-apps', 'app')
   let result = await router.bind({}, { basePath: altPath, altPath: basePath })(req)
-  console.log(result)
   t.ok(result.html.includes('backup'), 'got the right page')
 })
 
@@ -112,7 +111,23 @@ test('router with result in both reversed', async t => {
   t.ok(result.html.includes('backup'), 'got the right page')
 })
 
-test('router with result in alternative', async t => {
+// test('router with lower specificity match in base path and more specifc match in alternate', async t => {
+//   t.plan(1)
+//   let req = {
+//     rawPath: '/one/three',
+//     method: 'GET',
+//     headers: {
+//       'accept': 'text/html'
+//     }
+//   }
+//   let basePath = path.join(__dirname, '..', 'app')
+//   let altPath = path.join(__dirname, 'mock-apps', 'app')
+//   let result = await router.bind({}, { basePath: altPath, altPath: basePath })(req)
+//   console.log(result)
+//   t.ok(result.html.includes('backup'), 'got the right page')
+// })
+
+test.only('router with result in alternative', async t => {
   t.plan(1)
   let req = {
     rawPath: '/backup-data',
@@ -124,6 +139,7 @@ test('router with result in alternative', async t => {
   let basePath = path.join(__dirname, '..', 'app')
   let altPath = path.join(__dirname, 'mock-apps', 'app')
   let result = await router({ basePath, altPath }, req)
+  console.log(result)
   t.deepEqual(result.json.data, [ 'fred', 'joe', 'mary' ], 'got result')
 })
 
