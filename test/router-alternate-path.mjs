@@ -141,3 +141,19 @@ test('router with no pages dir', async t => {
   let result = await router({ basePath: primaryApp, altPath: secondaryApp }, req)
   t.ok(result, 'got result')
 })
+
+test('Matches in both with higher weight in alternate path', async t => {
+  t.plan(1)
+  let req = {
+    rawPath: '/one/two/three-alt',
+    method: 'GET',
+    headers: {
+      'accept': 'text/html'
+    }
+  }
+  let basePath = path.join(__dirname, '..', 'app')
+  let altPath = path.join(__dirname, 'mock-apps', 'app')
+  let result = await router.bind({}, { basePath: altPath, altPath: basePath })(req)
+  console.log(result)
+  t.ok(result?.json?.where?.includes('three-alt'), 'got the right page')
+})
