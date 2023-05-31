@@ -37,7 +37,7 @@ export default async function api (options, req) {
       apiPath = altApiPath
       apiBaseUsed = altPath
     }
-    else if (apiPath && altApiPath && (compareRoute(apiPathPart, altApiPathPart) === -1)) {
+    else if (apiPath && altApiPath && (compareRoute(apiPathPart, altApiPathPart) === 1)) {
       apiPath = altApiPath
       apiBaseUsed = altPath
     }
@@ -45,7 +45,7 @@ export default async function api (options, req) {
       pagePath = altPagePath
       pageBaseUsed = altPath
     }
-    else if (pagePath && altPagePath && (compareRoute(pagePathPart, altPagePathPart) === -1)) {
+    else if (pagePath && altPagePath && (compareRoute(pagePathPart, altPagePathPart) === 1)) {
       pagePath = altPagePath
       pageBaseUsed = altPath
     }
