@@ -35,3 +35,19 @@ test('router finds right dynamic html page', async t => {
   t.ok(res.html.includes('LEVEL2'), 'Got the Right HTML Page')
   console.log(res)
 })
+
+
+test('router finds right dynamic catch-all html page', async t => {
+  t.plan(1)
+  let req = {
+    rawPath: '/docs/anything',
+    method: 'GET',
+    headers: {
+      'accept': 'text/html',
+    },
+  }
+  let basePath = path.join(__dirname, 'mock-dynamic-routes', 'app')
+  let res = await router.bind({}, { basePath })(req)
+  t.ok(res.html.includes('DOCS'), 'Got the Right HTML Page')
+  console.log(res)
+})
