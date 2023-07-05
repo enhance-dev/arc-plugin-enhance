@@ -4,4 +4,5 @@ export default function clean ({ pathTmpl, base, fileNameRegEx }) {
     .replace(/(\/?)\$\$\/?$/, '$1(.*)') // $$.mjs is catchall
     .replace(/\/\$(\w+)/g, '/:$1')
     .replace(/\/+$/, '')
+    .replace(/\\/g, '/')
 }
