@@ -23,6 +23,9 @@ export default function sorter (a, b) {
     // i.e. /test/this.mjs = 'CC'
     // i.e. /test/$id.mjs = 'CB'
     // i.e. /test/$$.mjs = 'CA'
+    if (process.platform === 'win32'){
+      str = str.replace(/\\/g, '/')
+    }
     return str.split('/').reduce((prev, curr) => {
       return (prev + (pathPartWeight(curr) ))
     }, '')
