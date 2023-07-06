@@ -1,4 +1,6 @@
 /** helper to sort routes from least ambiguous to most */
+import { sep } from 'path'
+
 export default function sorter (a, b) {
   // Sorting is done by assinging letters to each part of the path
   // and then using alphabetical ordering to sort on.
@@ -23,6 +25,9 @@ export default function sorter (a, b) {
     // i.e. /test/this.mjs = 'CC'
     // i.e. /test/$id.mjs = 'CB'
     // i.e. /test/$$.mjs = 'CA'
+    if (process.platform === 'win32'){
+      str = str.replace(/\\/g, '/')
+    }
     return str.split('/').reduce((prev, curr) => {
       return (prev + (pathPartWeight(curr) ))
     }, '')
