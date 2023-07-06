@@ -1,6 +1,4 @@
 /** helper to sort routes from least ambiguous to most */
-import { sep } from 'path'
-
 export default function sorter (a, b) {
   // Sorting is done by assinging letters to each part of the path
   // and then using alphabetical ordering to sort on.
