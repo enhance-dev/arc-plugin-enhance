@@ -79,7 +79,7 @@ export default async function api (options, req) {
     let method = mod[req.method.toLowerCase()]
     isAsyncMiddleware = Array.isArray(method)
     if (isAsyncMiddleware)
-      method = arc.http.async.apply(null, method)
+      method = arc.http.apply(null, method)
     if (method) {
 
       // check to see if we need to modify the req and add in params
