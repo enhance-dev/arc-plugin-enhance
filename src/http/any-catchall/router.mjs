@@ -94,7 +94,12 @@ export default async function api (options, req) {
 
       // if the user-agent requested json return the response immediately
       if (isJSON(req.headers)) {
-        delete state.location
+        if (!isAsyncMiddleware) {
+          delete state.location
+        }
+        else {
+          delete state.headers.location
+        }
         return state
       }
 
