@@ -22,7 +22,7 @@ function escapeRegExp (string) {
   return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') // $& means the whole matched string
 }
 export function replaceEvery (str, mapObj) {
-  var re = new RegExp(Object.keys(mapObj).map(i => escapeRegExp(i)).join('|'), 'gi')
+  const re = new RegExp(Object.keys(mapObj).sort().reverse().map(i => escapeRegExp(i)).join('|'), 'gi')
 
   return str.replace(re, function (matched) {
     return mapObj[matched]
