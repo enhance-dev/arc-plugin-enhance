@@ -2,7 +2,7 @@ import test from 'tape'
 import { replaceEvery } from '../src/http/any-catchall/_fingerprint-paths.mjs'
 
 
-test.only('path fingerpinter', t => {
+test('path fingerpinter', t => {
   t.plan(1)
   const input = `
   /_public/foo.mjs
