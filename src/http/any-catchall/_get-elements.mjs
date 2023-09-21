@@ -1,12 +1,13 @@
 import { join } from 'path'
 import { pathToFileURL } from 'url'
-import { existsSync as exists } from 'fs'
+import { existsSync as exists, readFileSync } from 'fs'
 
 import getFiles from './_get-files.mjs'
 import getPageName from './_get-page-name.mjs'
 import _404 from './templates/404.mjs'
 import _500 from './templates/500.mjs'
 import _head from './templates/head.mjs'
+import HTMLElementWrapper from './templates/html-element-wrapper.mjs'
 
 /**
  * - files in /elements must be lowcase dasherized to match tag name
@@ -69,24 +70,27 @@ export default async function getElements (basePath) {
   }
 
   if (exists(pathToElements)) {
-    let elementsURL = pathToFileURL(join(basePath, 'elements'))
     // read all the elements
-    let files = getFiles(basePath, 'elements').filter(f => f.endsWith('.mjs'))
+    let files = getFiles(basePath, 'elements').filter(f => f.endsWith('.mjs') || f.endsWith('.html'))
     for (let e of files) {
       // turn foo/bar.mjs into foo-bar to make sure we have a legit tag name
       const fileURL = pathToFileURL(e)
-      let tag = fileURL.pathname.replace(elementsURL.pathname, '').slice(1).replace(/.mjs$/, '').replace(/\//g, '-')
-      if (/^[a-z][a-z0-9-]*$/.test(tag) === false) {
-        throw Error(`Illegal element name "${tag}" must be lowercase alphanumeric dash`)
-      }
+      let tag = createTagName(basePath, fileURL, e.endsWith('.mjs') ? /.mjs$/ : /.html$/)
+      validateTagName(tag)
       // import the element and add to the map
       let mod
-      try {
-        mod = await import(fileURL.href)
-        els[tag] = mod.default
+      if (e.endsWith('.mjs')) {
+        try {
+          mod = await import(fileURL.href)
+          els[tag] = mod.default
+        }
+        catch (error) {
+          throw new Error(`Issue importing element: ${e}`, { cause: error })
+        }
       }
-      catch (error) {
-        throw new Error(`Issue importing element: ${e}`, { cause: error })
+      else {
+        let template = readFileSync(fileURL.pathname)
+        els[tag] = HTMLElementWrapper({ template: template.toString() })
       }
     }
   }
@@ -98,4 +102,15 @@ export default async function getElements (basePath) {
     els['page-500'] = _500
 
   return { head, elements: els }
+}
+
+function createTagName (basePath, fileURL, regex) {
+  let elementsURL = pathToFileURL(join(basePath, 'elements'))
+  return fileURL.pathname.replace(elementsURL.pathname, '').slice(1).replace(regex, '').replace(/\//g, '-')
+}
+
+function validateTagName (tag) {
+  if (/^[a-z][a-z0-9-]*$/.test(tag) === false) {
+    throw Error(`Illegal element name "${tag}" must be lowercase alphanumeric dash`)
+  }
 }
