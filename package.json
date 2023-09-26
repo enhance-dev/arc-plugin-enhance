@@ -33,7 +33,7 @@
   ],
   "dependencies": {
     "@architect/asap": "^6.0.1",
-    "@architect/functions": "^6.0.0",
+    "@architect/functions": "^7.0.0",
     "@architect/plugin-bundles": "^3.2.0",
     "@begin/data": "^4.0.2",
     "@enhance/arc-plugin-rollup": "^2.0.0",
