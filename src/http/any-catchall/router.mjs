@@ -191,6 +191,10 @@ export default async function api (options, req) {
       const { 'content-type': contentType, 'content-encoding': contentEncoding, ...otherHeaders } = state.headers
       res.headers = otherHeaders
     }
+    else if (!!res.headers === false && state.headers) {
+      // always pass headers!
+      res.headers = state.headers
+    }
     return res
   }
   catch (err) {
