@@ -22,8 +22,7 @@
   "scripts": {
     "start": "sandbox",
     "lint": "eslint . --fix",
-    "test": "tape test/*.mjs | tap-arc",
-    "t": "tape test/router.mjs | tap-arc"
+    "test": "tape test/*.mjs | tap-arc"
   },
   "files": [
     "app/*",
