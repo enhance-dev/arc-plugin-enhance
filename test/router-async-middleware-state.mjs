@@ -35,7 +35,7 @@ test('middleware parsed json state passes thru to html render', async t => {
   process.env.ARC_SESSION_TABLE_NAME = 'jwe' // if we do not do this we need to setup dynamo!
   let basePath = path.join(__dirname, 'mock-async-middleware', 'app')
   let res = await router.bind({}, { basePath })(req)
-  t.ok(res.html.includes('<debug-state>'), 'res html includes <debug-state>')
+  t.ok(res.html.includes('<debug-state enhanced="✨">'), 'res html includes <debug-state>')
   t.ok(res.headers['set-cookie'], 'set-cookie')
   let r = new RegExp('<pre[^>]*>(.*?)</pre>')
   let s = res.html.replace(/\n/g, '').match(r)[1]

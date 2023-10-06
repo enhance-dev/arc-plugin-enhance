@@ -15,7 +15,7 @@ test(`Start local server`, async t => {
 
 test('request to route using middleware responds', async t => {
   const response = await get({ headers: { 'content-type': 'html/text; charset:utf8' }, url: baseUrl + '/middleware-test' })
-  const expected = `<body><page-middleware-test><h1>Hello World</h1><pre>{"first":"thing","second":false}</pre></page-middleware-test></body>`
+  const expected = `<body><page-middleware-test enhanced="✨"><h1>Hello World</h1><pre>{"first":"thing","second":false}</pre></page-middleware-test></body>`
   t.ok(response.body.includes(expected), 'middleware responds')
   t.end()
 })
