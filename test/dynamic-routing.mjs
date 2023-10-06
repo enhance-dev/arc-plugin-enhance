@@ -27,7 +27,7 @@ test('specific API does not get swallowed by catchall page', async t => {
 
 test('specific page does not get served by a more generic api handler', async t => {
   const response = await get({ url: baseUrl + '/test/two' })
-  const expectedPartial = `<page-test-two></page-test-two>`
+  const expectedPartial = `<page-test-two enhanced="✨"></page-test-two>`
   t.ok(response.body.includes(expectedPartial), 'only the specific page handler responds')
   t.end()
 })
