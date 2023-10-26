@@ -37,7 +37,7 @@
     "@architect/plugin-bundles": "^3.2.0",
     "@begin/data": "^4.0.2",
     "@enhance/arc-plugin-rollup": "^2.0.0",
-    "@enhance/arc-plugin-styles": "^4.0.0",
+    "@enhance/arc-plugin-styles": "^5.0.0",
     "@enhance/enhance-style-transform": "^0.1.2",
     "@enhance/import-transform": "^4.0.0",
     "@enhance/ssr": "^3.5.0",
