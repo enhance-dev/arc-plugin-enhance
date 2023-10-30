@@ -91,6 +91,14 @@ module.exports = {
         sortKeyType: 'string',
         ttl: 'TTL'
       }
+    },
+
+
+    env ({ arc }) {
+      let elements = arc['enhance-elements'] || []
+      return {
+        ELEMENTS: elements
+      }
     }
   }
 
