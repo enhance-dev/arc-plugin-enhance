@@ -20,6 +20,7 @@ export default async function getElements (basePath) {
   let pathToPages = join(basePath, 'pages')
   let pathToElements = join(basePath, 'elements')
   let pathToHead = join(basePath, 'head.mjs')
+  let pathToComponents = join(basePath, 'components')
 
   // generate elements manifest
   let els = {}
@@ -67,6 +68,53 @@ export default async function getElements (basePath) {
         throw new Error(`Issue when trying to import page: ${p}`, { cause: error })
       }
     }
+  }
+
+  if (exists(pathToComponents)) {
+    let componentURL = pathToFileURL(join(basePath, 'components'))
+    // read all the elements
+    let files = getFiles(basePath, 'components').filter(f => f.endsWith('.mjs'))
+    for (let e of files) {
+      // turn foo/bar.mjs into foo-bar to make sure we have a legit tag name
+      const fileURL = pathToFileURL(e)
+      let tag = fileURL.pathname.replace(componentURL.pathname, '').slice(1).replace(/.mjs$/, '').replace(/\//g, '-')
+      if (/^[a-z][a-z0-9-]*$/.test(tag) === false) {
+        throw Error(`Illegal element name "${tag}" must be lowercase alphanumeric dash`)
+      }
+      // import the element and add to the map
+      try {
+        let { default: component } = await import(fileURL.href)
+        let render = component.prototype.render
+        if (render) {
+          els[tag] = function BrowserElement ({ html, state }) {
+            return render({ html, state })
+          }
+        }
+      }
+      catch (error) {
+        console.warn('Ignoring component files that do not include a render function')
+      }
+    }
+
+    let externalElements = JSON.parse(process.env.ELEMENTS)
+    for (let e of externalElements) {
+      let [ elementName, tag ] = e
+      // import the element and add to the map
+      try {
+        let pkgName = elementName.includes('/') ? `@${elementName}` : elementName
+        let { default: component } = await import(pkgName)
+        let render = component.prototype.render
+        if (render) {
+          els[tag] = function BrowserElement ({ html, state }) {
+            return render({ html, state })
+          }
+        }
+      }
+      catch (error) {
+        throw new Error(`Issue importing 3rd party element: ${e}`, { cause: error })
+      }
+    }
+
   }
 
   if (exists(pathToElements)) {

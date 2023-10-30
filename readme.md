@@ -14,6 +14,8 @@ app
 │   └── index.mjs
 ├── browser ........... browser JavaScript
 │   └── index.mjs
+├── components ........ Single File Web Components
+│   └── my-card.mjs
 ├── elements .......... Custom Element pure functions
 │   └── my-header.mjs
 └── pages ............. file-based routing
