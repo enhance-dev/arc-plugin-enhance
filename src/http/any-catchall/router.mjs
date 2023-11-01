@@ -5,6 +5,7 @@ import arc from '@architect/functions'
 import enhance from '@enhance/ssr'
 import importTransform from '@enhance/import-transform'
 import styleTransform from '@enhance/enhance-style-transform'
+import headerTimers from 'header-timers'
 
 import getModule from './_get-module.mjs'
 import getElements from './_get-elements.mjs'
@@ -18,6 +19,7 @@ import path from 'path'
 import { brotliDecompressSync, gunzipSync } from 'zlib'
 
 export default async function api (options, req) {
+  let timers = headerTimers({ enabled: true })
   let { basePath, altPath } = options
 
   let apiPath = getModule(basePath, 'api', req.rawPath)
@@ -87,7 +89,9 @@ export default async function api (options, req) {
 
       // grab the state from the app/api route
       let res = render.bind({}, apiBaseUsed)
+      timers.start('api', 'API execution')
       state = await method(req, res)
+      timers.stop('api')
 
       // if the api route does nothing backfill empty json response
       if (!state) state = { json: {} }
@@ -129,11 +133,13 @@ export default async function api (options, req) {
   }
 
   // rendering an html page
+  timers.start('elements', 'Gather elements')
   let baseHeadElements = await getElements(basePath)
   let altHeadElements = {}
   if (altPath) altHeadElements = await getElements(altPath)
   let head = baseHeadElements.head || altHeadElements.head
   let elements = { ...altHeadElements.elements, ...baseHeadElements.elements }
+  timers.stop('elements')
 
   const store = state.json
     ? state.json
@@ -150,7 +156,28 @@ export default async function api (options, req) {
       ],
       initialState: store
     })
-    return fingerprintPaths(_html(str, ...values))
+    timers.start('html', 'HTML render')
+    const htmlString = _html(str, ...values)
+    timers.stop('html')
+    timers.start('fingerprints', 'Fingerprint paths')
+    const fingerprinted = fingerprintPaths(htmlString)
+    timers.stop('fingerprints')
+    return fingerprinted
+  }
+
+  function addTimingToHeaders (res) {
+    const { headers = {} } = res
+    const { [timers.headerKey]: existing = null } = headers
+    const timingValue = timers.headerValue()
+    return {
+      ...res,
+      headers: {
+        ...headers,
+        [timers.headerKey]: existing
+          ? `${existing}, ${timingValue}`
+          : timingValue
+      }
+    }
   }
 
   try {
@@ -195,6 +222,7 @@ export default async function api (options, req) {
       // always pass headers!
       res.headers = state.headers
     }
+    res = addTimingToHeaders(res)
     return res
   }
   catch (err) {
