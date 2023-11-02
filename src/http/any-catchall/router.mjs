@@ -167,13 +167,13 @@ export default async function api (options, req) {
 
   function addTimingToHeaders (res) {
     const { headers = {} } = res
-    const { [timers.headerKey]: existing = null } = headers
-    const timingValue = timers.headerValue()
+    const { [timers.key]: existing = null } = headers
+    const timingValue = timers.value()
     return {
       ...res,
       headers: {
         ...headers,
-        [timers.headerKey]: existing
+        [timers.key]: existing
           ? `${existing}, ${timingValue}`
           : timingValue
       }
