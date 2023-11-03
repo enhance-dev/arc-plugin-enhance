@@ -42,7 +42,7 @@
     "@enhance/import-transform": "^4.0.0",
     "@enhance/ssr": "^3.5.0",
     "glob": "^9.2.1",
-    "header-timers": "^0.0.3",
+    "header-timers": "^0.1.0",
     "path-to-regexp": "^6.2.1"
   },
   "devDependencies": {
