@@ -18,7 +18,7 @@ import compareRoute from './_sort-routes.mjs'
 import path from 'path'
 import { brotliDecompressSync, gunzipSync } from 'zlib'
 
-export default async function api (options, req) {
+export default async function api(options, req) {
   let timers = headerTimers({ enabled: true })
   let { basePath, altPath } = options
 
@@ -89,7 +89,7 @@ export default async function api (options, req) {
 
       // grab the state from the app/api route
       let res = render.bind({}, apiBaseUsed)
-      timers.start('api', 'API execution')
+      timers.start('api', 'enhance-api')
       state = await method(req, res)
       timers.stop('api')
 
@@ -133,7 +133,7 @@ export default async function api (options, req) {
   }
 
   // rendering an html page
-  timers.start('elements', 'Gather elements')
+  timers.start('elements', 'enhance-elements')
   let baseHeadElements = await getElements(basePath)
   let altHeadElements = {}
   if (altPath) altHeadElements = await getElements(altPath)
@@ -145,7 +145,7 @@ export default async function api (options, req) {
     ? state.json
     : {}
 
-  function html (str, ...values) {
+  function html(str, ...values) {
     const _html = enhance({
       elements,
       scriptTransforms: [
@@ -156,16 +156,16 @@ export default async function api (options, req) {
       ],
       initialState: store
     })
-    timers.start('html', 'HTML render')
+    timers.start('html', 'enhance-html')
     const htmlString = _html(str, ...values)
     timers.stop('html')
-    timers.start('fingerprints', 'Fingerprint paths')
+    timers.start('fingerprint', 'enhance-fingerprint')
     const fingerprinted = fingerprintPaths(htmlString)
-    timers.stop('fingerprints')
+    timers.stop('fingerprint')
     return fingerprinted
   }
 
-  function addTimingToHeaders (res) {
+  function addTimingToHeaders(res) {
     const { headers = {} } = res
     const { [timers.key]: existing = null } = headers
     const timingValue = timers.value()
