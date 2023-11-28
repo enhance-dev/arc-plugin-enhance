@@ -84,7 +84,7 @@ export default async function getElements (basePath) {
       // import the element and add to the map
       try {
         let { default: component } = await import(fileURL.href)
-        let render = component.prototype.render
+        let render = component.render || component.prototype.render
         if (render) {
           els[tag] = function BrowserElement ({ html, state }) {
             return render({ html, state })
