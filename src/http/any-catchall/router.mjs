@@ -19,7 +19,7 @@ import compareRoute from './_sort-routes.mjs'
 import path from 'path'
 import { brotliDecompressSync, gunzipSync } from 'zlib'
 
-export default async function api(options, req) {
+export default async function api (options, req) {
   let timers = headerTimers({ enabled: true })
   let { basePath, altPath } = options
 
@@ -143,9 +143,9 @@ export default async function api(options, req) {
   let elements = { ...altHeadElements.elements, ...baseHeadElements.elements }
   timers.stop('elements')
 
-  const store = Object.assign(preflight(req), state.json ? state.json : {})
+  const store = Object.assign(preflight({ req }), state.json ? state.json : {})
 
-  function html(str, ...values) {
+  function html (str, ...values) {
     const _html = enhance({
       elements,
       scriptTransforms: [
@@ -165,7 +165,7 @@ export default async function api(options, req) {
     return fingerprinted
   }
 
-  function addTimingToHeaders(res) {
+  function addTimingToHeaders (res) {
     const { headers = {} } = res
     const { [timers.key]: existing = null } = headers
     const timingValue = timers.value()
