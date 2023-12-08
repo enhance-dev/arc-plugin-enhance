@@ -10,6 +10,7 @@ import headerTimers from 'header-timers'
 import getModule from './_get-module.mjs'
 import getElements from './_get-elements.mjs'
 import getPageName from './_get-page-name.mjs'
+import getPreflight from './_get-preflight.mjs'
 import isJSON from './_is-json-request.mjs'
 import backfill from './_backfill-params.mjs'
 import render from './_render.mjs'
@@ -26,6 +27,7 @@ export default async function api(options, req) {
   let pagePath = getModule(basePath, 'pages', req.rawPath)
   let apiBaseUsed = basePath
   let pageBaseUsed = basePath
+  let preflight = await getPreflight({ basePath })
 
   if (altPath) {
     let apiPathPart = apiPath && apiPath.replace(path.join(basePath, 'api'), '')
@@ -141,9 +143,7 @@ export default async function api(options, req) {
   let elements = { ...altHeadElements.elements, ...baseHeadElements.elements }
   timers.stop('elements')
 
-  const store = state.json
-    ? state.json
-    : {}
+  const store = Object.assign(preflight(req), state.json ? state.json : {})
 
   function html(str, ...values) {
     const _html = enhance({
