@@ -1,14 +1,14 @@
-export default function Preflight({ req }) {
+export default function Preflight ({ req }) {
   return {
-    title: getPageTitle(req.path),
+    pageTitle: getPageTitle(req.path),
     account: {
-      username: 'Bob Syouruncle',
+      username: 'bobsyouruncle',
       id: '23jk24h24'
     }
   }
 }
 
-function getPageTitle(path) {
+function getPageTitle (path) {
   const titleMap = {
     '/': 'Home',
     '/about': 'About',

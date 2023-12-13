@@ -143,7 +143,16 @@ export default async function api (options, req) {
   let elements = { ...altHeadElements.elements, ...baseHeadElements.elements }
   timers.stop('elements')
 
-  const store = Object.assign(preflight({ req }), state.json ? state.json : {})
+
+  let store
+  let mergeState = state.json ? state.json : {}
+
+  if (preflight) {
+    store = Object.assign(preflight({ req }), mergeState)
+  }
+  else {
+    store = mergeState
+  }
 
   function html (str, ...values) {
     const _html = enhance({
