@@ -10,6 +10,7 @@ import headerTimers from 'header-timers'
 import getModule from './_get-module.mjs'
 import getElements from './_get-elements.mjs'
 import getPageName from './_get-page-name.mjs'
+import getPreflight from './_get-preflight.mjs'
 import isJSON from './_is-json-request.mjs'
 import backfill from './_backfill-params.mjs'
 import render from './_render.mjs'
@@ -18,7 +19,7 @@ import compareRoute from './_sort-routes.mjs'
 import path from 'path'
 import { brotliDecompressSync, gunzipSync } from 'zlib'
 
-export default async function api(options, req) {
+export default async function api (options, req) {
   let timers = headerTimers({ enabled: true })
   let { basePath, altPath } = options
 
@@ -26,6 +27,7 @@ export default async function api(options, req) {
   let pagePath = getModule(basePath, 'pages', req.rawPath)
   let apiBaseUsed = basePath
   let pageBaseUsed = basePath
+  let preflight = await getPreflight({ basePath })
 
   if (altPath) {
     let apiPathPart = apiPath && apiPath.replace(path.join(basePath, 'api'), '')
@@ -141,11 +143,18 @@ export default async function api(options, req) {
   let elements = { ...altHeadElements.elements, ...baseHeadElements.elements }
   timers.stop('elements')
 
-  const store = state.json
-    ? state.json
-    : {}
 
-  function html(str, ...values) {
+  let store
+  let mergeState = state.json ? state.json : {}
+
+  if (preflight) {
+    store = Object.assign(preflight({ req }), mergeState)
+  }
+  else {
+    store = mergeState
+  }
+
+  function html (str, ...values) {
     const _html = enhance({
       elements,
       scriptTransforms: [
@@ -165,7 +174,7 @@ export default async function api(options, req) {
     return fingerprinted
   }
 
-  function addTimingToHeaders(res) {
+  function addTimingToHeaders (res) {
     const { headers = {} } = res
     const { [timers.key]: existing = null } = headers
     const timingValue = timers.value()
