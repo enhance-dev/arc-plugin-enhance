@@ -148,7 +148,9 @@ export default async function api (options, req) {
   let mergeState = state.json ? state.json : {}
 
   if (preflight) {
-    store = Object.assign(preflight({ req }), mergeState)
+    timers.start('preflight', 'enhance-preflight')
+    store = Object.assign(await preflight({ req }), mergeState)
+    timers.stop('preflight')
   }
   else {
     store = mergeState
@@ -168,9 +170,7 @@ export default async function api (options, req) {
     timers.start('html', 'enhance-html')
     const htmlString = _html(str, ...values)
     timers.stop('html')
-    timers.start('fingerprint', 'enhance-fingerprint')
     const fingerprinted = fingerprintPaths(htmlString)
-    timers.stop('fingerprint')
     return fingerprinted
   }
 
