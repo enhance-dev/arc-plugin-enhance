@@ -68,6 +68,13 @@ export default async function api (options, req) {
   let state = {}
   let isAsyncMiddleware = false
 
+  let preflightData = {}
+  if (preflight) {
+    timers.start('preflight', 'enhance-preflight')
+    preflightData = await preflight({ req })
+    timers.stop('preflight')
+  }
+
   // rendering a json response or passing state to an html response
   if (apiPath) {
 
@@ -143,17 +150,9 @@ export default async function api (options, req) {
   let elements = { ...altHeadElements.elements, ...baseHeadElements.elements }
   timers.stop('elements')
 
-
-  let store
-  let mergeState = state.json ? state.json : {}
-
-  if (preflight) {
-    timers.start('preflight', 'enhance-preflight')
-    store = Object.assign(await preflight({ req }), mergeState)
-    timers.stop('preflight')
-  }
-  else {
-    store = mergeState
+  let store = {
+    ...(state.json || {}),
+    ...preflightData
   }
 
   function html (str, ...values) {
