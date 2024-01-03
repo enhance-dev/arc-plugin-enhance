@@ -68,6 +68,13 @@ export default async function api (options, req) {
   let state = {}
   let isAsyncMiddleware = false
 
+  let preflightData = {}
+  if (preflight) {
+    timers.start('preflight', 'enhance-preflight')
+    preflightData = await preflight({ req })
+    timers.stop('preflight')
+  }
+
   // rendering a json response or passing state to an html response
   if (apiPath) {
 
@@ -143,15 +150,9 @@ export default async function api (options, req) {
   let elements = { ...altHeadElements.elements, ...baseHeadElements.elements }
   timers.stop('elements')
 
-
-  let store
-  let mergeState = state.json ? state.json : {}
-
-  if (preflight) {
-    store = Object.assign(preflight({ req }), mergeState)
-  }
-  else {
-    store = mergeState
+  let store = {
+    ...(state.json || {}),
+    ...preflightData
   }
 
   function html (str, ...values) {
@@ -168,9 +169,7 @@ export default async function api (options, req) {
     timers.start('html', 'enhance-html')
     const htmlString = _html(str, ...values)
     timers.stop('html')
-    timers.start('fingerprint', 'enhance-fingerprint')
     const fingerprinted = fingerprintPaths(htmlString)
-    timers.stop('fingerprint')
     return fingerprinted
   }
 
