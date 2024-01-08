@@ -90,9 +90,12 @@ export default async function getElements (basePath) {
             return render({ html, state })
           }
         }
+        else {
+          console.warn('Ignoring component files that do not include a render function')
+        }
       }
       catch (error) {
-        console.warn('Ignoring component files that do not include a render function')
+        throw new Error(`Issue importing component: ${e}`, { cause: error })
       }
     }
 
