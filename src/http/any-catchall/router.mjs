@@ -151,8 +151,8 @@ export default async function api (options, req) {
   timers.stop('elements')
 
   let store = {
-    ...(state.json || {}),
-    ...preflightData
+    ...preflightData,
+    ...(state.json || {})
   }
 
   function html (str, ...values) {
