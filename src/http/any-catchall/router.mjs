@@ -87,7 +87,7 @@ export default async function api (options, req) {
       throw new Error(`Issue when trying to import API: ${apiPath}`, { cause: error })
     }
 
-    let method = mod[req.method.toLowerCase()]
+    let method = req.method.toLowerCase() !== 'delete' ? mod[req.method.toLowerCase()] : mod['destroy']
     isAsyncMiddleware = Array.isArray(method)
     if (isAsyncMiddleware)
       method = arc.http.apply(null, method)
