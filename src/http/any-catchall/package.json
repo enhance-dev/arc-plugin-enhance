@@ -1,0 +1,13 @@
+{
+  "dependencies": {
+    "@architect/asap": "^6.0.6",
+    "@architect/functions": "^7.0.0",
+    "@enhance/arc-plugin-styles": "^5.0.4",
+    "@enhance/enhance-style-transform": "^0.1.2",
+    "@enhance/ssr": "^3.5.1",
+    "glob": "^9.3.5",
+    "header-timers": "^0.2.0",
+    "path-to-regexp": "^6.2.1",
+    "zlib": "^1.0.5"
+  }
+}
