@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "@architect/asap": "^6.0.6",
+    "@architect/functions": "^7.0.0",
+    "@enhance/arc-plugin-styles": "^5.0.4"
+  }
+}
