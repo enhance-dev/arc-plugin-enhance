@@ -22,11 +22,11 @@ export async function get () {
  *
  * testing a custom header in midddleware
  */
-export let post = [async function fn () {
+export let post = [ async function fn () {
   return {
     headers: {
       'x-custom-header': 'custom-header-value',
     },
     json: { data: [ 'sutro', 'turtle', 'mae mae' ] }
   }
-}]
+} ]
