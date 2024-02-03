@@ -1,3 +1,4 @@
+// eslint-disable-next-line
 import { nope } from 'notarealmodule'
 
 export default function Preflight ({ req }) {

@@ -1,4 +1,4 @@
-export default function MyHeader({ html, state }) {
+export default function MyHeader ({ html, state }) {
   const { store = {} } = state
   const { title = 'huh?' } = store
   return html`

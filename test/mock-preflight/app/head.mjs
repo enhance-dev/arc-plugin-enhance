@@ -2,7 +2,7 @@ import { getStyles } from '@enhance/arc-plugin-styles'
 
 const { linkTag } = getStyles
 
-export default function Head(state) {
+export default function Head (state) {
   const { store = {} } = state
   const { pageTitle = 'Enhance Starter Project' } = store
   return `
