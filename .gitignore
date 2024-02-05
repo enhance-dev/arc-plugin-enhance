@@ -9,3 +9,5 @@ sam.json
 sam.yaml
 public/styles.css
 models/enhance-styles
+src/http/any-catchall/package-lock.json
+src/http/get-_public-catchall/package-lock.json
