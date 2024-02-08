@@ -32,10 +32,10 @@
     ".arc"
   ],
   "dependencies": {
-    "@architect/asap": "^7.0.4",
-    "@architect/functions": "^8.0.1",
+    "@architect/asap": "^7.0.7",
+    "@architect/functions": "^8.0.2",
     "@architect/plugin-bundles": "^3.2.0",
-    "@begin/data": "^5.0.1",
+    "@begin/data": "^5.0.2",
     "@enhance/arc-plugin-rollup": "^2.0.0",
     "@enhance/arc-plugin-styles": "^5.0.4",
     "@enhance/enhance-style-transform": "^0.1.2",
@@ -47,7 +47,7 @@
   },
   "devDependencies": {
     "@architect/eslint-config": "^2.1.2",
-    "@architect/sandbox": "^6.0.1",
+    "@architect/sandbox": "^6.0.2",
     "eslint": "^8.56.0",
     "tap-arc": "^1.2.2",
     "tape": "^5.7.4",
