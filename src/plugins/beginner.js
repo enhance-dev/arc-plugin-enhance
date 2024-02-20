@@ -33,7 +33,8 @@ module.exports = {
   set: {
     static () {
       return {
-        fingerprint: true
+        fingerprint: true,
+        prune: true
       }
     },
 
