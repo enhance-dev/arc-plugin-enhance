@@ -1,6 +1,5 @@
 @app
-thrasher
+enhance
 
 @plugins
-architect/plugin-bundles
-beginner
+enhance
