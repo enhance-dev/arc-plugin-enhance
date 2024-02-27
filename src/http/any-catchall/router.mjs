@@ -1,5 +1,7 @@
-import { readFileSync as read } from 'fs'
-import { pathToFileURL } from 'url'
+import path from 'node:path'
+import { readFileSync as read } from 'node:fs'
+import { pathToFileURL } from 'node:url'
+import { brotliDecompressSync, gunzipSync } from 'node:zlib'
 
 import arc from '@architect/functions'
 import enhance from '@enhance/ssr'
@@ -16,11 +18,9 @@ import backfill from './_backfill-params.mjs'
 import render from './_render.mjs'
 import fingerprintPaths from './_fingerprint-paths.mjs'
 import compareRoute from './_sort-routes.mjs'
-import path from 'path'
-import { brotliDecompressSync, gunzipSync } from 'zlib'
 
 export default async function api (options, req) {
-  let timers = headerTimers({ enabled: true })
+  let timers = headerTimers({ enabled: options.enableTimings || true })
   let { basePath, altPath } = options
 
   let apiPath = getModule(basePath, 'api', req.rawPath)
