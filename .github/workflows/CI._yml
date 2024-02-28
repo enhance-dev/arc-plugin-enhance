@@ -1,7 +1,7 @@
 name: Node CI
 
 # Push tests commits; pull_request tests PR merges
-on: [ ]
+on: [ push, pull_request ]
 
 defaults:
   run:
