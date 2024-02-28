@@ -32,30 +32,34 @@
     ".arc"
   ],
   "dependencies": {
-    "@architect/asap": "^7.0.4",
-    "@architect/functions": "^8.0.1",
-    "@begin/data": "^5.0.1",
+    "@architect/asap": "^7.0.7",
+    "@architect/functions": "^8.0.4",
+    "@begin/data": "^5.0.3",
     "@enhance/arc-plugin-rollup": "^2.0.0",
     "@enhance/arc-plugin-styles": "^5.0.5",
-    "@enhance/core": "^0.0.3-RC.1",
+    "@enhance/core": "alpha",
     "@enhance/enhance-style-transform": "^0.1.2",
     "@enhance/import-transform": "^4.0.1",
-    "@enhance/loader": "^0.0.1-RC.2",
-    "@enhance/ssr": "^3.5.1",
+    "@enhance/loader": "alpha",
+    "@enhance/ssr": "^3.5.2",
     "glob": "^9.3.5",
-    "header-timers": "^0.2.0",
+    "header-timers": "^0.2.1",
     "path-to-regexp": "^6.2.1"
   },
   "devDependencies": {
     "@architect/eslint-config": "^2.1.2",
-    "@architect/sandbox": "^6.0.1",
-    "eslint": "^8.56.0",
+    "@architect/sandbox": "^6.0.2",
+    "eslint": "^8.57.0",
     "tap-arc": "^1.2.2",
-    "tape": "^5.7.4",
+    "tape": "^5.7.5",
     "tiny-json-http": "^7.5.1"
   },
   "eslintConfig": {
     "extends": "@architect/eslint-config",
+    "parserOptions": {
+      "sourceType": "module",
+      "ecmaVersion": 2022
+    },
     "overrides": [
       {
         "files": [

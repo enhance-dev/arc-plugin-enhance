@@ -1,7 +1,15 @@
 import path from 'node:path'
 import url from 'node:url'
+
 import arc from '@architect/functions'
-import router from './router.mjs'
+import loader from '@enhance/loader'
+import core from '@enhance/core'
+import importTransform from '@enhance/import-transform'
+import styleTransform from '@enhance/enhance-style-transform'
+
+import { getState, head, preflight, postflight } from './helpers.mjs'
+
+const DEBUG = 1
 
 const here = path.dirname(url.fileURLToPath(import.meta.url)) // SOMEDAY: import.meta.dirname
 const basePath = path.join(here, 'node_modules', '@architect', 'views')
@@ -15,10 +23,23 @@ const basePath = path.join(here, 'node_modules', '@architect', 'views')
 //   "Core" routeAndRender
 //   post-route: fingerprint paths + merge headers
 
-export function createRouter (base) {
-  base = base || basePath
+let config = await loader({ basePath })
 
-  // return arc.http(router.bind({}, { basePath: base }))
+export async function createRouter (base) {
+  if (base) config = await loader({ basePath: base })
+
+  const app = core({
+    ...config,
+    ssrOptions: {
+      scriptTransforms: [ importTransform({ lookup: arc.static }) ],
+      styleTransforms: [ styleTransform ],
+    },
+    state: getState(),
+    head,
+    debug: DEBUG > 0,
+  })
+
+  return app
 }
 
-export const handler = routeAndRender()
+export const handler = (await createRouter()).routeAndRender
