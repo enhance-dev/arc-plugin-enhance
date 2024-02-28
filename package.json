@@ -17,7 +17,7 @@
     "url": "https://github.com/enhance-dev/arc-plugin-enhance/issues"
   },
   "engines": {
-    "node": ">=14"
+    "node": ">=16"
   },
   "scripts": {
     "start": "sandbox",
@@ -36,7 +36,6 @@
     "@architect/functions": "^8.0.1",
     "@begin/data": "^5.0.1",
     "@enhance/arc-plugin-rollup": "^2.0.0",
-    "@enhance/arc-plugin-styles": "^5.0.5",
     "@enhance/enhance-style-transform": "^0.1.2",
     "@enhance/import-transform": "^4.0.1",
     "@enhance/ssr": "^3.5.1",
