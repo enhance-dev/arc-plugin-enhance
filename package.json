@@ -49,6 +49,7 @@
   "devDependencies": {
     "@architect/eslint-config": "^2.1.2",
     "@architect/sandbox": "^6.0.2",
+    "@enhance/types": "^0.7.0",
     "eslint": "^8.57.0",
     "tap-arc": "^1.2.2",
     "tape": "^5.7.5",

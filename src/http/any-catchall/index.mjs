@@ -8,6 +8,9 @@ import importTransform from '@enhance/import-transform'
 import styleTransform from '@enhance/enhance-style-transform'
 
 import { getState, head, preflight, postflight } from './helpers.mjs'
+import _404 from './templates/404.mjs'
+import _500 from './templates/500.mjs'
+import _head from './templates/head.mjs'
 
 const DEBUG = 1
 
