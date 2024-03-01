@@ -1,9 +1,9 @@
 {
   "name": "@enhance/arc-plugin-enhance",
   "version": "9.5.0",
-  "main": "src/plugins/beginner.js",
+  "main": "src/plugins/enhance.js",
   "exports": {
-    ".": "./src/plugins/beginner.js",
+    ".": "./src/plugins/enhance.js",
     "./src/http/any-catchall/index.mjs": "./src/http/any-catchall/index.mjs",
     "./src/http/any-catchall/router.mjs": "./src/http/any-catchall/router.mjs"
   },
