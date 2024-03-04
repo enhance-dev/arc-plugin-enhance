@@ -1,6 +1,6 @@
 {
   "name": "@enhance/arc-plugin-enhance",
-  "version": "9.5.1",
+  "version": "10.0.0",
   "main": "src/plugins/enhance.js",
   "exports": {
     ".": "./src/plugins/enhance.js",
