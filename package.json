@@ -1,9 +1,9 @@
 {
   "name": "@enhance/arc-plugin-enhance",
-  "version": "9.4.11",
-  "main": "src/plugins/beginner.js",
+  "version": "10.0.0",
+  "main": "src/plugins/enhance.js",
   "exports": {
-    ".": "./src/plugins/beginner.js",
+    ".": "./src/plugins/enhance.js",
     "./src/http/any-catchall/index.mjs": "./src/http/any-catchall/index.mjs",
     "./src/http/any-catchall/router.mjs": "./src/http/any-catchall/router.mjs"
   },
@@ -17,7 +17,7 @@
     "url": "https://github.com/enhance-dev/arc-plugin-enhance/issues"
   },
   "engines": {
-    "node": ">=14"
+    "node": ">=16"
   },
   "scripts": {
     "start": "sandbox",
@@ -37,7 +37,6 @@
     "@architect/functions": "^8.0.4",
     "@begin/data": "^5.0.3",
     "@enhance/arc-plugin-rollup": "^2.0.0",
-    "@enhance/arc-plugin-styles": "^5.0.5",
     "@enhance/core": "^0.1.0-alpha.0",
     "@enhance/enhance-style-transform": "^0.1.2",
     "@enhance/import-transform": "^4.0.1",

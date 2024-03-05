@@ -1,21 +1,13 @@
 const { join } = require('path')
-const styles = require('@enhance/arc-plugin-styles')
 const rollup = require('@enhance/arc-plugin-rollup')
 
 module.exports = {
-  hydrate: {
-    async copy (params) {
-      await styles.hydrate.copy(params)
-    }
-  },
-
   sandbox: {
     async start (params) {
       await rollup.sandbox.start(params)
     },
 
     async watcher (params) {
-      await styles.sandbox.watcher(params)
       await rollup.sandbox.watcher(params)
     }
   },
@@ -60,7 +52,6 @@ module.exports = {
       let rootCatchallSrcDir = join(__dirname, '..', 'http', 'any-catchall')
       let staticAssetSrcDir = join(__dirname, '..', 'http', 'get-_public-catchall')
       return [
-        ...styles.set.http(),
         {
           method: 'any',
           path: '/*',
