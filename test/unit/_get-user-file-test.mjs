@@ -4,10 +4,11 @@ import test from 'tape'
 import getUserFile from '../../src/http/any-catchall/_get-user-file.mjs'
 
 const here = path.dirname(url.fileURLToPath(import.meta.url))
+const mocksDir = path.join(here, '..', 'mocks')
 
 test('getPreflight', async t => {
   t.plan(1)
-  const basePath = path.join(here, '..', 'mocks', 'mock-preflight', 'app')
+  const basePath = path.join(mocksDir, 'mock-preflight')
   const expected = {
     pageTitle: 'About',
     account: {
@@ -21,14 +22,14 @@ test('getPreflight', async t => {
 
 test('missing preflight', async t => {
   t.plan(1)
-  const basePath = path.join(here, '..', 'mocks', 'mock-app', 'app')
+  const basePath = path.join(mocksDir, 'mock-app')
   const preflight = await getUserFile({ basePath, fileName: 'preflight.mjs' })
   t.notok(preflight, 'Missing preflight is OK')
 })
 
 test('preflight with missing module import inside it should throw', async t => {
   t.plan(1)
-  const basePath = path.join(here, '..', 'mocks', 'mock-preflight', 'app', 'bad-preflight')
+  const basePath = path.join(mocksDir, 'mock-preflight', 'bad-preflight')
   try {
     await getUserFile({ basePath, fileName: 'preflight.mjs' })
     t.fail('Missing module import should throw')
