@@ -1,5 +1,5 @@
 import test from 'tape'
-import { replaceEvery } from '../src/http/any-catchall/_fingerprint-paths.mjs'
+import { replaceEvery } from '../../src/http/any-catchall/_fingerprint-paths.mjs'
 
 
 test('path fingerpinter', t => {

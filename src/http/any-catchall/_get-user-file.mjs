@@ -2,7 +2,7 @@ import { existsSync } from 'node:fs'
 import { join } from 'node:path'
 import { pathToFileURL } from 'node:url'
 
-export default async function getFile (basePath = '', fileName) {
+export default async function getFile ({ basePath = '', fileName }) {
   const localPath = join(basePath, fileName)
 
   if (existsSync(localPath)) {

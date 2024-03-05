@@ -31,8 +31,8 @@ const basePath = path.join(here, 'node_modules', '@architect', 'views')
 
 // top-level cache for warm execution
 let config = await loader({ basePath, debug: DEBUG > 1 })
-const userHead = await getUserFile(basePath, 'head.mjs')
-const userPreflight = await getUserFile(basePath, 'preflight.mjs')
+const userHead = await getUserFile({ basePath, fileName: 'head.mjs' })
+const userPreflight = await getUserFile({ basePath, fileName: 'preflight.mjs' })
 
 export async function createRouter (base) {
   if (base) config = await loader({ basePath: base })

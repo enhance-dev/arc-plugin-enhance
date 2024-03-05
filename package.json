@@ -22,7 +22,7 @@
   "scripts": {
     "start": "sandbox",
     "lint": "eslint . --fix",
-    "tape": "tape test/*.mjs | tap-arc",
+    "tape": "tape test/**/*-test.mjs | tap-arc",
     "test": "npm run lint && npm run tape"
   },
   "files": [
