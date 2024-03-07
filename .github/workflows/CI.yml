@@ -43,6 +43,9 @@ jobs:
     - name: Test
       run: npm test
 
+    - name: Integration Tests
+      uses: enhance-dev/actions/integration@main
+
   # ----- Only git tag testing + package publishing beyond this point ----- #
 
   # Publish to package registries
