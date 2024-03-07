@@ -46,7 +46,7 @@ jobs:
     - name: Integration Tests
       uses: enhance-dev/actions/integration@main
       with:
-        use_local_package: true
+        use_local_package: 'true'
 
   # ----- Only git tag testing + package publishing beyond this point ----- #
 
