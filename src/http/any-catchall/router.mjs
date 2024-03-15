@@ -155,6 +155,11 @@ export default async function api (options, req) {
     ...(state.json || {})
   }
 
+  const shadowStylesheets = []
+  if (process.env.ENHANCE_STYLES_ENABLED) {
+    shadowStylesheets.push({ href: '/enhance-styles.css' })
+  }
+
   function html (str, ...values) {
     const _html = enhance({
       elements,
@@ -164,7 +169,9 @@ export default async function api (options, req) {
       styleTransforms: [
         styleTransform
       ],
-      initialState: store
+      initialState: store,
+      dsd: process.env.DSD_ENABLED,
+      shadowStylesheets
     })
     timers.start('html', 'enhance-html')
     const htmlString = _html(str, ...values)
