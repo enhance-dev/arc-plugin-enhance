@@ -140,7 +140,7 @@ export default async function getElements (basePath) {
         }
       }
       else {
-        let template = readFileSync(fileURL.pathname)
+        let template = readFileSync(e)
         els[tag] = HTMLElementWrapper({ template: template.toString() })
       }
     }
