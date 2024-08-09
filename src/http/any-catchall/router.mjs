@@ -89,8 +89,14 @@ export default async function api (options, req) {
 
     let method = req.method.toLowerCase() !== 'delete' ? mod[req.method.toLowerCase()] : mod['destroy']
     isAsyncMiddleware = Array.isArray(method)
-    if (isAsyncMiddleware)
+    if (isAsyncMiddleware) {
+      method.forEach(step => {
+        if (step.constructor.name !== 'AsyncFunction') {
+          throw Error(`Middleware function "${step.name}" for "${req.path}" is not an async function. All middleware functions must be "async".`)
+        }
+      })
       method = arc.http.apply(null, method)
+    }
     if (method) {
 
       // check to see if we need to modify the req and add in params
