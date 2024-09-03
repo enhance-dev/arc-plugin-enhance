@@ -40,8 +40,7 @@
     "@enhance/import-transform": "^4.0.1",
     "@enhance/ssr": "^4.0.3",
     "glob": "^9.3.5",
-    "header-timers": "^0.3.0",
-    "path-to-regexp": "^6.2.2"
+    "header-timers": "^0.3.0"
   },
   "devDependencies": {
     "@architect/eslint-config": "^2.1.2",

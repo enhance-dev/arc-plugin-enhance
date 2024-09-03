@@ -1,7 +1,7 @@
 import path from 'path'
 import { pathToFileURL } from 'url'
 
-import { pathToRegexp } from 'path-to-regexp'
+import { pathToRegexp } from './vendor/path-to-regexp/index.mjs'
 
 import getFiles from './_get-files.mjs'
 import sort from './_sort-routes.mjs'
