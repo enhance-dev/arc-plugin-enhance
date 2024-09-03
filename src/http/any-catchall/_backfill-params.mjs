@@ -1,6 +1,6 @@
 import path from 'path'
 
-import { pathToRegexp } from 'path-to-regexp'
+import { pathToRegexp } from './vendor/path-to-regexp/index.mjs'
 import clean from './_clean.mjs'
 
 /** adds url params back in */
