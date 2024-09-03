@@ -1,0 +1,11 @@
+{
+  "dependencies": {
+    "@architect/functions": "^8.1.6",
+    "@enhance/enhance-style-transform": "^0.1.2",
+    "@enhance/import-transform": "^4.0.1",
+    "@enhance/ssr": "^4.0.1",
+    "glob": "^9.3.5",
+    "header-timers": "^0.3.0",
+    "path-to-regexp": "^6.2.2"
+  }
+}
