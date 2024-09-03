@@ -32,16 +32,15 @@
     ".arc"
   ],
   "dependencies": {
-    "@architect/asap": "^7.0.4",
-    "@architect/functions": "^8.0.1",
-    "@begin/data": "^5.0.1",
+    "@architect/asap": "^7.0.10",
+    "@architect/functions": "^8.1.6",
+    "@begin/data": "^5.0.5",
     "@enhance/arc-plugin-rollup": "^2.0.0",
     "@enhance/enhance-style-transform": "^0.1.2",
     "@enhance/import-transform": "^4.0.1",
-    "@enhance/ssr": "^4.0.1",
+    "@enhance/ssr": "^4.0.3",
     "glob": "^9.3.5",
-    "header-timers": "^0.2.0",
-    "path-to-regexp": "^6.2.1"
+    "header-timers": "^0.3.0"
   },
   "devDependencies": {
     "@architect/eslint-config": "^2.1.2",
