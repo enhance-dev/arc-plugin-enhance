@@ -1,7 +1,7 @@
 import fs from 'fs'
 import path from 'path'
 import url from 'url'
-const _local = process.env.ARC_ENV === 'testing'
+const _local = process.env.ARC_ENV === 'testing' || process.env.ARC_LOCAL
 
 let manifest = {}
 if (!_local) {
